@@ -43,7 +43,7 @@ public:
     virtual void drawBoard();
     virtual void drawSelected(int position);
     virtual void drawHover(   int position);
-    virtual void drawPossible(int osition);
+    virtual void drawPossible(int position);
 
 protected:
     int x; // location of text on the screen
