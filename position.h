@@ -16,30 +16,36 @@
   * POINT
   * A single position.
   *********************************************/
-class Point
+class Position
 {
+private:
+   char location;
+   double squareWidth;
+   double squareHeight;
+
 public:
    // constructors
-   Point() : x(0.0), y(0.0) {}
-   Point(double x, double y);
+   Position();
 
    // getters
-   double getX()       const { return x; }
-   double getY()       const { return y; }
+   int getRow();
+   int getCol();
 
    // setters
-   void setX(double x) { this->x = x; }
-   void setY(double y) { this->y = y; }
-   void addX(double dx) { setX(getX() + dx); }
-   void addY(double dy) { setY(getY() + dy); }
+   void setRow(int r);
+   void setCol(int c);
+   void set(int r, int c);
+   void adjustRow(int dRow);
+   void adjustCol(int dCol);
 
-private:
-   double x;           // horizontal position
-   double y;           // vertical position
+   bool isValid();
+   bool operator==(Position rhs) { return location == rhs.location; }
+   void operator=(Position rhs);
+   // void operator+(Delta rhs);
 };
 
 // stream I/O useful for debugging
-std::ostream& operator << (std::ostream& out, const Point& pt);
-std::istream& operator >> (std::istream& in, Point& pt);
+std::ostream& operator << (std::ostream& out, const Position& pt);
+std::istream& operator >> (std::istream& in, Position& pt);
 
 
