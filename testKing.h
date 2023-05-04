@@ -10,6 +10,8 @@
 #pragma once
 
 #include "king.h"
+#include "chess.cpp"
+#include <cassert>
 
 /********************************
 * TEST KING
@@ -49,8 +51,11 @@ private:
    void test_getMoves_free()
    {
       // setup
+      King* k = new King(Position(5, 5), true /*isWhite*/);
+      Board* testBoard = new Board(EMPTY_BOARD);
 
       // exercise
+      set<Move> possibleMoves = k->getMoves(testBoard, Move());
 
       // verify
 

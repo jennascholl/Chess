@@ -1,10 +1,10 @@
 /***********************************************************************
  * Header File:
- *    Pawn
+ *    Space
  * Author:
  *    Jenna Scholl
  * Summary:
- *    All the unique functionality of the pawn
+ *    All the unique functionality of the space
  ************************************************************************/
 
 #pragma once
@@ -12,14 +12,14 @@
 #include "piece.h"
 
 /*********************************************
- * PAWN
- * The most common piece in the game
+ * SPACE
+ * An empty spot on the board
  *********************************************/
-class Pawn : public Piece
+class Space : public Piece
 {
 public:
-   Pawn(Position pos, bool isWhite);
+   Space(Position pos);
    char getLetter();
    void display(ogstream gout);
-   set<int> getMoves(Board board);
+   set<Move> getMoves(Board* board, Move move);
 };

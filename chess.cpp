@@ -6,11 +6,45 @@
 
 #include "uiInteract.h"   // for Interface
 #include "uiDraw.h"       // for draw*
+#include "king.h"
+#include "queen.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
+#include "pawn.h"
+#include "space.h"
+
+
 #include <set>            // for STD::SET
 #include <cassert>        // for ASSERT
 #include <fstream>        // for IFSTREAM
 #include <string>         // for STRING
 using namespace std;
+
+const int NUM_ROWS = 8;
+const int NUM_COLS = 8;
+
+//Piece* DEFAULT_BOARD[NUM_ROW][NUM_COL] = {
+//         {Rook(RC(0, 0), 0), Bishop(RC(0, 1), 0), Knight(RC(0, 2), 0), Queen(RC(0, 3), 0), King(RC(0, 4), 0), Knight(RC(0, 5), 0), Bishop(RC(0, 6), 0), Rook(RC(0, 7), 0)},
+//         {Pawn(RC(1, 0), 0), Pawn(RC(1, 1), 0), Pawn(RC(1, 2), 0), Pawn(RC(1, 3), 0), Pawn(RC(1, 4), 0), &Pawn(RC(1, 5), 0), &Pawn(RC(1, 6), 0), Pawn(RC(1, 7), 0)},
+//         {Space(RC(2, 0)), Space(RC(2, 1)), Space(RC(2, 2)), Space(RC(2, 3)), Space(RC(2, 4)), Space(RC(2, 5)), Space(RC(2, 6)), Space(RC(2, 7))},
+//         {Space(RC(3, 0)), Space(RC(3, 1)), Space(RC(3, 2)), Space(RC(3, 3)), Space(RC(3, 4)), Space(RC(3, 5)), Space(RC(3, 6)), Space(RC(3, 7))},
+//         {Space(RC(4, 0)), Space(RC(4, 1)), Space(RC(4, 2)), Space(RC(4, 3)), Space(RC(4, 4)), Space(RC(4, 5)), Space(RC(4, 6)), Space(RC(4, 7))},
+//         {Space(RC(5, 0)), Space(RC(5, 1)), Space(RC(5, 2)), Space(RC(5, 3)), Space(RC(5, 4)), Space(RC(5, 5)), Space(RC(5, 6)), Space(RC(5, 7))},
+//         {Pawn(RC(6, 0), 1), &Pawn(RC(6, 1), 1), Pawn(RC(6, 2), 1), Pawn(RC(6, 3), 1), &Pawn(RC(6, 4), 1), &Pawn(RC(6, 5), 1), Pawn(RC(6, 6), 1), Pawn(RC(6, 7), 1)},
+//         {Rook(RC(7, 0), 1), Bishop(RC(7, 1), 1), Knight(RC(7, 2), 1), Queen(Position(7, 3), 1), King(Position(7, 4), 1), Knight(RC(7, 5), 1), Bishop(RC(7, 6), 1), Rook(RC(7, 7), 1)} };
+
+// for testing purposes
+Piece* EMPTY_BOARD[NUM_ROWS][NUM_COLS] =
+{
+   { &Space(Position(0, 0)), &Space(Position(0, 1)), &Space(Position(0, 2)), &Space(Position(0, 3)), &Space(Position(0, 4)), &Space(Position(0, 5)), &Space(Position(0, 6)), &Space(Position(0, 7)) },
+   { &Space(Position(1, 0)), &Space(Position(1, 1)), &Space(Position(1, 2)), &Space(Position(1, 3)), &Space(Position(1, 4)), &Space(Position(1, 5)), &Space(Position(1, 6)), &Space(Position(1, 7)) },
+   { &Space(Position(2, 0)), &Space(Position(2, 1)), &Space(Position(2, 2)), &Space(Position(2, 3)), &Space(Position(2, 4)), &Space(Position(2, 5)), &Space(Position(2, 6)), &Space(Position(2, 7)) },
+   { &Space(Position(3, 0)), &Space(Position(3, 1)), &Space(Position(3, 2)), &Space(Position(3, 3)), &Space(Position(3, 4)), &Space(Position(3, 5)), &Space(Position(3, 6)), &Space(Position(3, 7)) },
+   { &Space(Position(4, 0)), &Space(Position(4, 1)), &Space(Position(4, 2)), &Space(Position(4, 3)), &Space(Position(4, 4)), &Space(Position(4, 5)), &Space(Position(4, 6)), &Space(Position(4, 7)) },
+   { &Space(Position(5, 0)), &Space(Position(5, 1)), &Space(Position(5, 2)), &Space(Position(5, 3)), &Space(Position(5, 4)), &Space(Position(5, 5)), &Space(Position(5, 6)), &Space(Position(5, 7)) },
+   { &Space(Position(6, 0)), &Space(Position(6, 1)), &Space(Position(6, 2)), &Space(Position(6, 3)), &Space(Position(6, 4)), &Space(Position(6, 5)), &Space(Position(6, 6)), &Space(Position(6, 7)) },
+   { &Space(Position(7, 0)), &Space(Position(7, 1)), &Space(Position(7, 2)), &Space(Position(7, 3)), &Space(Position(7, 4)), &Space(Position(7, 5)), &Space(Position(7, 6)), &Space(Position(7, 7)) } };
 
 /***********************************************
  * Row Column

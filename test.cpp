@@ -1,4 +1,6 @@
 #include "test.h"
+#include "testKing.h"
+#include "testPawn.h"
 
 /*********************************************
  * TEST RUNNER
@@ -6,5 +8,5 @@
  *********************************************/
 void testRunner()
 {
-
+   TestKing().run();
 }

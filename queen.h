@@ -1,10 +1,10 @@
 /***********************************************************************
  * Header File:
- *    Pawn
+ *    Queen
  * Author:
  *    Jenna Scholl
  * Summary:
- *    All the unique functionality of the pawn
+ *    All the unique functionality of the queen
  ************************************************************************/
 
 #pragma once
@@ -12,14 +12,14 @@
 #include "piece.h"
 
 /*********************************************
- * PAWN
- * The most common piece in the game
+ * QUEEN
+ * The most powerful piece in the game
  *********************************************/
-class Pawn : public Piece
+class Queen : public Piece
 {
 public:
-   Pawn(Position pos, bool isWhite);
+   Queen(Position pos, bool isWhite);
    char getLetter();
    void display(ogstream gout);
-   set<int> getMoves(Board board);
+   set<Move> getMoves(Board board);
 };

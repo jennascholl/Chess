@@ -25,7 +25,7 @@ private:
 
 public:
    // constructors
-   Position();
+   Position(int row, int col);
 
    // getters
    int getRow();

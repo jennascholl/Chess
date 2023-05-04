@@ -16,7 +16,7 @@ protected:
    int lastMove;
 
 public:
-   Piece(int row, int col, bool white);
+   Piece(Position pos, bool white);
    void operator=(Position pos);
    void operator=(Piece piece);
    bool isWhite() { return fWhite; }
@@ -26,5 +26,5 @@ public:
    bool justMoved();
    virtual char getLetter() = 0;
    virtual void display(ogstream gout) = 0;
-   virtual set<int> getMoves(Board board) = 0;
+   virtual set<Move> getMoves(Board* board, Move move) = 0;
 };

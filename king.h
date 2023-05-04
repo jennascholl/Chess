@@ -22,7 +22,8 @@ class King : public Piece
    friend TestKing;
 
 public:
+   King(Position pos, bool isWhite);
    char getLetter();
    void display(ogstream gout);
-   set<int> getMoves(Board board);
+   set<Move> getMoves(Board* board, Move move);
 };

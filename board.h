@@ -13,6 +13,7 @@ private:
 
 public:
    Board(ogstream gout);
+   Board(Piece* boardTemplate[8][8]);
    int getCurrentMove() { return currentMove; }
    bool whiteTurn() { return currentMove % 2; }
    void display(Position posHover, Position posSelect);
