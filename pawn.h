@@ -11,12 +11,16 @@
 
 #include "piece.h"
 
+class TestPawn;
+
 /*********************************************
  * PAWN
  * The most common piece in the game
  *********************************************/
 class Pawn : public Piece
 {
+	friend TestPawn;
+
 public:
    Pawn(Position pos, bool isWhite);
    char getLetter();
