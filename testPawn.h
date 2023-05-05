@@ -101,6 +101,36 @@ private:
 	}
 
 
+
+	/*void getMovesSimpleMoveTest() {
+		//Setup
+		
+		//Are the rows a char?
+		//How add in pawn to the Board?
+		Board board;
+
+		//void Board
+		
+		//Constructor -> pawn(r, c, isWhite)
+		Pawn pawn("b", 4, true);
+		
+		//Include set
+		//Excersize
+		set<Moves> moves = pawn.getMoves(Board);
+
+
+		//NOTES
+			
+			//*Move is operator wiht c-string on other side (r1c1 -> r2c2 b4b5)
+
+		//Verify 'b4b5'
+		//make move object with desired move location.
+		assert(moves.find(Move("b", 4) == moves.end)), "B4 is not there"
+		assert(moves.find(Move("b", 5) == moves.end)), "B5 is not there"
+		//Teardown
+		board.reset();
+	}*/
+
 	/*********************************************
 	* GET BLOCKED TEST - White Pawn, blocked by a black pawn
 	*
