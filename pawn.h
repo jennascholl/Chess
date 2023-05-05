@@ -21,5 +21,7 @@ public:
    Pawn(Position pos, bool isWhite);
    char getLetter();
    void display(ogstream gout);
-   set<int> getMoves(Board board);
+   set<Move> getMoves(Board* board, Move move);
+
+
 };

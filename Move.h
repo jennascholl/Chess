@@ -20,6 +20,8 @@ private:
 
 public:
    Move();
+   Move(const char[6]);
+   Move(Position beg, Position dest);
    string getText();
    Position getSrc() { return src; }
    Position getDest() { return dest; }
@@ -29,9 +31,9 @@ public:
    bool getCastleK() { return castleK; }
    bool getCastleQ() { return castleQ; }
    bool getWhiteMove() { return isWhite; }
-   void setEnpassant(bool enpassant) { this->enpassant = enpassant; }
-   void setCastleK(bool castle) { castleK = castle; }
-   void setCastleQ(bool castle) { castleQ = castle; }
+   void setEnpassant() { enpassant = true; }
+   void setCastleK() { castleK = true; }
+   void setCastleQ() { castleQ = true; }
    void setWhiteMove(bool white) { isWhite = white; }
    void operator=(Move move);
    void operator=(string move);
