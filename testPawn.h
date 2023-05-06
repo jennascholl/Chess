@@ -60,15 +60,15 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8						   8
+	* 8						8
 	* 7                     7
-	* 6	  						6
-	* 5		.					5
+	* 6	  					6
+	* 5		.				5
 	* 4	   (p)				4
-	* 3							3
-	* 2							2
-	* 1							1
-	* |							|
+	* 3						3
+	* 2						2
+	* 1						1
+	* |						|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 	//https://www.udacity.com/blog/2021/05/cpp-sets-explained.html for help with sets
@@ -108,10 +108,10 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8				   	   8
+	* 8				   	    8
 	* 7                     7
 	* 6	  				   	6
-	* 5			 P	      	5
+	* 5			P 	      	5
 	* 4		   (p)			4
 	* 3					   	3
 	* 2					   	2
@@ -260,9 +260,9 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					      8
+	* 8					     8
 	* 7                     7
-	* 6	  P P P		   6
+	* 6	  P P P				6
 	* 5	   (p)				5
 	* 4					   	4
 	* 3				   		3
@@ -357,7 +357,7 @@ private:
 		testBoard->placePiece(p);
 
 		Move promotion = Move(Position(2, 7), Position(2, 8));
-		promotion.setEnpassant();
+		promotion.setPromotion();
 		set <Move> expectedMoves = set<Move>
 		{
 			promotion
