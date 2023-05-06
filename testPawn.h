@@ -60,20 +60,21 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8						8
+	* 8					   	8
 	* 7                     7
-	* 6	  					6
-	* 5		.				5
-	* 4	   (p)				4
-	* 3						3
-	* 2						2
-	* 1						1
-	* |						|
+	* 6	  					   6
+	* 5		     .		   5
+	* 4	       (p)		   4
+	* 3					   	3
+	* 2						   2
+	* 1						   1
+	* |					   	|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 	//https://www.udacity.com/blog/2021/05/cpp-sets-explained.html for help with sets
 
-	void getMovesSimpleMoveTest() {
+	void getMovesSimpleMoveTest() 
+	{
 		//Setup
 		Pawn* p;
 		p->fWhite = true;
@@ -108,11 +109,11 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8				   	    8
+	* 8				   	   8
 	* 7                     7
 	* 6	  				   	6
-	* 5			P 	      	5
-	* 4		   (p)			4
+	* 5			  P 	      5
+	* 4		    (p)			4
 	* 3					   	3
 	* 2					   	2
 	* 1					   	1
@@ -120,7 +121,8 @@ private:
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 
-	void getMovesBlockedMoveTest() {
+	void getMovesBlockedMoveTest() 
+	{
 		//Setup
 		Pawn* wp;
 		wp->fWhite = true;
@@ -149,7 +151,6 @@ private:
 		delete bp;
 		testBoard->free();
 		delete testBoard;
-
 	}
 	
 
@@ -158,19 +159,20 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					    8
+	* 8					      8
 	* 7                     7
-	* 6	  					6
-	* 5						5
-	* 4		.				4
-	* 3		.				3
+	* 6	  					   6
+	* 5						   5
+	* 4		.				   4
+	* 3		.				   3
 	* 2	   (p)				2
-	* 1						1
-	* |						|
+	* 1						   1
+	* |						   |
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 
-	void getMovesInitialMoveTest() {
+	void getMovesInitialMoveTest() 
+	{
 		//Setup
 		Pawn* p;
 		p->fWhite = true;
@@ -203,8 +205,8 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					    8
-	* 7   P P P             7
+	* 8				   	   8
+	* 7     P P P             7
 	* 6	   (p)				6
 	* 5						5
 	* 4						4
