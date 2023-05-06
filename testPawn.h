@@ -54,7 +54,6 @@ public:
 
 
 private:
-
 	/*********************************************
 	* GET MOVES TEST - White Pawn alone
 	*
@@ -75,28 +74,28 @@ private:
 
 	void getMovesSimpleMoveTest() 
 	{
-		//Setup
+		// setup
 		Pawn* p;
 		p->fWhite = true;
 		p->lastMove = 0;
 		p->numMoves = 1;
-		p->position = Position(2, 4);
+		p->position = Position(4, 6);
 
 		Board* testBoard = new Board(EMPTY_BOARD);
 		testBoard->placePiece(p);
 
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 4), Position(2,5))}
+			{Move(Position(4, 5), Position(5,5))}
 		};
 
-		//Excercise
+		// exercise
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
 
-		//Verify
+		// verify
 		assert(possibleMoves == expectedMoves);
 
-		//teardown
+		// teardown
 		delete p;
 		testBoard->free();
 		delete testBoard;
@@ -123,30 +122,30 @@ private:
 
 	void getMovesBlockedMoveTest() 
 	{
-		//Setup
+		// setup
 		Pawn* wp;
 		wp->fWhite = true;
 		wp->lastMove = 0;
 		wp->numMoves = 0;
-		wp->position = Position(4, 4);
+		wp->position = Position(4, 5);
 
 		Pawn* bp;
 		bp->fWhite = false;
 		bp->lastMove = 0;
 		bp->numMoves = 0;
-		bp->position = Position(4, 5);
+		bp->position = Position(5, 5);
 
 		Board* testBoard = new Board(EMPTY_BOARD);
 		testBoard->placePiece(wp);
 		testBoard->placePiece(bp);
 
-		//Excercise
+		// exercise
 		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
-		//Verify
+		// verify
 		assert(possibleMoves.empty());
 
-		//teardown
+		// teardown
 		delete wp;
 		delete bp;
 		testBoard->free();
@@ -163,8 +162,8 @@ private:
 	* 7                     7
 	* 6	  					   6
 	* 5						   5
-	* 4		.				   4
-	* 3		.				   3
+	* 4	  	 .				   4
+	* 3		 .				   3
 	* 2	   (p)				2
 	* 1						   1
 	* |						   |
@@ -173,28 +172,28 @@ private:
 
 	void getMovesInitialMoveTest() 
 	{
-		//Setup
+		// setup
 		Pawn* p;
 		p->fWhite = true;
 		p->lastMove = 0;
 		p->numMoves = 0;
-		p->position = Position(2, 2);
+		p->position = Position(2, 3);
 
 		Board* testBoard = new Board(EMPTY_BOARD);
 		testBoard->placePiece(p);
 
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 2), Position(2,3))}, {Move(Position(2, 2), Position(2,4))}
+			{Move(Position(2, 3), Position(3,3))}, {Move(Position(2, 3), Position(4,3))}
 		};
 
-		//Excercise
+		// exercise
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
 
-		//Verify
+		// verify
 		assert(possibleMoves == expectedMoves);
 
-		//teardown
+		// teardown
 		delete p;
 		testBoard->free();
 		delete testBoard;
@@ -206,29 +205,29 @@ private:
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
 	* 8				   	   8
-	* 7     P P P             7
+	* 7     P P P           7
 	* 6	   (p)				6
-	* 5						5
-	* 4						4
-	* 3						3
-	* 2						2
-	* 1						1
-	* |						|
+	* 5						   5
+	* 4						   4
+	* 3						   3
+	* 2						   2
+	* 1						   1
+	* |						   |
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 
 	void getMovesCaptureMoveTest() 
 	{
-		//Setup
+		// setup
 		Pawn* wp;
 		wp->fWhite = true;
 		wp->lastMove = 0;
 		wp->numMoves = 0;
-		wp->position = Position(2, 6);
+		wp->position = Position(6, 2);
 
-		Pawn* bp1 = new Pawn(Position(1, 7), false);
-		Pawn* bp2 = new Pawn(Position(2, 7), false);
-		Pawn* bp3 = new Pawn(Position(3, 7), false);
+		Pawn* bp1 = new Pawn(Position(7, 2), false);
+		Pawn* bp2 = new Pawn(Position(7, 3), false);
+		Pawn* bp3 = new Pawn(Position(7, 4), false);
 		
 
 		Board* testBoard = new Board(EMPTY_BOARD);
@@ -239,16 +238,16 @@ private:
 
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 6), Position(1,7))}, {Move(Position(2, 6), Position(3,7))}
+			{Move(Position(6, 3), Position(7,2))}, {Move(Position(6, 3), Position(7, 4))}
 		};
 
-		//Excercise
+		// exercise
 		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
-		//Verify
+		// verify
 		assert(possibleMoves == expectedMoves);
 
-		//teardown
+		// teardown
 		delete wp;
 		delete bp1;
 		delete bp2;
@@ -263,10 +262,10 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					     8
+	* 8					      8
 	* 7                     7
-	* 6	  P P P				6
-	* 5	   (p)				5
+	* 6	  . P .  			6
+	* 5	  P(p)P				5
 	* 4					   	4
 	* 3				   		3
 	* 2	   		     		2
@@ -276,30 +275,30 @@ private:
 	********************************************/
    void getMovesEnpassantMoveTest() 
    {
-		//Setup
+		// setup
 		Pawn* wp;
 		wp->fWhite = true;
 		wp->lastMove = 0;
 		wp->numMoves = 0;
-		wp->position = Position(2, 5);
+		wp->position = Position(5, 3);
 
 		Pawn* bp1;
 		bp1->fWhite = false;
 		bp1->lastMove = 0;
 		bp1->numMoves = 0;
-		bp1->position = Position(1, 6);
+		bp1->position = Position(5, 2);
 
 		Pawn* bp2;
 		bp2->fWhite = false;
 		bp2->lastMove = 0;
 		bp2->numMoves = 1;
-		bp2->position = Position(2, 6);
+		bp2->position = Position(5, 4);
 
 		Pawn* bp3;
 		bp3->fWhite = false;
 		bp3->lastMove = 0;
 		bp3->numMoves = 1;
-		bp3->position = Position(3, 6);
+		bp3->position = Position(6, 3);
 
 		Board* testBoard = new Board(EMPTY_BOARD);
 		testBoard->placePiece(wp);
@@ -307,8 +306,8 @@ private:
 		testBoard->placePiece(bp2);
 		testBoard->placePiece(bp3);
 
-		Move enpassant1 = Move(Position(2, 5), Position(1, 6));
-		Move enpassant2 = Move(Position(2, 5), Position(3, 6));
+		Move enpassant1 = Move(Position(5, 3), Position(6, 2));
+		Move enpassant2 = Move(Position(5, 3), Position(6, 4));
 		enpassant1.setEnpassant();
 		enpassant2.setEnpassant();
 
@@ -317,13 +316,13 @@ private:
 			enpassant1, enpassant2
 		};
 
-		//Excercise
+		// excercise
 		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
-		//Verify
+		// verify
 		assert(possibleMoves == expectedMoves);
 
-		//teardown
+		// teardown
 		delete wp;
 		delete bp1;
 		delete bp2;
@@ -338,43 +337,43 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					    8
+	* 8	  .			      8
 	* 7    (p)              7
-	* 6	  					6
-	* 5						5
-	* 4						4
-	* 3						3
-	* 2						2
-	* 1						1
-	* |						|
+	* 6	  					   6
+	* 5						   5
+	* 4						   4
+	* 3					   	3
+	* 2						   2
+	* 1					   	1
+	* |					   	|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 	void getMovesPromotionMoveTest() 
 	{
-		//Setup
+		// setup
 		Pawn* p;
 		p->fWhite = true;
 		p->lastMove = 0;
 		p->numMoves = 0;
-		p->position = Position(2, 7);
+		p->position = Position(7, 2);
 
 		Board* testBoard = new Board(EMPTY_BOARD);
 		testBoard->placePiece(p);
 
-		Move promotion = Move(Position(2, 7), Position(2, 8));
+		Move promotion = Move(Position(7, 2), Position(8, 2));
 		promotion.setPromotion();
 		set <Move> expectedMoves = set<Move>
 		{
 			promotion
 		};
 
-		//Excercise
+		// exercise
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
 
-		//Verify
+		// verify
 		assert(possibleMoves == expectedMoves);
 
-		//teardown
+		// teardown
 		delete p;
 		testBoard->free();
 		delete testBoard;
