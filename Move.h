@@ -13,6 +13,7 @@ private:
    char piece;
    char capture;
    bool enpassant;
+   bool promote;
    bool castleK;
    bool castleQ;
    bool isWhite;
@@ -34,6 +35,7 @@ public:
    void setEnpassant() { enpassant = true; }
    void setCastleK() { castleK = true; }
    void setCastleQ() { castleQ = true; }
+   void setPromotion() { promote = true; }
    void setWhiteMove(bool white) { isWhite = white; }
    void operator=(Move move);
    void operator=(string move);
