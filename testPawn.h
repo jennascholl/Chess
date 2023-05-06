@@ -16,12 +16,11 @@ using namespace std;
 #include "pawn.h"
 #include "space.h"
 #include "move.h"
+
 #include <cassert>
-/*
-*	test Pawn
-*   A friend class for Pawn which containts the Pawn unit tests.
-*
-*/
+#include <set>
+
+using namespace std;
 
 // an empty board for testing purposes
 Piece* EMPTY_BOARD[NUM_ROWS][NUM_COLS] =
@@ -36,7 +35,10 @@ Piece* EMPTY_BOARD[NUM_ROWS][NUM_COLS] =
    { &Space(Position(7, 0)), &Space(Position(7, 1)), &Space(Position(7, 2)), &Space(Position(7, 3)), &Space(Position(7, 4)), &Space(Position(7, 5)), &Space(Position(7, 6)), &Space(Position(7, 7)) }
 };
 
-
+/********************************
+* TEST PAWN
+* A friend class for Pawn which contains all its unit tests
+********************************/
 class TestPawn
 {
 public:
@@ -58,15 +60,15 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					    8
+	* 8						   8
 	* 7                     7
-	* 6	  					6
-	* 5		.				5
+	* 6	  						6
+	* 5		.					5
 	* 4	   (p)				4
-	* 3						3
-	* 2						2
-	* 1						1
-	* |						|
+	* 3							3
+	* 2							2
+	* 1							1
+	* |							|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 	//https://www.udacity.com/blog/2021/05/cpp-sets-explained.html for help with sets
@@ -84,8 +86,8 @@ private:
 
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 4), Position(2,5)}
-		}
+			{Move(Position(2, 4), Position(2,5))}
+		};
 
 		//Excersize
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
@@ -106,15 +108,15 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					    8
+	* 8				   	   8
 	* 7                     7
-	* 6	  					6
-	* 5			P			5
+	* 6	  				   	6
+	* 5			 P	      	5
 	* 4		   (p)			4
-	* 3						3
-	* 2						2
-	* 1						1
-	* |						|
+	* 3					   	3
+	* 2					   	2
+	* 1					   	1
+	* |				   		|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 
@@ -181,9 +183,8 @@ private:
 
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 2), Position(2,3)}, {Move(Position(2, 2), Position(2,4)} }
-			
-		}
+			{Move(Position(2, 2), Position(2,3))}, {Move(Position(2, 2), Position(2,4))}
+		};
 
 		//Excersize
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
@@ -235,25 +236,23 @@ private:
 
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 6), Position(1,7)}, {Move(Position(2, 6), Position(3,7)} 
-		}
+			{Move(Position(2, 6), Position(1,7))}, {Move(Position(2, 6), Position(3,7))}
+		};
 
-	}
+		//Excersize
+		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
-	//Excersize
-	set<Move> possibleMoves = wp->getMoves(testBoard, Move());
+		//Verify
+		assert(possibleMoves == expectedMoves);
 
-	//Verify
-	assert(possibleMoves == expectedMoves);
+		//teardown
+		delete wp;
+		delete bp1;
+		delete bp2;
+		delete bp3;
 
-	//teardown
-	delete wp;
-	delete bp1;
-	delete bp2;
-	delete bp3;
-
-	testBoard->free();
-	delete testBoard;
+		testBoard->free();
+		delete testBoard;
 	}
 
 	/*********************************************
@@ -261,19 +260,18 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					    8
+	* 8					      8
 	* 7                     7
-	* 6	  P	P P				6
+	* 6	  P P P		   6
 	* 5	   (p)				5
-	* 4						4
-	* 3						3
+	* 4					   	4
+	* 3				   		3
 	* 2	   		     		2
-	* 1						1
-	* |						|
+	* 1				   		1
+	* |					   	|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
-
-	void getMovesEnpassantMoveTest() {
+   void getMovesEnpassantMoveTest() {
 		//Setup
 		Pawn* wp;
 		wp->fWhite = true;
@@ -305,12 +303,17 @@ private:
 		testBoard->placePiece(bp2);
 		testBoard->placePiece(bp3);
 
+		Move enpassant1 = Move(Position(2, 5), Position(1, 6));
+		Move enpassant2 = Move(Position(2, 5), Position(3, 6));
+		enpassant1.setEnpassant();
+		enpassant2.setEnpassant();
+
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 5), Position(1,6)}, {Move(Position(2, 5), Position(3,6)}
-		}
+			enpassant1, enpassant2
+		};
 
-				//Excersize
+		//Excersize
 		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
 		//Verify
@@ -342,7 +345,6 @@ private:
 	* |						|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
-
 	void getMovesPromotionMoveTest() {
 		//Setup
 		Pawn* p;
@@ -354,27 +356,24 @@ private:
 		Board* testBoard = new Board(EMPTY_BOARD);
 		testBoard->placePiece(p);
 
+		Move promotion = Move(Position(2, 7), Position(2, 8));
+		promotion.setEnpassant();
 		set <Move> expectedMoves = set<Move>
 		{
-			{Move(Position(2, 7), Position(2,8)}
-		}
+			promotion
+		};
 
-				//Excersize
+		//Excersize
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
-
-		char promotion = expectedMoves[0].getPromotion();
 
 		//Verify
 		assert(possibleMoves == expectedMoves);
-		assert(promotion == "Q");
-	
 
 		//teardown
 		delete p;
 		testBoard->free();
 		delete testBoard;
-	}
-	   
+	} 
 };
 
 

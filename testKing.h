@@ -465,7 +465,7 @@ private:
       set <Move> expectedMoves = set<Move>
       {
          {Move(Position(1, 5), Position(1, 4))}, {Move(Position(1, 5), Position(1, 6))},
-         {castle1}, {castle2}
+         castle1, castle2
       };
 
       // exercise
