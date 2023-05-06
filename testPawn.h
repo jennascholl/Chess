@@ -89,7 +89,7 @@ private:
 			{Move(Position(2, 4), Position(2,5))}
 		};
 
-		//Excersize
+		//Excercise
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
 
 		//Verify
@@ -120,7 +120,8 @@ private:
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 
-	void getMovesBlockedMoveTest() {
+	void getMovesBlockedMoveTest() 
+	{
 		//Setup
 		Pawn* wp;
 		wp->fWhite = true;
@@ -138,7 +139,7 @@ private:
 		testBoard->placePiece(wp);
 		testBoard->placePiece(bp);
 
-		//Excersize
+		//Excercise
 		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
 		//Verify
@@ -170,7 +171,8 @@ private:
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 
-	void getMovesInitialMoveTest() {
+	void getMovesInitialMoveTest() 
+	{
 		//Setup
 		Pawn* p;
 		p->fWhite = true;
@@ -186,7 +188,7 @@ private:
 			{Move(Position(2, 2), Position(2,3))}, {Move(Position(2, 2), Position(2,4))}
 		};
 
-		//Excersize
+		//Excercise
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
 
 		//Verify
@@ -215,7 +217,8 @@ private:
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
 
-	void getMovesCaptureMoveTest() {
+	void getMovesCaptureMoveTest() 
+	{
 		//Setup
 		Pawn* wp;
 		wp->fWhite = true;
@@ -239,7 +242,7 @@ private:
 			{Move(Position(2, 6), Position(1,7))}, {Move(Position(2, 6), Position(3,7))}
 		};
 
-		//Excersize
+		//Excercise
 		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
 		//Verify
@@ -271,7 +274,8 @@ private:
 	* |					   	|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
-   void getMovesEnpassantMoveTest() {
+   void getMovesEnpassantMoveTest() 
+   {
 		//Setup
 		Pawn* wp;
 		wp->fWhite = true;
@@ -313,7 +317,7 @@ private:
 			enpassant1, enpassant2
 		};
 
-		//Excersize
+		//Excercise
 		set<Move> possibleMoves = wp->getMoves(testBoard, Move());
 
 		//Verify
@@ -345,7 +349,8 @@ private:
 	* |						|
 	* +---a-b-c-d-e-f-g-h---+
 	********************************************/
-	void getMovesPromotionMoveTest() {
+	void getMovesPromotionMoveTest() 
+	{
 		//Setup
 		Pawn* p;
 		p->fWhite = true;
@@ -363,7 +368,7 @@ private:
 			promotion
 		};
 
-		//Excersize
+		//Excercise
 		set<Move> possibleMoves = p->getMoves(testBoard, Move());
 
 		//Verify
