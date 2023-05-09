@@ -337,13 +337,13 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8	  .			      8
+	* 8	  	.   	        8
 	* 7    (p)              7
-	* 6	  					   6
-	* 5						   5
-	* 4						   4
+	* 6	  				    6
+	* 5				   	    5
+	* 4					    4
 	* 3					   	3
-	* 2						   2
+	* 2				   	    2
 	* 1					   	1
 	* |					   	|
 	* +---a-b-c-d-e-f-g-h---+
@@ -364,7 +364,7 @@ private:
 		promotion.setPromotion();
 		set <Move> expectedMoves = set<Move>
 		{
-			promotion
+			promotion;
 		};
 
 		// exercise
