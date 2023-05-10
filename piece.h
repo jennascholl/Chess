@@ -12,11 +12,18 @@ class Piece
 protected:
    Position position;
    bool fWhite;
-   int numMoves;
-   int lastMove;
+   int numMoves = 0;
+   int lastMove = 0;
 
 public:
-   Piece(Position pos, bool white);
+	//I corrected white to isWhite
+	//Need to make position default constructor
+	Piece(Position pos, bool isWhite)
+	{
+		this->position = pos;
+		this->fWhite = isWhite;
+	};
+
    void operator=(Position pos);
    void operator=(Piece piece);
    bool isWhite() { return fWhite; }

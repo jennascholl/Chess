@@ -22,7 +22,11 @@ class Pawn : public Piece
 	friend TestPawn;
 
 public:
-   Pawn(Position pos, bool isWhite);
+	//Need to make Piece default constructor
+	Pawn(Position pos, bool isWhite)
+	{
+
+	};
    char getLetter();
    void display(ogstream gout);
    set<Move> getMoves(Board* board, Move move);
