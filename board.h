@@ -42,13 +42,13 @@ public:
    Board(ogstream& gout);
    Board(Piece* boardTemplate[8][8]);
    void placePiece(Piece* piece);
-   int getCurrentMove() { return currentMove; }
+   int const getCurrentMove() { return currentMove; }
    bool whiteTurn() { return currentMove % 2; }
    void display(Position posHover, Position posSelect);
-   Piece* get(Position pos);
    void free();
    void reset();
    void move(Move move);
+   Piece* operator[](Position pos) { return board[pos.getRow()][pos.getCol()]; };
    void operator=(Piece piece);
    void swap(Position pos1, Position pos2);
    void assertBoard();

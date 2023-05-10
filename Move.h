@@ -32,6 +32,8 @@ public:
    bool getCastleK() { return castleK; }
    bool getCastleQ() { return castleQ; }
    bool getWhiteMove() { return isWhite; }
+   void setSrc(Position src) { this->src = src; }
+   void setDest(Position dest) { this->dest = dest; }
    void setEnpassant() { enpassant = true; }
    void setCastleK() { castleK = true; }
    void setCastleQ() { castleQ = true; }

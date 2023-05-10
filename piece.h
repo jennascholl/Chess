@@ -7,31 +7,28 @@
 
 using namespace std;
 
+enum type { KING, QUEEN, ROOK, KNIGHT, BISHOP, PAWN, SPACE };
+
 class Piece
 {
 protected:
+   type pieceType;
    Position position;
    bool fWhite;
-   int numMoves = 0;
-   int lastMove = 0;
+   int numMoves;
+   int lastMove;
 
 public:
-	//I corrected white to isWhite
-	//Need to make position default constructor
-	Piece(Position pos, bool isWhite)
-	{
-		this->position = pos;
-		this->fWhite = isWhite;
-	};
-
+   Piece() : pieceType(PAWN), position(Position(0, 0)), 
+             fWhite(true), numMoves(0), lastMove(0) { }
    void operator=(Position pos);
    void operator=(Piece piece);
    bool isWhite() { return fWhite; }
-   bool isMove();
+   bool isMoved() { return numMoves; }
    int getNMoves() { return numMoves; }
    Position getPosition() { return position; }
    bool justMoved();
-   virtual char getLetter() = 0;
+   virtual type getType() = 0;
    virtual void display(ogstream gout) = 0;
    virtual set<Move> getMoves(Board* board, Move move) = 0;
 };
