@@ -15,7 +15,7 @@
   * BISHOP
   * The resident clergy
   *********************************************/
-class Bishop : public Piece
-{
-
-};
+//class Bishop : public Piece
+//{
+//
+//};
