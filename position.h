@@ -20,33 +20,34 @@ using namespace std;
 class Position
 {
 private:
-   int row;
-   int col;
+   char location;
 
 public:
    // constructors
-   Position() : row(0), col(0) { }
-	Position(int row, int col) : row(row), col(col) { }
+   Position() : location(0) { }
+	Position(int row, int col) : location(row * 8 + col) { }
 
    // getters
-   int getRow() { return row; }
-   int getCol() { return col; }
+   char getLocation() const { return location; }
+   char getRow() { return location / 8; }
+   char getCol() { return location % 8; }
 
    //// setters
    //void setRow(int r);
    //void setCol(int c);
    //void set(int r, int c);
+   void setLocation(int loc) { location = loc; }
    //void adjustRow(int dRow);
    //void adjustCol(int dCol);
 
    //bool isValid();
-   bool operator==(Position rhs) { return row == rhs.getRow() && col == rhs.getCol(); }
-   //void operator=(Position rhs);
+   bool operator==(Position rhs) { return location == rhs.location; }
+   void operator=(Position rhs) { location = rhs.location; }
    // void operator+(Delta rhs);
 };
 
 // stream I/O useful for debugging
-std::ostream& operator << (std::ostream& out, const Position& pt);
-std::istream& operator >> (std::istream& in, Position& pt);
+//std::ostream& operator << (std::ostream& out, const Position& pt);
+//std::istream& operator >> (std::istream& in, Position& pt);
 
 

@@ -13,19 +13,19 @@ private:
    char piece;
    char capture;
    bool enpassant;
-   bool promote;
+   char promote;
    bool castleK;
    bool castleQ;
    bool isWhite;
-   string text;
+
+   void read(string textMove);
 
 public:
    Move();
-   Move(const char[6]);
-   Move(Position beg, Position dest);
-   string getText() { return text; }
+   Move(string textMove);
+  /* Move(Position beg, Position dest);*/
    Position getSrc() { return src; }
-   Position getDest() { return dest; }
+   Position getDest() const { return dest; }
    bool getPromotion() { return promote; }
    char getCapture() { return capture; }
    bool getEnpassant() { return enpassant; }
@@ -39,7 +39,9 @@ public:
    void setCastleQ() { castleQ = true; }
    void setPromotion() { promote = true; }
    void setWhiteMove(bool white) { isWhite = white; }
-   //void operator=(Move move);
+   Move& operator=(const Move & move);
+   bool operator==(const Move & move);
+   bool operator<(const Move & move) const;
    //void operator=(string move);
    //void operator<<();
    //void operator>>();

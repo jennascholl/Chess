@@ -38,7 +38,7 @@ class TestKing
 public:
    void run()
    {
-      //test_getMoves_free();
+      test_getMoves_free();
       //test_getMoves_blocked();
       //test_getMoves_capture();
       //test_getMoves_castle();
@@ -85,19 +85,18 @@ private:
       };*/
 
       // exercise
-      set<Move> possibleMoves = k->getMoves(testBoard);
+      set<Move> moves = k->getMoves(testBoard);
 
       // verify
-      set<string>* moves = convertMoves(possibleMoves);
-      assert(possibleMoves.size() == 8);
-      assert(moves->find("e5d6") != moves->end());
-      assert(moves->find("e5e6") != moves->end());
-      assert(moves->find("e5f6") != moves->end());
-      assert(moves->find("e5d5") != moves->end());
-      assert(moves->find("e5f5") != moves->end());
-      assert(moves->find("e5d4") != moves->end());
-      assert(moves->find("e5e4") != moves->end());
-      assert(moves->find("e5f4") != moves->end());
+      assert(moves.size() == 8);
+      assert(moves.find(Move("e5d6")) != moves.end());
+      assert(moves.find(Move("e5e6")) != moves.end());
+      assert(moves.find(Move("e5f6")) != moves.end());
+      assert(moves.find(Move("e5d5")) != moves.end());
+      assert(moves.find(Move("e5f5")) != moves.end());
+      assert(moves.find(Move("e5d4")) != moves.end());
+      assert(moves.find(Move("e5e4")) != moves.end());
+      assert(moves.find(Move("e5f4")) != moves.end());
 
       // teardown
       delete k;
@@ -494,17 +493,4 @@ private:
 //      testBoard->free();
 //      delete testBoard;
 //   }
-
-   /***************************************************************************
-    * CONVERT MOVES
-    * Convert a set of moves into a set of strings for the sake of comparison
-    ***************************************************************************/
-   set<string>* convertMoves(const set<Move>& moves)
-   {
-      std::set<string>* stringMoves = new set<string>;
-      for (Move move : moves)
-         stringMoves->insert(move.getText());
-      return stringMoves;
-   }
-
 };
