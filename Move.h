@@ -17,16 +17,16 @@ private:
    bool castleK;
    bool castleQ;
    bool isWhite;
-   string error;
+   string text;
 
 public:
    Move();
    Move(const char[6]);
    Move(Position beg, Position dest);
-   string getText();
+   string getText() { return text; }
    Position getSrc() { return src; }
    Position getDest() { return dest; }
-   char getPromotion();
+   bool getPromotion() { return promote; }
    char getCapture() { return capture; }
    bool getEnpassant() { return enpassant; }
    bool getCastleK() { return castleK; }
@@ -39,8 +39,8 @@ public:
    void setCastleQ() { castleQ = true; }
    void setPromotion() { promote = true; }
    void setWhiteMove(bool white) { isWhite = white; }
-   void operator=(Move move);
-   void operator=(string move);
+   //void operator=(Move move);
+   //void operator=(string move);
    //void operator<<();
    //void operator>>();
 

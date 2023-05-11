@@ -1,15 +1,5 @@
 #include "king.h"
 
-/*********************************************
- * NONDEFAULT CONSTRUCTOR
- * Create a King with a position and color
- *********************************************/
-//King::King(const Position & pos, bool isWhite) : Piece()
-//{
-//   position = pos;
-//   fWhite = isWhite;
-//   pieceType = KING;
-//}
 //
 //void King::display(ogstream gout)
 //{

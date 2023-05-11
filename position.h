@@ -29,8 +29,8 @@ public:
 	Position(int row, int col) : row(row), col(col) { }
 
    // getters
-   //int getRow();
-   //int getCol();
+   int getRow() { return row; }
+   int getCol() { return col; }
 
    //// setters
    //void setRow(int r);
@@ -40,7 +40,7 @@ public:
    //void adjustCol(int dCol);
 
    //bool isValid();
-   //bool operator==(Position rhs) { return location == rhs.location; }
+   bool operator==(Position rhs) { return row == rhs.getRow() && col == rhs.getCol(); }
    //void operator=(Position rhs);
    // void operator+(Delta rhs);
 };

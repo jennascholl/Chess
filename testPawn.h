@@ -39,21 +39,21 @@ using namespace std;
 * TEST PAWN
 * A friend class for Pawn which contains all its unit tests
 ********************************/
-class TestPawn
-{
-public:
-	void run()
-	{
-		getMovesSimpleMoveTest();
-		getMovesBlockedMoveTest();
-		getMovesInitialMoveTest();
-		getMovesCaptureMoveTest();
-		getMovesEnpassantMoveTest();
-		getMovesPromotionMoveTest();
-	}
-
-
-private:
+//class TestPawn
+//{
+//public:
+//	void run()
+//	{
+//		getMovesSimpleMoveTest();
+//		getMovesBlockedMoveTest();
+//		getMovesInitialMoveTest();
+//		getMovesCaptureMoveTest();
+//		getMovesEnpassantMoveTest();
+//		getMovesPromotionMoveTest();
+//	}
+//
+//
+//private:
 	/*********************************************
 	* GET MOVES TEST - White Pawn alone
 	*

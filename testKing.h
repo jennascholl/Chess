@@ -13,41 +13,42 @@
 #include "rook.h"
 #include "pawn.h"
 #include "space.h"
+#include "board.h"
 #include <cassert>
 
  // an empty board for testing purposes
-//Piece* EMPTY_BOARD[NUM_ROWS][NUM_COLS] =
-//{
-//   { &Space(Position(0, 0)), &Space(Position(0, 1)), &Space(Position(0, 2)), &Space(Position(0, 3)), &Space(Position(0, 4)), &Space(Position(0, 5)), &Space(Position(0, 6)), &Space(Position(0, 7)) },
-//   { &Space(Position(1, 0)), &Space(Position(1, 1)), &Space(Position(1, 2)), &Space(Position(1, 3)), &Space(Position(1, 4)), &Space(Position(1, 5)), &Space(Position(1, 6)), &Space(Position(1, 7)) },
-//   { &Space(Position(2, 0)), &Space(Position(2, 1)), &Space(Position(2, 2)), &Space(Position(2, 3)), &Space(Position(2, 4)), &Space(Position(2, 5)), &Space(Position(2, 6)), &Space(Position(2, 7)) },
-//   { &Space(Position(3, 0)), &Space(Position(3, 1)), &Space(Position(3, 2)), &Space(Position(3, 3)), &Space(Position(3, 4)), &Space(Position(3, 5)), &Space(Position(3, 6)), &Space(Position(3, 7)) },
-//   { &Space(Position(4, 0)), &Space(Position(4, 1)), &Space(Position(4, 2)), &Space(Position(4, 3)), &Space(Position(4, 4)), &Space(Position(4, 5)), &Space(Position(4, 6)), &Space(Position(4, 7)) },
-//   { &Space(Position(5, 0)), &Space(Position(5, 1)), &Space(Position(5, 2)), &Space(Position(5, 3)), &Space(Position(5, 4)), &Space(Position(5, 5)), &Space(Position(5, 6)), &Space(Position(5, 7)) },
-//   { &Space(Position(6, 0)), &Space(Position(6, 1)), &Space(Position(6, 2)), &Space(Position(6, 3)), &Space(Position(6, 4)), &Space(Position(6, 5)), &Space(Position(6, 6)), &Space(Position(6, 7)) },
-//   { &Space(Position(7, 0)), &Space(Position(7, 1)), &Space(Position(7, 2)), &Space(Position(7, 3)), &Space(Position(7, 4)), &Space(Position(7, 5)), &Space(Position(7, 6)), &Space(Position(7, 7)) } 
-//};
-//
-///********************************
-//* TEST KING
-//* A friend class for King which contains all its unit tests
-//********************************/
-//class TestKing
-//{
-//public:
-//   void run()
-//   {
-//      test_getMoves_free();
-//      test_getMoves_blocked();
-//      test_getMoves_capture();
-//      test_getMoves_castle();
-//      test_getMoves_castle_king_moved();
-//      test_getMoves_castle_rook_moved();
-//      test_getMoves_castle_blocked();
-//      test_getMoves_castle();
-//   }
-//
-//private:
+Piece* EMPTY_BOARD[8][8] =
+{
+   { &Space(Position(0, 0)), &Space(Position(0, 1)), &Space(Position(0, 2)), &Space(Position(0, 3)), &Space(Position(0, 4)), &Space(Position(0, 5)), &Space(Position(0, 6)), &Space(Position(0, 7)) },
+   { &Space(Position(1, 0)), &Space(Position(1, 1)), &Space(Position(1, 2)), &Space(Position(1, 3)), &Space(Position(1, 4)), &Space(Position(1, 5)), &Space(Position(1, 6)), &Space(Position(1, 7)) },
+   { &Space(Position(2, 0)), &Space(Position(2, 1)), &Space(Position(2, 2)), &Space(Position(2, 3)), &Space(Position(2, 4)), &Space(Position(2, 5)), &Space(Position(2, 6)), &Space(Position(2, 7)) },
+   { &Space(Position(3, 0)), &Space(Position(3, 1)), &Space(Position(3, 2)), &Space(Position(3, 3)), &Space(Position(3, 4)), &Space(Position(3, 5)), &Space(Position(3, 6)), &Space(Position(3, 7)) },
+   { &Space(Position(4, 0)), &Space(Position(4, 1)), &Space(Position(4, 2)), &Space(Position(4, 3)), &Space(Position(4, 4)), &Space(Position(4, 5)), &Space(Position(4, 6)), &Space(Position(4, 7)) },
+   { &Space(Position(5, 0)), &Space(Position(5, 1)), &Space(Position(5, 2)), &Space(Position(5, 3)), &Space(Position(5, 4)), &Space(Position(5, 5)), &Space(Position(5, 6)), &Space(Position(5, 7)) },
+   { &Space(Position(6, 0)), &Space(Position(6, 1)), &Space(Position(6, 2)), &Space(Position(6, 3)), &Space(Position(6, 4)), &Space(Position(6, 5)), &Space(Position(6, 6)), &Space(Position(6, 7)) },
+   { &Space(Position(7, 0)), &Space(Position(7, 1)), &Space(Position(7, 2)), &Space(Position(7, 3)), &Space(Position(7, 4)), &Space(Position(7, 5)), &Space(Position(7, 6)), &Space(Position(7, 7)) } 
+};
+
+/********************************
+* TEST KING
+* A friend class for King which contains all its unit tests
+********************************/
+class TestKing
+{
+public:
+   void run()
+   {
+      //test_getMoves_free();
+      //test_getMoves_blocked();
+      //test_getMoves_capture();
+      //test_getMoves_castle();
+      //test_getMoves_castle_king_moved();
+      //test_getMoves_castle_rook_moved();
+      //test_getMoves_castle_blocked();
+      //test_getMoves_castle();
+   }
+
+private:
    /********************************
    * GET MOVES TEST - white king free
    * +---a-b-c-d-e-f-g-h---+
@@ -63,37 +64,46 @@
    * |                     |
    * +---a-b-c-d-e-f-g-h---+
    ********************************/
-   //void test_getMoves_free()
-   //{
-   //   // setup
-   //   King* k;
-   //   k->fWhite = true;
-   //   k->lastMove = 0;
-   //   k->numMoves = 0;
-   //   k->position = Position(5, 5);
+   void test_getMoves_free()
+   {
+      // setup
+      King* k = new King();
+      k->fWhite = true;
+      k->lastMove = 0;
+      k->numMoves = 0;
+      k->position = Position(5, 5);
 
-   //   Board* testBoard = new Board(EMPTY_BOARD);
-   //   testBoard->placePiece(k);
+      Board* testBoard = new Board(EMPTY_BOARD);
+      testBoard->placePiece(k);
 
-   //   set <Move> expectedMoves = set<Move>
-   //   {
-   //      {Move(Position(5, 5), Position(6, 4))}, {Move(Position(5, 5), Position(6, 5))},
-   //      {Move(Position(5, 5), Position(6, 6))}, {Move(Position(5, 5), Position(5, 4))},
-   //      {Move(Position(5, 5), Position(5, 6))}, {Move(Position(5, 5), Position(4, 4))},
-   //      {Move(Position(5, 5), Position(4, 5))}, {Move(Position(5, 5), Position(4, 6))}
-   //   };
+ /*     set <Move> expectedMoves = set<Move>
+      {
+         {Move(Position(5, 5), Position(6, 4))}, {Move(Position(5, 5), Position(6, 5))},
+         {Move(Position(5, 5), Position(6, 6))}, {Move(Position(5, 5), Position(5, 4))},
+         {Move(Position(5, 5), Position(5, 6))}, {Move(Position(5, 5), Position(4, 4))},
+         {Move(Position(5, 5), Position(4, 5))}, {Move(Position(5, 5), Position(4, 6))}
+      };*/
 
-   //   // exercise
-   //   set<Move> possibleMoves = k->getMoves(testBoard, Move());
+      // exercise
+      set<Move> possibleMoves = k->getMoves(testBoard);
 
-   //   // verify
-   //   assert(possibleMoves == expectedMoves);
+      // verify
+      set<string>* moves = convertMoves(possibleMoves);
+      assert(possibleMoves.size() == 8);
+      assert(moves->find("e5d6") != moves->end());
+      assert(moves->find("e5e6") != moves->end());
+      assert(moves->find("e5f6") != moves->end());
+      assert(moves->find("e5d5") != moves->end());
+      assert(moves->find("e5f5") != moves->end());
+      assert(moves->find("e5d4") != moves->end());
+      assert(moves->find("e5e4") != moves->end());
+      assert(moves->find("e5f4") != moves->end());
 
-   //   // teardown
-   //   delete k;
-   //   testBoard->free();
-   //   delete testBoard;
-   //}
+      // teardown
+      delete k;
+      testBoard->free();
+      delete testBoard;
+   }
 
    /********************************
    * GET MOVES TEST - white king blocked
@@ -484,4 +494,17 @@
 //      testBoard->free();
 //      delete testBoard;
 //   }
-//};
+
+   /***************************************************************************
+    * CONVERT MOVES
+    * Convert a set of moves into a set of strings for the sake of comparison
+    ***************************************************************************/
+   set<string>* convertMoves(const set<Move>& moves)
+   {
+      std::set<string>* stringMoves = new set<string>;
+      for (Move move : moves)
+         stringMoves->insert(move.getText());
+      return stringMoves;
+   }
+
+};

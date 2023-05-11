@@ -18,8 +18,9 @@
 class Space : public Piece
 {
 public:
-   Space(Position pos) : Piece() { position = pos; fWhite = false; pieceType = SPACE; }
+   Space() : Piece() { }
+   Space(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    //char getLetter();
    //void display(ogstream gout);
-   //set<Move> getMoves(Board* board, Move move) { return set<Move>(); }
+   set<Move> getMoves(Board* board) { return set<Move>(); }
 };

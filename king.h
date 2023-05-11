@@ -20,10 +20,10 @@ class TestKing;
 class King : public Piece
 {
    friend TestKing;
-
 public:
-   King(const Position & pos, bool isWhite);
-   char getLetter();
-   void display(ogstream gout);
-   set<Move> getMoves(Board* board, Move move);
+   King() : Piece() { }
+   King(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
+   //char getLetter();
+   //void display(ogstream gout);
+   set<Move> getMoves(Board* board) { return set<Move>(); }
 };
