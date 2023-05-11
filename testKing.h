@@ -20,19 +20,6 @@
 
 using namespace std;
 
- // an empty board for testing purposes
-Piece* EMPTY_BOARD[8][8] =
-{
-   { &Space(Position(0, 0)), &Space(Position(0, 1)), &Space(Position(0, 2)), &Space(Position(0, 3)), &Space(Position(0, 4)), &Space(Position(0, 5)), &Space(Position(0, 6)), &Space(Position(0, 7)) },
-   { &Space(Position(1, 0)), &Space(Position(1, 1)), &Space(Position(1, 2)), &Space(Position(1, 3)), &Space(Position(1, 4)), &Space(Position(1, 5)), &Space(Position(1, 6)), &Space(Position(1, 7)) },
-   { &Space(Position(2, 0)), &Space(Position(2, 1)), &Space(Position(2, 2)), &Space(Position(2, 3)), &Space(Position(2, 4)), &Space(Position(2, 5)), &Space(Position(2, 6)), &Space(Position(2, 7)) },
-   { &Space(Position(3, 0)), &Space(Position(3, 1)), &Space(Position(3, 2)), &Space(Position(3, 3)), &Space(Position(3, 4)), &Space(Position(3, 5)), &Space(Position(3, 6)), &Space(Position(3, 7)) },
-   { &Space(Position(4, 0)), &Space(Position(4, 1)), &Space(Position(4, 2)), &Space(Position(4, 3)), &Space(Position(4, 4)), &Space(Position(4, 5)), &Space(Position(4, 6)), &Space(Position(4, 7)) },
-   { &Space(Position(5, 0)), &Space(Position(5, 1)), &Space(Position(5, 2)), &Space(Position(5, 3)), &Space(Position(5, 4)), &Space(Position(5, 5)), &Space(Position(5, 6)), &Space(Position(5, 7)) },
-   { &Space(Position(6, 0)), &Space(Position(6, 1)), &Space(Position(6, 2)), &Space(Position(6, 3)), &Space(Position(6, 4)), &Space(Position(6, 5)), &Space(Position(6, 6)), &Space(Position(6, 7)) },
-   { &Space(Position(7, 0)), &Space(Position(7, 1)), &Space(Position(7, 2)), &Space(Position(7, 3)), &Space(Position(7, 4)), &Space(Position(7, 5)), &Space(Position(7, 6)), &Space(Position(7, 7)) } 
-};
-
 /********************************
 * TEST KING
 * A friend class for King which contains all its unit tests
@@ -43,13 +30,12 @@ public:
    void run()
    {
       test_getMoves_free();
-      //test_getMoves_blocked();
-      //test_getMoves_capture();
-      //test_getMoves_castle();
-      //test_getMoves_castle_king_moved();
-      //test_getMoves_castle_rook_moved();
-      //test_getMoves_castle_blocked();
-      //test_getMoves_castle();
+      test_getMoves_blocked();
+      test_getMoves_capture();
+      test_getMoves_castle_king_moved();
+      test_getMoves_castle_rook_moved();
+      test_getMoves_castle_blocked();
+      test_getMoves_castle();
    }
 
 private:
@@ -84,9 +70,6 @@ private:
       // exercise
       set<Move> moves = k->getMoves(*testBoard);
 
-      for (auto move : moves)
-         cout << move.getDest().getLocation() << endl;
-
       // verify
       assert(moves.size() == 8);
       assert(moves.find(Move("e5d6")) != moves.end());
@@ -119,54 +102,55 @@ private:
    * |                     |
    * +---a-b-c-d-e-f-g-h---+
    ********************************/
-   //void test_getMoves_blocked()
-   //{
-   //   // setup
-   //   King* k;
-   //   k->fWhite = true;
-   //   k->lastMove = 0;
-   //   k->numMoves = 0;
-   //   k->position = Position(5, 5);
+   void test_getMoves_blocked()
+   {
+      // setup
+      King* k = new King();
+      k->fWhite = true;
+      k->lastMove = 0;
+      k->numMoves = 0;
+      k->position = Position(5, 5);
 
-   //   Board* testBoard = new Board(EMPTY_BOARD);
-   //   Pawn* p1 = new Pawn(Position(6, 4), true);
-   //   Pawn* p2 = new Pawn(Position(6, 5), true);
-   //   Pawn* p3 = new Pawn(Position(6, 6), true);
-   //   Pawn* p4 = new Pawn(Position(5, 4), true);
-   //   Pawn* p5 = new Pawn(Position(5, 6), true);
-   //   Pawn* p6 = new Pawn(Position(4, 4), true);
-   //   Pawn* p7 = new Pawn(Position(4, 5), true);
-   //   Pawn* p8 = new Pawn(Position(4, 6), true);
+      Board* testBoard = new Board();
+      testBoard->setToEmpty();
+      Pawn* p1 = new Pawn(Position(6, 4), true);
+      Pawn* p2 = new Pawn(Position(6, 5), true);
+      Pawn* p3 = new Pawn(Position(6, 6), true);
+      Pawn* p4 = new Pawn(Position(5, 4), true);
+      Pawn* p5 = new Pawn(Position(5, 6), true);
+      Pawn* p6 = new Pawn(Position(4, 4), true);
+      Pawn* p7 = new Pawn(Position(4, 5), true);
+      Pawn* p8 = new Pawn(Position(4, 6), true);
 
-   //   testBoard->placePiece(k);
-   //   testBoard->placePiece(p1);
-   //   testBoard->placePiece(p2);
-   //   testBoard->placePiece(p3);
-   //   testBoard->placePiece(p4);
-   //   testBoard->placePiece(p5);
-   //   testBoard->placePiece(p6);
-   //   testBoard->placePiece(p7);
-   //   testBoard->placePiece(p8);
+      testBoard->placePiece(k);
+      testBoard->placePiece(p1);
+      testBoard->placePiece(p2);
+      testBoard->placePiece(p3);
+      testBoard->placePiece(p4);
+      testBoard->placePiece(p5);
+      testBoard->placePiece(p6);
+      testBoard->placePiece(p7);
+      testBoard->placePiece(p8);
 
-   //   // exercise
-   //   set<Move> possibleMoves = k->getMoves(testBoard, Move());
+      // exercise
+      set<Move> moves = k->getMoves(*testBoard);
 
-   //   // verify
-   //   assert(possibleMoves.empty());
+      // verify
+      assert(moves.empty());
 
-   //   // teardown
-   //   delete k;
-   //   delete p1;
-   //   delete p2;
-   //   delete p3;
-   //   delete p4;
-   //   delete p5;
-   //   delete p6;
-   //   delete p7;
-   //   delete p8;
-   //   testBoard->free();
-   //   delete testBoard;
-   //}
+      // teardown
+      delete k;
+      delete p1;
+      delete p2;
+      delete p3;
+      delete p4;
+      delete p5;
+      delete p6;
+      delete p7;
+      delete p8;
+      //testBoard->free();
+      delete testBoard;
+   }
 
    /********************************
    * GET MOVES TEST - white king capture
@@ -183,62 +167,63 @@ private:
    * |                     |
    * +---a-b-c-d-e-f-g-h---+
    ********************************/
-   //void test_getMoves_capture()
-   //{
-   //   // setup
-   //   King* k;
-   //   k->fWhite = true;
-   //   k->lastMove = 0;
-   //   k->numMoves = 0;
-   //   k->position = Position(5, 5);
+   void test_getMoves_capture()
+   {
+      // setup
+      King* k = new King();
+      k->fWhite = true;
+      k->lastMove = 0;
+      k->numMoves = 0;
+      k->position = Position(4, 4);
 
-   //   Board* testBoard = new Board(EMPTY_BOARD);
-   //   Pawn* p1 = new Pawn(Position(6, 4), false);
-   //   Pawn* p2 = new Pawn(Position(6, 5), false);
-   //   Pawn* p3 = new Pawn(Position(6, 6), false);
-   //   Pawn* p4 = new Pawn(Position(5, 4), false);
-   //   Pawn* p5 = new Pawn(Position(5, 6), false);
-   //   Pawn* p6 = new Pawn(Position(4, 4), false);
-   //   Pawn* p7 = new Pawn(Position(4, 5), false);
-   //   Pawn* p8 = new Pawn(Position(4, 6), false);
+      Board* testBoard = new Board();
+      testBoard->setToEmpty();
+      Pawn* p1 = new Pawn(Position(5, 3), false);
+      Pawn* p2 = new Pawn(Position(5, 4), false);
+      Pawn* p3 = new Pawn(Position(5, 5), false);
+      Pawn* p4 = new Pawn(Position(4, 3), false);
+      Pawn* p5 = new Pawn(Position(4, 5), false);
+      Pawn* p6 = new Pawn(Position(3, 3), false);
+      Pawn* p7 = new Pawn(Position(3, 4), false);
+      Pawn* p8 = new Pawn(Position(3, 5), false);
 
-   //   testBoard->placePiece(k);
-   //   testBoard->placePiece(p1);
-   //   testBoard->placePiece(p2);
-   //   testBoard->placePiece(p3);
-   //   testBoard->placePiece(p4);
-   //   testBoard->placePiece(p5);
-   //   testBoard->placePiece(p6);
-   //   testBoard->placePiece(p7);
-   //   testBoard->placePiece(p8);
+      testBoard->placePiece(k);
+      testBoard->placePiece(p1);
+      testBoard->placePiece(p2);
+      testBoard->placePiece(p3);
+      testBoard->placePiece(p4);
+      testBoard->placePiece(p5);
+      testBoard->placePiece(p6);
+      testBoard->placePiece(p7);
+      testBoard->placePiece(p8);
 
-   //   set <Move> expectedMoves = set<Move>
-   //   {
-   //      {Move(Position(5, 5), Position(6, 4))}, {Move(Position(5, 5), Position(6, 5))},
-   //      {Move(Position(5, 5), Position(6, 6))}, {Move(Position(5, 5), Position(5, 4))},
-   //      {Move(Position(5, 5), Position(5, 6))}, {Move(Position(5, 5), Position(4, 4))},
-   //      {Move(Position(5, 5), Position(4, 5))}, {Move(Position(5, 5), Position(4, 6))}
-   //   };
+      // exercise
+      set<Move> moves = k->getMoves(*testBoard);
 
-   //   // exercise
-   //   set<Move> possibleMoves = k->getMoves(testBoard, Move());
+      // verify
+      assert(moves.size() == 8);
+      assert(moves.find(Move("e5d6p")) != moves.end());
+      assert(moves.find(Move("e5e6p")) != moves.end());
+      assert(moves.find(Move("e5f6p")) != moves.end());
+      assert(moves.find(Move("e5d5p")) != moves.end());
+      assert(moves.find(Move("e5f5p")) != moves.end());
+      assert(moves.find(Move("e5d4p")) != moves.end());
+      assert(moves.find(Move("e5e4p")) != moves.end());
+      assert(moves.find(Move("e5f4p")) != moves.end());
 
-   //   // verify
-   //   assert(possibleMoves == expectedMoves);
-
-   //   // teardown
-   //   delete k;
-   //   delete p1;
-   //   delete p2;
-   //   delete p3;
-   //   delete p4;
-   //   delete p5;
-   //   delete p6;
-   //   delete p7;
-   //   delete p8;
-   //   testBoard->free();
-   //   delete testBoard;
-   //}
+      // teardown
+      delete k;
+      delete p1;
+      delete p2;
+      delete p3;
+      delete p4;
+      delete p5;
+      delete p6;
+      delete p7;
+      delete p8;
+      //testBoard->free();
+      delete testBoard;
+   }
 
    /********************************
    * GET MOVES TEST - white king castle (king moved)
@@ -255,50 +240,48 @@ private:
    * |                     |
    * +---a-b-c-d-e-f-g-h---+
    ********************************/
-   //void test_getMoves_castle_king_moved()
-   //{
-   //   // setup
-   //   King* k;
-   //   k->fWhite = true;
-   //   k->lastMove = 0;
-   //   k->numMoves = 1;
-   //   k->position = Position(1, 5);
+   void test_getMoves_castle_king_moved()
+   {
+      // setup
+      King* k = new King();
+      k->fWhite = true;
+      k->lastMove = 0;
+      k->numMoves = 1;
+      k->position = Position(0, 4);
 
-   //   Board* testBoard = new Board(EMPTY_BOARD);
-   //   Pawn* p1 = new Pawn(Position(2, 4), true);
-   //   Pawn* p2 = new Pawn(Position(2, 5), true);
-   //   Pawn* p3 = new Pawn(Position(2, 6), true);
-   //   Rook* r1 = new Rook(Position(1, 1), true);
-   //   Rook* r2 = new Rook(Position(1, 8), true);
+      Board* testBoard = new Board();
+      testBoard->setToEmpty();
+      Pawn* p1 = new Pawn(Position(1, 3), true);
+      Pawn* p2 = new Pawn(Position(1, 4), true);
+      Pawn* p3 = new Pawn(Position(1, 5), true);
+      Rook* r1 = new Rook(Position(0, 0), true);
+      Rook* r2 = new Rook(Position(0, 7), true);
 
-   //   testBoard->placePiece(k);
-   //   testBoard->placePiece(p1);
-   //   testBoard->placePiece(p2);
-   //   testBoard->placePiece(p3);
-   //   testBoard->placePiece(r1);
-   //   testBoard->placePiece(r2);
+      testBoard->placePiece(k);
+      testBoard->placePiece(p1);
+      testBoard->placePiece(p2);
+      testBoard->placePiece(p3);
+      testBoard->placePiece(r1);
+      testBoard->placePiece(r2);
 
-   //   set <Move> expectedMoves = set<Move>
-   //   {
-   //      {Move(Position(1, 5), Position(1, 4))}, {Move(Position(1, 5), Position(1, 6))}
-   //   };
+      // exercise
+      set<Move> moves = k->getMoves(*testBoard);
 
-   //   // exercise
-   //   set<Move> possibleMoves = k->getMoves(testBoard, Move());
+      // verify
+      assert(moves.size() == 2);
+      assert(moves.find(Move("e1f1")) != moves.end());
+      assert(moves.find(Move("e1d1")) != moves.end());
 
-   //   // verify
-   //   assert(possibleMoves == expectedMoves);
-
-   //   // teardown
-   //   delete k;
-   //   delete p1;
-   //   delete p2;
-   //   delete p3;
-   //   delete r1;
-   //   delete r2;
-   //   testBoard->free();
-   //   delete testBoard;
-   //}
+      // teardown
+      delete k;
+      delete p1;
+      delete p2;
+      delete p3;
+      delete r1;
+      delete r2;
+      //testBoard->free();
+      delete testBoard;
+   }
 
    /********************************
    * GET MOVES TEST - white king castle (rook moved)
@@ -315,52 +298,50 @@ private:
    * |                     |
    * +---a-b-c-d-e-f-g-h---+
    ********************************/
-   //void test_getMoves_castle_rook_moved()
-   //{
-   //   // setup
-   //   King* k;
-   //   k->fWhite = true;
-   //   k->lastMove = 0;
-   //   k->numMoves = 0;
-   //   k->position = Position(1, 5);
+   void test_getMoves_castle_rook_moved()
+   {
+      // setup
+      King* k = new King();
+      k->fWhite = true;
+      k->lastMove = 0;
+      k->numMoves = 0;
+      k->position = Position(0, 4);
 
-   //   Board* testBoard = new Board(EMPTY_BOARD);
-   //   Pawn* p1 = new Pawn(Position(2, 4), true);
-   //   Pawn* p2 = new Pawn(Position(2, 5), true);
-   //   Pawn* p3 = new Pawn(Position(2, 6), true);
-   //   Rook* r1 = new Rook(Position(1, 1), true);
-   //   Rook* r2 = new Rook(Position(1, 8), true);
-   //   r1->numMoves = 1;
-   //   r2->numMoves = 1;
+      Board* testBoard = new Board();
+      testBoard->setToEmpty();
+      Pawn* p1 = new Pawn(Position(1, 3), true);
+      Pawn* p2 = new Pawn(Position(1, 4), true);
+      Pawn* p3 = new Pawn(Position(1, 5), true);
+      Rook* r1 = new Rook(Position(0, 0), true);
+      Rook* r2 = new Rook(Position(0, 7), true);
+      r1->numMoves = 1;
+      r2->numMoves = 1;
 
-   //   testBoard->placePiece(k);
-   //   testBoard->placePiece(p1);
-   //   testBoard->placePiece(p2);
-   //   testBoard->placePiece(p3);
-   //   testBoard->placePiece(r1);
-   //   testBoard->placePiece(r2);
+      testBoard->placePiece(k);
+      testBoard->placePiece(p1);
+      testBoard->placePiece(p2);
+      testBoard->placePiece(p3);
+      testBoard->placePiece(r1);
+      testBoard->placePiece(r2);
 
-   //   set <Move> expectedMoves = set<Move>
-   //   {
-   //      {Move(Position(1, 5), Position(1, 4))}, {Move(Position(1, 5), Position(1, 6))}
-   //   };
+      // exercise
+      set<Move> moves = k->getMoves(*testBoard);
 
-   //   // exercise
-   //   set<Move> possibleMoves = k->getMoves(testBoard, Move());
+      // verify
+      assert(moves.size() == 2);
+      assert(moves.find(Move("e1f1")) != moves.end());
+      assert(moves.find(Move("e1d1")) != moves.end());
 
-   //   // verify
-   //   assert(possibleMoves == expectedMoves);
-
-   //   // teardown
-   //   delete k;
-   //   delete p1;
-   //   delete p2;
-   //   delete p3;
-   //   delete r1;
-   //   delete r2;
-   //   testBoard->free();
-   //   delete testBoard;
-   //}
+      // teardown
+      delete k;
+      delete p1;
+      delete p2;
+      delete p3;
+      delete r1;
+      delete r2;
+      //testBoard->free();
+      delete testBoard;
+   }
 
    /********************************
    * GET MOVES TEST - white king castle (blocked)
@@ -377,56 +358,54 @@ private:
    * |                     |
    * +---a-b-c-d-e-f-g-h---+
    ********************************/
-   //void test_getMoves_castle_blocked()
-   //{
-   //   // setup
-   //   King* k;
-   //   k->fWhite = true;
-   //   k->lastMove = 0;
-   //   k->numMoves = 0;
-   //   k->position = Position(1, 5);
+   void test_getMoves_castle_blocked()
+   {
+      // setup
+      King* k = new King();
+      k->fWhite = true;
+      k->lastMove = 0;
+      k->numMoves = 0;
+      k->position = Position(0, 4);
 
-   //   Board* testBoard = new Board(EMPTY_BOARD);
-   //   Pawn* p1 = new Pawn(Position(2, 4), true);
-   //   Pawn* p2 = new Pawn(Position(2, 5), true);
-   //   Pawn* p3 = new Pawn(Position(2, 6), true);
-   //   Pawn* p4 = new Pawn(Position(1, 2), true);
-   //   Pawn* p5 = new Pawn(Position(1, 7), true);
-   //   Rook* r1 = new Rook(Position(1, 1), true);
-   //   Rook* r2 = new Rook(Position(1, 8), true);
+      Board* testBoard = new Board();
+      testBoard->setToEmpty();
+      Pawn* p1 = new Pawn(Position(1, 3), true);
+      Pawn* p2 = new Pawn(Position(1, 4), true);
+      Pawn* p3 = new Pawn(Position(1, 5), true);
+      Pawn* p4 = new Pawn(Position(0, 1), true);
+      Pawn* p5 = new Pawn(Position(0, 6), true);
+      Rook* r1 = new Rook(Position(0, 0), true);
+      Rook* r2 = new Rook(Position(0, 7), true);
 
-   //   testBoard->placePiece(k);
-   //   testBoard->placePiece(p1);
-   //   testBoard->placePiece(p2);
-   //   testBoard->placePiece(p3);
-   //   testBoard->placePiece(p4);
-   //   testBoard->placePiece(p5);
-   //   testBoard->placePiece(r1);
-   //   testBoard->placePiece(r2);
+      testBoard->placePiece(k);
+      testBoard->placePiece(p1);
+      testBoard->placePiece(p2);
+      testBoard->placePiece(p3);
+      testBoard->placePiece(p4);
+      testBoard->placePiece(p5);
+      testBoard->placePiece(r1);
+      testBoard->placePiece(r2);
 
-   //   set <Move> expectedMoves = set<Move>
-   //   {
-   //      {Move(Position(1, 5), Position(1, 4))}, {Move(Position(1, 5), Position(1, 6))}
-   //   };
+      // exercise
+      set<Move> moves = k->getMoves(*testBoard);
 
-   //   // exercise
-   //   set<Move> possibleMoves = k->getMoves(testBoard, Move());
+      // verify
+      assert(moves.size() == 2);
+      assert(moves.find(Move("e1f1")) != moves.end());
+      assert(moves.find(Move("e1d1")) != moves.end());
 
-   //   // verify
-   //   assert(possibleMoves == expectedMoves);
-
-   //   // teardown
-   //   delete k;
-   //   delete p1;
-   //   delete p2;
-   //   delete p3;
-   //   delete p4;
-   //   delete p5;
-   //   delete r1;
-   //   delete r2;
-   //   testBoard->free();
-   //   delete testBoard;
-   //}
+      // teardown
+      delete k;
+      delete p1;
+      delete p2;
+      delete p3;
+      delete p4;
+      delete p5;
+      delete r1;
+      delete r2;
+      //testBoard->free();
+      delete testBoard;
+   }
 
    /********************************
    * GET MOVES TEST - white king castle
@@ -443,54 +422,48 @@ private:
    * |                     |
    * +---a-b-c-d-e-f-g-h---+
    ********************************/
-//   void test_getMoves_castle()
-//   {
-//      // setup
-//      King* k;
-//      k->fWhite = true;
-//      k->lastMove = 0;
-//      k->numMoves = 0;
-//      k->position = Position(1, 5);
-//
-//      Board* testBoard = new Board(EMPTY_BOARD);
-//      Pawn* p1 = new Pawn(Position(2, 4), true);
-//      Pawn* p2 = new Pawn(Position(2, 5), true);
-//      Pawn* p3 = new Pawn(Position(2, 6), true);
-//      Rook* r1 = new Rook(Position(1, 1), true);
-//      Rook* r2 = new Rook(Position(1, 8), true);
-//
-//      testBoard->placePiece(k);
-//      testBoard->placePiece(p1);
-//      testBoard->placePiece(p2);
-//      testBoard->placePiece(p3);
-//      testBoard->placePiece(r1);
-//      testBoard->placePiece(r2);
-//
-//
-//      Move castle1 = Move(Position(1, 5), Position(1, 3));
-//      Move castle2 = Move(Position(1, 5), Position(1, 7));
-//      castle1.setCastleQ();
-//      castle2.setCastleK();
-//      set <Move> expectedMoves = set<Move>
-//      {
-//         {Move(Position(1, 5), Position(1, 4))}, {Move(Position(1, 5), Position(1, 6))},
-//         castle1, castle2
-//      };
-//
-//      // exercise
-//      set<Move> possibleMoves = k->getMoves(testBoard, Move());
-//
-//      // verify
-//      assert(possibleMoves == expectedMoves);
-//
-//      // teardown
-//      delete k;
-//      delete p1;
-//      delete p2;
-//      delete p3;
-//      delete r1;
-//      delete r2;
-//      testBoard->free();
-//      delete testBoard;
-//   }
+   void test_getMoves_castle()
+   {
+      // setup
+      King* k = new King();
+      k->fWhite = true;
+      k->lastMove = 0;
+      k->numMoves = 0;
+      k->position = Position(0, 4);
+
+      Board* testBoard = new Board();
+      testBoard->setToEmpty();
+      Pawn* p1 = new Pawn(Position(1, 3), true);
+      Pawn* p2 = new Pawn(Position(1, 4), true);
+      Pawn* p3 = new Pawn(Position(1, 5), true);
+      Rook* r1 = new Rook(Position(0, 0), true);
+      Rook* r2 = new Rook(Position(0, 7), true);
+
+      testBoard->placePiece(k);
+      testBoard->placePiece(p1);
+      testBoard->placePiece(p2);
+      testBoard->placePiece(p3);
+      testBoard->placePiece(r1);
+      testBoard->placePiece(r2);
+
+      // exercise
+      set<Move> moves = k->getMoves(*testBoard);
+
+      // verify
+      assert(moves.size() == 4);
+      assert(moves.find(Move("e1f1")) != moves.end());
+      assert(moves.find(Move("e1d1")) != moves.end());
+      assert(moves.find(Move("e1g1c")) != moves.end());
+      assert(moves.find(Move("e1c1C")) != moves.end());
+
+      // teardown
+      delete k;
+      delete p1;
+      delete p2;
+      delete p3;
+      delete r1;
+      delete r2;
+      //testBoard->free();
+      delete testBoard;
+   }
 };

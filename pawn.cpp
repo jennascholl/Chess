@@ -1,4 +1,5 @@
-//#include "pawn.h"
+#include "pawn.h"
+#include "board.h"
 //
 ////Set default constructor
 //Pawn::Pawn(const Position& pos, bool isWhite) : Piece() 

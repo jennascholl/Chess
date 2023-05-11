@@ -12,24 +12,24 @@
 #include "piece.h"
 
 //class TestPawn;
+class Board;
 
 /*********************************************
  * PAWN
  * The most common piece in the game
  *********************************************/
-//class Pawn : public Piece
-//{
-//	friend TestPawn;
-//
-//public:
-//	//Need to make Piece default constructor
-//	Pawn(Position pos, bool isWhite)
-//	{
-//
-//	};
-//   char getLetter();
-//   void display(ogstream gout);
-//   set<Move> getMoves(Board* board, Move move);
-//
-//
-//};
+class Pawn : public Piece
+{
+	//friend TestPawn;
+
+public:
+   Pawn() : Piece() { }
+   Pawn(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
+   const char getLetter() const { return 'p'; }
+   //void display(ogstream gout);
+   set<Move> getMoves(const Board& board) { return set<Move>(); }
+
+
+};
+
+
