@@ -17,6 +17,8 @@
 const int NUM_ROWS = 8;
 const int NUM_COLS = 8;
 
+class Piece;
+
 extern Piece* STANDARD_BOARD[NUM_ROWS][NUM_COLS];
 
 /*********************************************
@@ -26,40 +28,24 @@ extern Piece* STANDARD_BOARD[NUM_ROWS][NUM_COLS];
 class Board
 {
 private:
-   Piece* board[8][8];
+   Piece* pieces[8][8];
    int currentMove;
    //ogstream gout;
 
 public:
-   //Board(ogstream& gout);
-   Board() : currentMove(0)
-   {
-      for (int r = 0; r < NUM_ROWS; r++)
-      {
-         for (int c = 0; c < NUM_COLS; c++)
-         {
-            board[r][c] = STANDARD_BOARD[r][c];
-         }
-      }
-   }
-   Board(Piece* boardTemplate[NUM_ROWS][NUM_COLS]) : currentMove(0)
-   {
-      for (int r = 0; r < NUM_ROWS; r++)
-      {
-         for (int c = 0; c < NUM_COLS; c++)
-         {
-            board[r][c] = boardTemplate[r][c];
-         }
-      }
-   }
+   Board();
+   Board(Piece* boardTemplate[NUM_ROWS][NUM_COLS]);
    void placePiece(Piece* piece);
+   Piece& operator[](Position & pos);
+   const Piece& operator[](Position & pos) const;
+   const Piece& getPiece(Position pos) const;
+   void setToEmpty();
    //int const getCurrentMove() { return currentMove; }
    //bool whiteTurn() { return currentMove % 2; }
    //void display(Position posHover, Position posSelect);
    void free();
    //void reset();
    //void move(Move move);
-   //Piece* operator[](Position pos) { return board[pos.getRow()][pos.getCol()]; };
    //void operator=(Piece piece);
    //void swap(Position pos1, Position pos2);
    //void assertBoard();

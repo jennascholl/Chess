@@ -20,7 +20,7 @@ class Space : public Piece
 public:
    Space() : Piece() { }
    Space(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
-   //char getLetter();
+   const char getLetter() const { return ' '; }
    //void display(ogstream gout);
-   set<Move> getMoves(Board* board) { return set<Move>(); }
+   set<Move> getMoves(const Board & board) { return set<Move>(); }
 };

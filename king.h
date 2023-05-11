@@ -12,6 +12,7 @@
 #include "piece.h"
 
 class TestKing;
+class Board;
 
 /*********************************************
  * KING
@@ -23,7 +24,8 @@ class King : public Piece
 public:
    King() : Piece() { }
    King(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
+   const char getLetter() const { return 'k'; }
    //char getLetter();
    //void display(ogstream gout);
-   set<Move> getMoves(Board* board) { return set<Move>(); }
+   set<Move> getMoves(const Board & board);
 };

@@ -24,7 +24,7 @@ public:
    Move();
    Move(string textMove);
   /* Move(Position beg, Position dest);*/
-   Position getSrc() { return src; }
+   Position getSrc() const { return src; }
    Position getDest() const { return dest; }
    bool getPromotion() { return promote; }
    char getCapture() { return capture; }
@@ -39,8 +39,9 @@ public:
    void setCastleQ() { castleQ = true; }
    void setPromotion() { promote = true; }
    void setWhiteMove(bool white) { isWhite = white; }
+   void setCapture(char c) { capture = c; }
    Move& operator=(const Move & move);
-   bool operator==(const Move & move);
+   bool operator==(const Move & move) const;
    bool operator<(const Move & move) const;
    //void operator=(string move);
    //void operator<<();

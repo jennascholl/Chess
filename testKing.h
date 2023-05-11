@@ -16,6 +16,10 @@
 #include "board.h"
 #include <cassert>
 
+#include <iostream>
+
+using namespace std;
+
  // an empty board for testing purposes
 Piece* EMPTY_BOARD[8][8] =
 {
@@ -53,16 +57,16 @@ private:
    * GET MOVES TEST - white king free
    * +---a-b-c-d-e-f-g-h---+
    * |                     |
-   * 8                     8
    * 7                     7
-   * 6         . . .       6
-   * 5         . k .       5
-   * 4         . . .       4
-   * 3                     3
+   * 6                     6
+   * 5         . . .       5
+   * 4         . k .       4
+   * 3         . . .       3
    * 2                     2
    * 1                     1
+   * 0                     0
    * |                     |
-   * +---a-b-c-d-e-f-g-h---+
+   * +---0-1-2-3-4-5-6-7---+
    ********************************/
    void test_getMoves_free()
    {
@@ -71,21 +75,17 @@ private:
       k->fWhite = true;
       k->lastMove = 0;
       k->numMoves = 0;
-      k->position = Position(5, 5);
+      k->position = Position(4, 4);
 
-      Board* testBoard = new Board(EMPTY_BOARD);
+      Board* testBoard = new Board();
+      testBoard->setToEmpty();
       testBoard->placePiece(k);
 
- /*     set <Move> expectedMoves = set<Move>
-      {
-         {Move(Position(5, 5), Position(6, 4))}, {Move(Position(5, 5), Position(6, 5))},
-         {Move(Position(5, 5), Position(6, 6))}, {Move(Position(5, 5), Position(5, 4))},
-         {Move(Position(5, 5), Position(5, 6))}, {Move(Position(5, 5), Position(4, 4))},
-         {Move(Position(5, 5), Position(4, 5))}, {Move(Position(5, 5), Position(4, 6))}
-      };*/
-
       // exercise
-      set<Move> moves = k->getMoves(testBoard);
+      set<Move> moves = k->getMoves(*testBoard);
+
+      for (auto move : moves)
+         cout << move.getDest().getLocation() << endl;
 
       // verify
       assert(moves.size() == 8);
@@ -100,7 +100,7 @@ private:
 
       // teardown
       delete k;
-      testBoard->free();
+      //testBoard->free();
       delete testBoard;
    }
 

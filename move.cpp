@@ -40,14 +40,14 @@ void Move::read(string textMove)
    it++;
    int row = *it - '1';
    it++;
-   src.setLocation(row * 8 + col);
+   src.set(row, col);
 
    // get the destination
    col = *it - 'a';
    it++;
    row = *it - '1';
    it++;
-   dest.setLocation(row * 8 + col);
+   dest.set(row, col);
 
    // capture and promotion information
    for (; it != textMove.end(); ++it)
@@ -86,7 +86,7 @@ void Move::read(string textMove)
    // error checking
    if (dest.getLocation() < 0 || src.getLocation() >= 64 ||
       dest.getLocation() < 0 || dest.getLocation() >= 64)
-      src.setLocation(src.getLocation() - 1);
+      src.set(src.getLocation() - 1);
 }
 
 /*********************************************
@@ -112,9 +112,9 @@ Move& Move::operator=(const Move & move)
  * COMPARISON OPERATORS
  * Compare two move to one another
  *********************************************/
-bool Move::operator==(const Move & move)
+bool Move::operator==(const Move & move) const
 {
-   return (src == move.src && dest == move.dest);
+   return (getSrc() == move.getSrc() && getDest() == move.getDest());
 }
 
 bool Move::operator<(const Move & move) const

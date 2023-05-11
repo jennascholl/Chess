@@ -13,6 +13,51 @@ Piece* STANDARD_BOARD[NUM_ROWS][NUM_COLS] =
 };
 
 /***********************************************
+ * DEFAULT CONSTRUCTOR
+ * Create a standard board
+ ************************************************/
+Board::Board() : currentMove(0)
+{
+   for (int r = 0; r < NUM_ROWS; r++)
+   {
+      for (int c = 0; c < NUM_COLS; c++)
+      {
+         pieces[r][c] = STANDARD_BOARD[r][c];
+      }
+   }
+}
+
+/***********************************************
+ * NON-DEFAULT CONSTRUCTOR
+ * Create a board using a template
+ ************************************************/
+//Board::Board(Piece* boardTemplate[NUM_ROWS][NUM_COLS]) : currentMove(0)
+//{
+   //for (int r = 0; r < NUM_ROWS; r++)
+   //{
+   //   for (int c = 0; c < NUM_COLS; c++)
+   //   {
+   //      pieces[r][c] = boardTemplate[r][c];
+   //   }
+   //}
+//}
+
+/***********************************************
+ * PLACE PIECE
+ * Insert a piece to the board, deleting whatever was in its place
+ ************************************************/
+void Board::setToEmpty()
+{
+   for (int r = 0; r < NUM_ROWS; r++)
+   {
+      for (int c = 0; c < NUM_COLS; c++)
+      {
+         pieces[r][c] = new Space(Position(r, c));
+      }
+   }
+}
+
+/***********************************************
  * PLACE PIECE
  * Insert a piece to the board, deleting whatever was in its place
  ************************************************/
@@ -21,7 +66,7 @@ void Board::placePiece(Piece* piece)
    int r = piece->getPosition().getRow();
    int c = piece->getPosition().getCol();
 
-   board[r][c] = piece;
+   pieces[r][c] = piece;
 }
 
 /***********************************************
@@ -30,6 +75,24 @@ void Board::placePiece(Piece* piece)
  ************************************************/
 void Board::free()
 {
-   for (auto piece : board)
+   for (auto piece : pieces)
       delete piece;
+}
+
+/***********************************************
+ * SQUARE BRACKET OPERATOR
+ * Find a piece at a given index
+ ************************************************/
+Piece& Board::operator[](Position & pos)
+{
+   return *pieces[pos.getRow()][pos.getCol()];
+}
+const Piece& Board::operator[](Position & pos) const
+{
+   return *pieces[pos.getRow()][pos.getCol()];
+}
+
+const Piece& Board::getPiece(Position pos) const
+{
+   return *pieces[pos.getRow()][pos.getCol()];
 }
