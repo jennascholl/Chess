@@ -41,7 +41,13 @@ set<int> Pawn::getMoves(Board board)
 		}
 	}
 
-	//Might be simpler with moves = getMovesNoSlide
+	array <Position, 2> empassantChecks = {
+		{-1, 0},  //p     {1, 0}
+
+	};
+	
+
+	//Might be simpler with moves = getMovesNoSlide?
 
 	//See what each position holds. 
 	Position posLeftDiag((position.getRow() + delta[0].getRow(), 
@@ -51,9 +57,15 @@ set<int> Pawn::getMoves(Board board)
 	Position posRightDiag((position.getRow() + delta[2].getRow(),
 		(position.getCol() + delta[2].getCol());
 
+	//Empassant positions
+	Position empassantLeft(position.getRow() + empassantChecks[0].getRow(),
+		position.getCol())
+	Position empassantRight(position.getRow() + empassantChecks[1].getRow(),
+		position.getCol())
+
 	//How add moves into this?
 
-	Position options[3] = { posLeftDiag, posFront, posRightDiag };
+	Position options[3] = { posLeftDiag, posFront, posRightDiag};
 
 	
 
@@ -65,7 +77,7 @@ set<int> Pawn::getMoves(Board board)
 	//Set an iterator to go through options
 	for (int i = 0; i < options.size(); i++) {
 
-		//If it's a front move and nothings in the way, then add it automatically.
+		//If it's a front move and nothing's in the way, then add it automatically.
 		if (i == 1 && board[options[i]]->getType() == SPACE) {
 			
 			Move move;
@@ -88,10 +100,33 @@ set<int> Pawn::getMoves(Board board)
 			move.setCapture(board[posMove].getLetter());
 			moves.insert(move);
 			
-		} 
-		
-		
+		}
+	
 			
 	}
+
+	//Empassant Check on left
+	if (board[options[0]]->getType() != SPACE
+		&& board[empassantLeft].isWhite() != board[pos].isWhite() 
+	{
+			Move move;
+			move.setSrc(getPosition());
+			move.setDest(option[0]);
+			move.setWhiteMove(isWhite());
+			move.setCastleK();
+			moves.insert(move);
+	}
+	//Right empassant Check
+	if (board[options[2]]->getType() != SPACE
+		&& board[empassantRight].isWhite() != board[pos].isWhite()
+	{
+		Move move;
+			move.setSrc(getPosition());
+			move.setDest(option[2]);
+			move.setWhiteMove(isWhite());
+			move.setCastleK();
+			moves.insert(move);
+	}
+
 	return possible;
 }
