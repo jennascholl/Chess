@@ -1,78 +1,114 @@
 #include "pawn.h"
 #include "board.h"
-//
-////Set default constructor
-//Pawn::Pawn(const Position& pos, bool isWhite) : Piece() 
-//{
-//	position = pos;
-//	fWhite = isWhite;
-//	pieceType = PAWN;
-//}
-//
-//char Pawn::getLetter()
-//{
-//
-//}
+
+//Set default constructor
+
+/*Pawn::Pawn(const Position& pos, bool isWhite) : Piece()
+{
+	position = pos;
+	fWhite = isWhite;
+}*/
+
 //void Pawn::display(ogstream gout)
 //{
-//
+
 //}
-//
-//set<int> Pawn::getMoves(Board board)
-//{
-//
-//	//Need to make different delta for black or white. 
-//
-//	Position delta[3];
-//	if (isWhite)
-//	{
-//		Position delta[3] =
-//		{
-//			{-1,1}, {0,1}, {1,1}
-//			         //P
-//		};
-//	} 
-//	else
-//	{
-//		Position delta[3] =
-//		{
-//			           //P
-//			{-1,-1}, {0,-1}, {1,-1}
-//		}
-//	}
-//
-//	//Might be simpler with moves = getMovesNoSlide
-//
-//	//See what each position holds. 
-//	Position posLeftDiag((position.getRow() + delta[0].getRow(), 
-//		(position.getCol() + delta[0].getCol());
-//	Position posFront(position.getRow(), 
-//		(position.getCol() + delta[1].getCol()));
-//	Position posRightDiag((position.getRow() + delta[2].getRow(),
-//		(position.getCol() + delta[2].getCol());
-//
-//	//How add moves into this?
-//
-//	Position options[3] = { posLeftDiag, posFront, posRightDiag };
-//
-//	//See if pawn next to you did an empassant. (numMoves = 1)
-//
-//	
-//
-//	//If the position isn't empty...
-//
-//	//Set an iterator to go through options
-//	if((*board)[posLeftDiag]->getType() != SPACE)
-//	{
-//		r = posLeftDiag.getRow();
-//		c = posLeftDiag.getCol();
-//
-//		if (amBlack && isNotBlack(board, r, c))
-//			possible.insert(board, r, c);
-//		else if (!amBlack && isNotWhite(board, r, c))
-//			possible.insert(board, r, c);
-//		else
-//			assert(false), "Invalid Pawn Input";
-//	}
-//	return possible;
-//}
+
+set<Move> Pawn::getMoves(const Board& board)
+{
+
+	set<Move> moves;
+
+	//Need to make different delta for black or white.
+	//Make it white by default
+	array<Delta, 3> delta =
+	{
+		Delta(-1,1), Delta(0, 1), Delta(1,1)
+						//P
+	};
+	
+	//If black, adjust the delta.
+	if(fWhite == false)
+	{
+		delta =
+		{					//P
+			Delta(-1,-1), Delta(0, -1), Delta(1,-1)
+			
+		};
+	}
+	
+
+
+	//See what each position holds. 
+	Position posLeftDiag(position, delta[0]);
+	Position posFront(position, delta[1]);
+	Position posRightDiag(position, delta[2]);
+
+	array<Position,3> options = { posLeftDiag, posFront, posRightDiag };
+
+
+	//Empassant positions
+	Position empassantLeft(position, Delta(-1, 0));
+	Position empassantRight(position, Delta(1, 0));
+
+
+	//Has front move and normal captures.
+	//Set an iterator to go through options
+	for (int i = 0; i < options.size(); i++) {
+
+		
+
+		//If it's a front move and nothing's in the way, then add it automatically.
+		if (i == 1 && board[options[i]].getLetter() == ' ') 
+		{
+
+			Move move;
+			move.setSrc(getPosition());
+			move.setDest(options[i]);
+			move.setWhiteMove(isWhite());
+			move.setCastleK();
+			moves.insert(move);
+		}
+		else
+			//If the position isn't empty and the position isn't taken same color spot, then move.
+			if (board[options[i]].getLetter() != ' '
+				&& board[options[i]].isWhite() != board[position].isWhite())
+			{
+
+				Move move;
+				move.setSrc(getPosition());
+				move.setDest(options[i]);
+				move.setWhiteMove(isWhite());
+				move.setCapture(board[options[i]].getLetter());
+				moves.insert(move);
+
+			}
+
+
+	}
+
+	//Empassant Check on left
+	if (board[options[0]].getLetter() != ' '
+		&& board[empassantLeft].isWhite() != board[position].isWhite())
+	{
+		Move move;
+			move.setSrc(getPosition());
+			move.setDest(options[0]);
+			move.setWhiteMove(isWhite());
+			move.setCastleK();
+			moves.insert(move);
+	}
+	//Right empassant Check
+	if (board[options[2]].getLetter() != ' '
+		&& board[empassantRight].isWhite() != board[position].isWhite())
+	{
+		Move move;
+			move.setSrc(getPosition());
+			move.setDest(options[2]);
+			move.setWhiteMove(isWhite());
+			move.setCastleK();
+			moves.insert(move);
+	}
+
+	return moves;
+}

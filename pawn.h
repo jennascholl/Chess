@@ -11,7 +11,7 @@
 
 #include "piece.h"
 
-//class TestPawn;
+class TestPawn;
 class Board;
 
 /*********************************************
@@ -24,10 +24,10 @@ class Pawn : public Piece
 
 public:
    Pawn() : Piece() { }
-   Pawn(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
+   Pawn(const Position& pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const char getLetter() const { return 'p'; }
    //void display(ogstream gout);
-   set<Move> getMoves(const Board& board) { return set<Move>(); }
+   set<Move> getMoves(const Board& board);
 
 
 };
