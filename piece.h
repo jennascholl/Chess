@@ -33,4 +33,5 @@ public:
    virtual const char getLetter() const = 0;
    virtual set<Move> getMoves(const Board& board) = 0;
    set<Move>  getMovesNoSlide(const Board& board, array<Delta, 8> deltas);
+   set<Move>  getMovesSlide(const Board& board, array<Delta, 8> deltas);
 };
