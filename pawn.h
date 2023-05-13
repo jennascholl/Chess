@@ -20,14 +20,13 @@ class Board;
  *********************************************/
 class Pawn : public Piece
 {
-	//friend TestPawn;
-
+	friend TestPawn;
 public:
    Pawn() : Piece() { }
-   Pawn(const Position& pos, bool isWhite = false) : Piece(pos, isWhite) { }
+   Pawn(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const char getLetter() const { return 'p'; }
    //void display(ogstream gout);
-   set<Move> getMoves(const Board& board);
+   set<Move> getMoves(const Board & board);
 
 
 };

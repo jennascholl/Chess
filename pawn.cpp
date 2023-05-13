@@ -3,18 +3,73 @@
 
 //Set default constructor
 
-/*Pawn::Pawn(const Position& pos, bool isWhite) : Piece()
+/*void Pawn::display(ogstream gout)
 {
-	position = pos;
-	fWhite = isWhite;
+
 }*/
 
-//void Pawn::display(ogstream gout)
-//{
-
-//}
 
 set<Move> Pawn::getMoves(const Board& board)
+{
+	set<Move> moves;
+
+	//Need to make different delta for black or white.
+	//Make it white by default
+	array<Delta, 3> delta =
+	{
+		//ADD 2 space range!!
+		Delta(-1,1), Delta(0, 1), Delta(1,1),
+						
+						//P
+	};
+
+	//If black, adjust the delta.
+	if (fWhite == false)
+	{
+		delta =
+		{					//P
+			Delta(-1,-1), Delta(0, -1), Delta(1,-1)
+
+		};
+	}
+
+
+
+	//See what each position holds. 
+	Position posLeftDiag(position, delta[0]);
+	Position posFront(position, delta[1]);
+	Position posRightDiag(position, delta[2]);
+
+	//Check for front movement
+	
+	if (posFront.isValid() && board[posFront].getLetter() == ' ')
+	{
+		Move move;
+		move.setSrc(getPosition());
+		move.setDest(posFront);
+		move.setWhiteMove(isWhite());
+
+		//See if can be promoted
+		if (posFront.getRow() == 7 || posFront.getRow() == 0)
+		{
+			move.setPromotion(); //double check this line for right funciton
+		}
+		else
+		{
+			moves.insert(move);
+		}
+		
+	}
+
+	/*if (!isMoved())
+	{
+		pov
+	}*/
+	return moves;
+
+}
+
+/*set<Move> Pawn::getMoves(const Board& board)
 {
 
 	set<Move> moves;
@@ -23,7 +78,8 @@ set<Move> Pawn::getMoves(const Board& board)
 	//Make it white by default
 	array<Delta, 3> delta =
 	{
-		Delta(-1,1), Delta(0, 1), Delta(1,1)
+		Delta(-1,1), Delta(0, 1), Delta(1,1),
+					Delta(0, 2)
 						//P
 	};
 	
@@ -32,7 +88,8 @@ set<Move> Pawn::getMoves(const Board& board)
 	{
 		delta =
 		{					//P
-			Delta(-1,-1), Delta(0, -1), Delta(1,-1)
+			Delta(-1,-1), Delta(0, -1), Delta(1,-1),
+						  Delta(0, -2)
 			
 		};
 	}
@@ -59,7 +116,7 @@ set<Move> Pawn::getMoves(const Board& board)
 		
 
 		//If it's a front move and nothing's in the way, then add it automatically.
-		if (i == 1 && board[options[i]].getLetter() == ' ') 
+		if (i == 1 && board[options[i]].getLetter() == ' ')
 		{
 
 			Move move;
@@ -71,8 +128,11 @@ set<Move> Pawn::getMoves(const Board& board)
 		}
 		else
 			//If the position isn't empty and the position isn't taken same color spot, then move.
+			//board[options[i] doesnt have appropriate permission. 
+			//Piece* comparePiece = board.getPiece(options[i]);
+
 			if (board[options[i]].getLetter() != ' '
-				&& board[options[i]].isWhite() != board[position].isWhite())
+				&& board[options[i]].isWhite() != fWhite)
 			{
 
 				Move move;
@@ -111,4 +171,4 @@ set<Move> Pawn::getMoves(const Board& board)
 	}
 
 	return moves;
-}
+}*/

@@ -9,4 +9,5 @@
 void testRunner()
 {
    TestKing().run();
+   TestPawn().run();
 }
