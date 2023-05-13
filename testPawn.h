@@ -46,7 +46,7 @@ public:
 		getMovesSimpleMoveTest();
 		//getMovesBlockedMoveTest();
 		getMovesInitialMoveTest();
-		//getMovesCaptureMoveTest();
+		getMovesCaptureMoveTest();
 		//getMovesEnpassantMoveTest();
 		//getMovesPromotionMoveTest();
 	}
@@ -86,8 +86,8 @@ private:
 
 		// exercise
 		set <Move> moves = p->getMoves(*testBoard);
-	
-		
+
+
 		// verify
 		assert(moves.size() == 1);
 		assert(moves.find(Move("d4d5")) != moves.end());
@@ -150,10 +150,10 @@ private:
 		//testBoard->free();
 		delete testBoard;
 	}*/
-	
+
 
 	/*********************************************
-	* GET INITIAL TEST - White Pawn - Testing intial movement range. 
+	* GET INITIAL TEST - White Pawn - Testing intial movement range.
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
@@ -190,195 +190,164 @@ private:
 		assert(moves.size() == 2);
 		assert(moves.find(Move("b2b3")) != moves.end());
 		assert(moves.find(Move("b2b4")) != moves.end());
-		assert(1 == 0);
 
 		// teardown
 		delete p;
-		//testBoard->free();
 		delete testBoard;
 	}
-	
+
 
 	/*********************************************
 	* GET CAPTURE TEST - White Pawn, 2 enpassant
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8				   	   8
-	* 7     P P P           7
-	* 6	   (p)				6
-	* 5						   5
-	* 4						   4
-	* 3						   3
-	* 2						   2
-	* 1						   1
-	* |						   |
-	* +---a-b-c-d-e-f-g-h---+
+	* 8				   	    7
+	* 7                     6
+	* 6	        		    5
+	* 5		  P P P		    4
+	* 4		   (p)	        3
+	* 3				        2
+	* 2					    1
+	* 1				   	    0
+	* |					    |
+	* +---0-1-2-3-4-5-6-7---+
 	********************************************/
 
-	//void getMovesCaptureMoveTest() 
-	//{
-	//	// setup
-	//	Pawn* wp;
-	//	wp->fWhite = true;
-	//	wp->lastMove = 0;
-	//	wp->numMoves = 0;
-	//	wp->position = Position(6, 2);
+	void getMovesCaptureMoveTest()
+	{
+		// setup
+		Pawn* p = new Pawn();
+		p->fWhite = true;
+		p->lastMove = 0;
+		p->numMoves = 1;
+		p->position = Position(3, 3);
 
-	//	Pawn* bp1 = new Pawn(Position(7, 2), false);
-	//	Pawn* bp2 = new Pawn(Position(7, 3), false);
-	//	Pawn* bp3 = new Pawn(Position(7, 4), false);
-	//	
+		Board* testBoard = new Board();
+		testBoard->setToEmpty();
+		Pawn* bp1 = new Pawn(Position(2, 4), false);
+		Pawn* bp2 = new Pawn(Position(3, 4), false);
+		Pawn* bp3 = new Pawn(Position(4, 4), false);
 
-	//	Board* testBoard = new Board(EMPTY_BOARD);
-	//	testBoard->placePiece(wp);
-	//	testBoard->placePiece(bp1);
-	//	testBoard->placePiece(bp2);
-	//	testBoard->placePiece(bp3);
 
-	//	set <Move> expectedMoves = set<Move>
-	//	{
-	//		{Move(Position(6, 3), Position(7,2))}, {Move(Position(6, 3), Position(7, 4))}
-	//	};
+		testBoard->placePiece(p);
+		testBoard->placePiece(bp1);
+		testBoard->placePiece(bp2);
+		testBoard->placePiece(bp3);
 
-	//	// exercise
-	//	set<Move> possibleMoves = wp->getMoves(testBoard, Move());
+		// exercise
+		set <Move> moves = p->getMoves(*testBoard);
 
-	//	// verify
-	//	assert(possibleMoves == expectedMoves);
 
-	//	// teardown
-	//	delete wp;
-	//	delete bp1;
-	//	delete bp2;
-	//	delete bp3;
+		// verify
+		//assert(moves.size() == 3); //Only applicable until blocked test can be fixed.
+		assert(moves.size() == 2); //Actual correct value.
+		//assert(moves.find(Move("d4d5")) != moves.end());
+		//assert(moves.find(Move("d4d6")) != moves.end());
 
-	//	testBoard->free();
-	//	delete testBoard;
-	//}
+
+		assert(moves.find(Move("d4c5")) != moves.end());
+		assert(moves.find(Move("d4e5")) != moves.end());
+
+		// teardown
+		delete p;
+		delete testBoard;
+
+	}
 
 	/*********************************************
 	* GET Enpassant TEST - White Pawn, 2 enpassant
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					      8
-	* 7                     7
-	* 6	  . P .  			6
-	* 5	  P(p)P				5
-	* 4					   	4
-	* 3				   		3
-	* 2	   		     		2
-	* 1				   		1
+	* 8					    7
+	* 7                     6
+	* 6	         			5
+	* 5	      . P .   		4
+	* 4		  P(p)P			3
+	* 3				   		2
+	* 2	   		     		1
+	* 1				   		0
 	* |					   	|
-	* +---a-b-c-d-e-f-g-h---+
+	* +---0-1-2-3-4-5-6-7---+
 	********************************************/
- //  void getMovesEnpassantMoveTest() 
- //  {
-	//	// setup
-	//	Pawn* wp;
-	//	wp->fWhite = true;
-	//	wp->lastMove = 0;
-	//	wp->numMoves = 0;
-	//	wp->position = Position(5, 3);
+	void getMovesEnpassantMoveTest()
+	{ // setup
+		Pawn* p = new Pawn();
+		p->fWhite = true;
+		p->lastMove = 0;
+		p->numMoves = 1;
+		p->position = Position(3, 3);
 
-	//	Pawn* bp1;
-	//	bp1->fWhite = false;
-	//	bp1->lastMove = 0;
-	//	bp1->numMoves = 0;
-	//	bp1->position = Position(5, 2);
+		Board* testBoard = new Board();
+		testBoard->setToEmpty();
+		Pawn* bp1 = new Pawn(Position(2, 3), false);
+		Pawn* bp2 = new Pawn(Position(3, 4), false);
+		Pawn* bp3 = new Pawn(Position(4, 3), false);
 
-	//	Pawn* bp2;
-	//	bp2->fWhite = false;
-	//	bp2->lastMove = 0;
-	//	bp2->numMoves = 1;
-	//	bp2->position = Position(5, 4);
 
-	//	Pawn* bp3;
-	//	bp3->fWhite = false;
-	//	bp3->lastMove = 0;
-	//	bp3->numMoves = 1;
-	//	bp3->position = Position(6, 3);
+		testBoard->placePiece(p);
+		testBoard->placePiece(bp1);
+		testBoard->placePiece(bp2);
+		testBoard->placePiece(bp3);
 
-	//	Board* testBoard = new Board(EMPTY_BOARD);
-	//	testBoard->placePiece(wp);
-	//	testBoard->placePiece(bp1);
-	//	testBoard->placePiece(bp2);
-	//	testBoard->placePiece(bp3);
+		// exercise
+		set <Move> moves = p->getMoves(*testBoard);
 
-	//	Move enpassant1 = Move(Position(5, 3), Position(6, 2));
-	//	Move enpassant2 = Move(Position(5, 3), Position(6, 4));
-	//	enpassant1.setEnpassant();
-	//	enpassant2.setEnpassant();
 
-	//	set <Move> expectedMoves = set<Move>
-	//	{
-	//		enpassant1, enpassant2
-	//	};
+		// verify
+		assert(moves.size() == 2); //Actual correct value.
 
-	//	// excercise
-	//	set<Move> possibleMoves = wp->getMoves(testBoard, Move());
+		assert(moves.find(Move("d4c5")) != moves.end());
+		assert(moves.find(Move("d4e5")) != moves.end());
 
-	//	// verify
-	//	assert(possibleMoves == expectedMoves);
+		// teardown
+		delete p;
+		delete testBoard;
+	}
 
-	//	// teardown
-	//	delete wp;
-	//	delete bp1;
-	//	delete bp2;
-	//	delete bp3;
-
-	//	testBoard->free();
-	//	delete testBoard;
-	//}
 
 	/*********************************************
 	* GET Promotion TEST - White Pawn, 2 enpassant
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8	  	.   	        8
-	* 7    (p)              7
-	* 6	  				    6
-	* 5				   	    5
-	* 4					    4
-	* 3					   	3
-	* 2				   	    2
-	* 1					   	1
-	* |					   	|
-	* +---a-b-c-d-e-f-g-h---+
+	* 8	   .   	           7
+	* 7    (p)              6
+	* 6	  				   5
+	* 5				   	   4
+	* 4					   3
+	* 3				       2
+	* 2				   	   1
+	* 1				       0
+	* |				       |
+	* +---0-1-2-3-4-5-6-7---+
 	********************************************/
-	/*void getMovesPromotionMoveTest()
+	void getMovesPromotionMoveTest()
 	{
 		// setup
-		Pawn* p;
+		Pawn* p = new Pawn();
 		p->fWhite = true;
 		p->lastMove = 0;
-		p->numMoves = 0;
-		p->position = Position(7, 2);
+		p->numMoves = 1;
+		p->position = Position(1, 6);
 
-		Board* testBoard = new Board(EMPTY_BOARD);
+		Board* testBoard = new Board();
+		testBoard->setToEmpty();
 		testBoard->placePiece(p);
 
-		Move promotion = Move(Position(7, 2), Position(8, 2));
-		promotion.setPromotion();
-		set <Move> expectedMoves = set<Move>
-		{
-			promotion;
-		};
-
 		// exercise
-		set<Move> possibleMoves = p->getMoves(testBoard, Move());
+		set <Move> moves = p->getMoves(*testBoard);
+
 
 		// verify
-		assert(possibleMoves == expectedMoves);
+		assert(moves.size() == 1);
+		assert(moves.find(Move("b6b7q")) != moves.end());
 
 		// teardown
 		delete p;
-		testBoard->free();
+		//testBoard->free();
 		delete testBoard;
-	} */
+	};
+
 };
-
-
-

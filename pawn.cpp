@@ -43,14 +43,22 @@ set<Move> Pawn::getMoves(const Board& board)
 	Position posRightDiag(position, delta[2]);
 
 	//Check for front movement
-	
 	if (posFront.isValid() && board[posFront].getLetter() == ' ')
 	{
 		Move move;
 		move.setSrc(getPosition());
 		move.setDest(posFront);
 		move.setWhiteMove(isWhite());
-		moves.insert(move);
+
+		//See if can be promoted
+		if (posFront.getRow() == 7 || posFront.getRow() == 0)
+		{
+			move.setPromotion(); //double check this line for right funciton
+		}
+		else
+		{
+			moves.insert(move);
+		}
 
 		//Add the second spot if it's the first move.
 		if (numMoves == 0)
@@ -63,26 +71,62 @@ set<Move> Pawn::getMoves(const Board& board)
 			moves.insert(move1);
 
 		}
-
-
-		/*//See if can be promoted
-		if (posFront.getRow() == 7 || posFront.getRow() == 0)
-		{
-			move.setPromotion(); //double check this line for right funciton
-		}
-		else
-		{
-			moves.insert(move);
-		}*/
-		
 	}
 
-	/*if (!isMoved())
-	{
-		pov
-	}*/
+	//Check right and left side for captures.
+	array<Position, 2> diagonals = { posLeftDiag, posRightDiag };
 
-	
+	for (int i = 0; i < diagonals.size(); i++)
+	{
+		if (diagonals[i].isValid()
+			&& board[diagonals[i]].getLetter() != ' '
+			&& board[diagonals[i]].isWhite() != fWhite)
+		{
+			Move move;
+			move.setSrc(getPosition());
+			move.setDest(diagonals[i]);
+			move.setWhiteMove(isWhite());
+			move.setCapture(board[diagonals[i]].getLetter());
+			moves.insert(move);
+
+			//Check for promotion
+			if (diagonals[i].getRow() == 7 || diagonals[i].getRow() == 0)
+			{
+				move.setPromotion(); //double check this line for right funciton
+			}
+			else
+			{
+				moves.insert(move);
+			}
+		}
+	}
+
+	//check for empassants
+	Position empassantLeft(position, Delta(-1, 0));
+	Position empassantRight(position, Delta(1, 0));
+
+	//Left empassant check
+	if (board[posLeftDiag].getLetter() == ' '
+		&& board[empassantLeft].isWhite() != board[position].isWhite())
+	{
+		Move move;
+		move.setSrc(getPosition());
+		move.setDest(posLeftDiag);
+		move.setWhiteMove(isWhite());
+		move.setCapture(board[empassantLeft].getLetter());
+		moves.insert(move);
+	}
+	//Right empassant Check
+	if (board[posRightDiag].getLetter() == ' '
+		&& board[empassantRight].isWhite() != board[position].isWhite())
+	{
+		Move move;
+		move.setSrc(getPosition());
+		move.setDest(posRightDiag);
+		move.setWhiteMove(isWhite());
+		move.setCapture(board[empassantRight].getLetter());
+		moves.insert(move);
+	}
 
 	return moves;
 
