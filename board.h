@@ -38,9 +38,8 @@ public:
    void placePiece(Piece* piece);
    Piece& operator[](Position & pos);
    const Piece& operator[](Position & pos) const;
-   const Piece& getPiece(Position pos) const;
    void setToEmpty();
-   //int const getCurrentMove() { return currentMove; }
+   const int getCurrentMove() const { return currentMove; }
    //bool whiteTurn() { return currentMove % 2; }
    //void display(Position posHover, Position posSelect);
    void free();

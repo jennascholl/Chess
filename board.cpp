@@ -28,21 +28,6 @@ Board::Board() : currentMove(0)
 }
 
 /***********************************************
- * NON-DEFAULT CONSTRUCTOR
- * Create a board using a template
- ************************************************/
-//Board::Board(Piece* boardTemplate[NUM_ROWS][NUM_COLS]) : currentMove(0)
-//{
-   //for (int r = 0; r < NUM_ROWS; r++)
-   //{
-   //   for (int c = 0; c < NUM_COLS; c++)
-   //   {
-   //      pieces[r][c] = boardTemplate[r][c];
-   //   }
-   //}
-//}
-
-/***********************************************
  * PLACE PIECE
  * Insert a piece to the board, deleting whatever was in its place
  ************************************************/
@@ -75,8 +60,8 @@ void Board::placePiece(Piece* piece)
  ************************************************/
 void Board::free()
 {
-   for (auto piece : pieces)
-      delete piece;
+   for (auto & piece : pieces)
+      delete *piece;
 }
 
 /***********************************************
@@ -88,11 +73,6 @@ Piece& Board::operator[](Position & pos)
    return *pieces[pos.getRow()][pos.getCol()];
 }
 const Piece& Board::operator[](Position & pos) const
-{
-   return *pieces[pos.getRow()][pos.getCol()];
-}
-
-const Piece& Board::getPiece(Position pos) const
 {
    return *pieces[pos.getRow()][pos.getCol()];
 }

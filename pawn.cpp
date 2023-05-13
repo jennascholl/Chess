@@ -3,235 +3,80 @@
 #include <iostream>
 using namespace std;
 
-//Set default constructor
-
-/*void Pawn::display(ogstream gout)
-{
-
-}*/
-
+// set default constructor
 
 set<Move> Pawn::getMoves(const Board& board)
 {
 	set<Move> moves;
+	Position posMove(getPosition(), isWhite() ? Delta(0, 1) : Delta(0, -1));
+	Move move;
 
-	//Need to make different delta for black or white.
-	//Make it white by default
-	array<Delta, 4> delta =
+	// move one space
+	if (posMove.isValid() && board[posMove].getLetter() == ' ')
 	{
-		//ADD 2 space range!!
-		Delta(-1,1), Delta(0, 1), Delta(1,1),
-					Delta(0,2)
-						//P
-	};
-
-	//If black, adjust the delta.
-	if (fWhite == false)
-	{
-		delta =
-		{					//P
-			Delta(-1,-1), Delta(0, -1), Delta(1,-1),
-						  Delta(0,-2)
-		};
-	}
-
-
-
-	//See what each position holds. 
-	Position posLeftDiag(position, delta[0]);
-	Position posFront(position, delta[1]);
-	Position posRightDiag(position, delta[2]);
-
-	//Check for front movement
-	if (posFront.isValid() && board[posFront].getLetter() == ' ')
-	{
-		Move move;
 		move.setSrc(getPosition());
-		move.setDest(posFront);
+		move.setDest(posMove);
 		move.setWhiteMove(isWhite());
 
-		//See if can be promoted
-		if (posFront.getRow() == 7 || posFront.getRow() == 0)
+		if (posMove.getRow() == 7 || posMove.getRow() == 0)
 		{
-			move.setPromotion(); //double check this line for right funciton
-		}
-		else
-		{
-			moves.insert(move);
-		}
-
-		//Add the second spot if it's the first move.
-		if (numMoves == 0)
-		{
-			Move move1;
-			Position posTwoFront(position, delta[3]);
-			move1.setSrc(getPosition());
-			move1.setDest(posTwoFront);
-			move1.setWhiteMove(isWhite());
-			moves.insert(move1);
-
-		}
+			move.setPromotion();
+		}		
+		moves.insert(move);
 	}
 
-	//Check right and left side for captures.
-	array<Position, 2> diagonals = { posLeftDiag, posRightDiag };
-
-	for (int i = 0; i < diagonals.size(); i++)
+	// move two spaces
+	if (!isMoved())
 	{
-		if (diagonals[i].isValid()
-			&& board[diagonals[i]].getLetter() != ' '
-			&& board[diagonals[i]].isWhite() != fWhite)
+		Position posMove(isWhite() ? 3 : 4, getPosition().getCol());
+		Position posCheck(isWhite() ? 2 : 5, getPosition().getCol());
+		if (board[posMove].getLetter() == ' ' && board[posCheck].getLetter() == ' ')
 		{
-			Move move;
 			move.setSrc(getPosition());
-			move.setDest(diagonals[i]);
+			move.setDest(posMove);
 			move.setWhiteMove(isWhite());
-			move.setCapture(board[diagonals[i]].getLetter());
 			moves.insert(move);
-
-			//Check for promotion
-			if (diagonals[i].getRow() == 7 || diagonals[i].getRow() == 0)
-			{
-				move.setPromotion(); //double check this line for right funciton
-			}
-			else
-			{
-				moves.insert(move);
-			}
 		}
 	}
 
-	//check for empassants
-	Position empassantLeft(position, Delta(-1, 0));
-	Position empassantRight(position, Delta(1, 0));
+	int values[2] = { -1, 1 }; // left and right
 
-	//Left empassant check
-	if (board[posLeftDiag].getLetter() == ' '
-		&& board[empassantLeft].isWhite() != board[position].isWhite())
+	// capture a pieces
+	for (auto i : values)
 	{
-		Move move;
-		move.setSrc(getPosition());
-		move.setDest(posLeftDiag);
-		move.setWhiteMove(isWhite());
-		move.setCapture(board[empassantLeft].getLetter());
-		moves.insert(move);
-	}
-	//Right empassant Check
-	if (board[posRightDiag].getLetter() == ' '
-		&& board[empassantRight].isWhite() != board[position].isWhite())
-	{
-		Move move;
-		move.setSrc(getPosition());
-		move.setDest(posRightDiag);
-		move.setWhiteMove(isWhite());
-		move.setCapture(board[empassantRight].getLetter());
-		moves.insert(move);
+		Position posMove(position.getRow() + (isWhite() ? 1 : -1), position.getCol() + i);
+		if (posMove.isValid() && board[posMove].getLetter() != ' ' && board[posMove].isWhite() != isWhite())
+		{
+			move.setSrc(getPosition());
+			move.setDest(posMove);
+			move.setWhiteMove(isWhite());
+			move.setCapture(board[posMove].getLetter());
+			if (posMove.getRow() == 7 || posMove.getRow() == 0)
+			{
+				move.setPromotion();
+			}
+			moves.insert(move);
+		}
 	}
 
+	// en-passant
+	for (auto i : values)
+	{
+		Position posMove(position.getRow() + (isWhite() ? 1 : -1), position.getCol() + i);
+		Position posKill(position.getRow(), position.getCol() + i);
+
+		if (posMove.isValid() && (position.getRow() == (isWhite() ? 3 : 4)) && board[posMove].getLetter() == ' ' &&
+			board[posKill].getLetter() == 'p' && board[posKill].isWhite() != isWhite() &&
+			board[posKill].getNMoves() == 1 && board[posKill].justMoved(board.getCurrentMove()))
+		{
+			move.setSrc(getPosition());
+			move.setDest(posMove);
+			move.setWhiteMove(isWhite());
+			move.setCapture(board[posKill].getLetter());
+			move.setEnpassant();
+			moves.insert(move);
+		}
+	}
 	return moves;
 
 }
-
-/*set<Move> Pawn::getMoves(const Board& board)
-{
-
-	set<Move> moves;
-
-	//Need to make different delta for black or white.
-	//Make it white by default
-	array<Delta, 3> delta =
-	{
-		Delta(-1,1), Delta(0, 1), Delta(1,1),
-					Delta(0, 2)
-						//P
-	};
-	
-	//If black, adjust the delta.
-	if(fWhite == false)
-	{
-		delta =
-		{					//P
-			Delta(-1,-1), Delta(0, -1), Delta(1,-1),
-						  Delta(0, -2)
-			
-		};
-	}
-	
-
-
-	//See what each position holds. 
-	Position posLeftDiag(position, delta[0]);
-	Position posFront(position, delta[1]);
-	Position posRightDiag(position, delta[2]);
-
-	array<Position,3> options = { posLeftDiag, posFront, posRightDiag };
-
-
-	//Empassant positions
-	Position empassantLeft(position, Delta(-1, 0));
-	Position empassantRight(position, Delta(1, 0));
-
-
-	//Has front move and normal captures.
-	//Set an iterator to go through options
-	for (int i = 0; i < options.size(); i++) {
-
-		
-
-		//If it's a front move and nothing's in the way, then add it automatically.
-		if (i == 1 && board[options[i]].getLetter() == ' ')
-		{
-
-			Move move;
-			move.setSrc(getPosition());
-			move.setDest(options[i]);
-			move.setWhiteMove(isWhite());
-			move.setCastleK();
-			moves.insert(move);
-		}
-		else
-			//If the position isn't empty and the position isn't taken same color spot, then move.
-			//board[options[i] doesnt have appropriate permission. 
-			//Piece* comparePiece = board.getPiece(options[i]);
-
-			if (board[options[i]].getLetter() != ' '
-				&& board[options[i]].isWhite() != fWhite)
-			{
-
-				Move move;
-				move.setSrc(getPosition());
-				move.setDest(options[i]);
-				move.setWhiteMove(isWhite());
-				move.setCapture(board[options[i]].getLetter());
-				moves.insert(move);
-
-			}
-
-
-	}
-
-	//Empassant Check on left
-	if (board[options[0]].getLetter() != ' '
-		&& board[empassantLeft].isWhite() != board[position].isWhite())
-	{
-		Move move;
-			move.setSrc(getPosition());
-			move.setDest(options[0]);
-			move.setWhiteMove(isWhite());
-			move.setCastleK();
-			moves.insert(move);
-	}
-	//Right empassant Check
-	if (board[options[2]].getLetter() != ' '
-		&& board[empassantRight].isWhite() != board[position].isWhite())
-	{
-		Move move;
-			move.setSrc(getPosition());
-			move.setDest(options[2]);
-			move.setWhiteMove(isWhite());
-			move.setCastleK();
-			moves.insert(move);
-	}
-
-	return moves;
-}*/

@@ -25,9 +25,9 @@ public:
    //void operator=(Piece piece);
    const bool isWhite() const { return fWhite; }
    const bool isMoved() const { return numMoves; }
-   //int getNMoves() { return numMoves; }
+   const int getNMoves() const { return numMoves; }
    Position getPosition() { return position; }
- /*  bool justMoved();*/
+   const bool justMoved(int move) const { return move - lastMove <= 2; }
    //virtual type getType() = 0;
    //virtual void display(ogstream gout) = 0;
    virtual const char getLetter() const = 0;

@@ -14,11 +14,8 @@
 #include "pawn.h"
 #include "space.h"
 #include "board.h"
+
 #include <cassert>
-
-#include <iostream>
-
-using namespace std;
 
 /********************************
 * TEST KING
@@ -80,10 +77,13 @@ private:
       assert(moves.find(Move("e5d4")) != moves.end());
       assert(moves.find(Move("e5e4")) != moves.end());
       assert(moves.find(Move("e5f4")) != moves.end());
+      assert(k->fWhite);
+      assert(k->lastMove == 0);
+      assert(k->numMoves == 0);
+      assert(k->position == Position(4, 4));
 
       // teardown
-      delete k;
-      //testBoard->free();
+      testBoard->free();
       delete testBoard;
    }
 
@@ -137,18 +137,13 @@ private:
 
       // verify
       assert(moves.empty());
+      assert(k->fWhite);
+      assert(k->lastMove == 0);
+      assert(k->numMoves == 0);
+      assert(k->position == Position(5, 5));
 
       // teardown
-      delete k;
-      delete p1;
-      delete p2;
-      delete p3;
-      delete p4;
-      delete p5;
-      delete p6;
-      delete p7;
-      delete p8;
-      //testBoard->free();
+      testBoard->free();
       delete testBoard;
    }
 
@@ -210,18 +205,13 @@ private:
       assert(moves.find(Move("e5d4p")) != moves.end());
       assert(moves.find(Move("e5e4p")) != moves.end());
       assert(moves.find(Move("e5f4p")) != moves.end());
+      assert(k->fWhite);
+      assert(k->lastMove == 0);
+      assert(k->numMoves == 0);
+      assert(k->position == Position(4, 4));
 
       // teardown
-      delete k;
-      delete p1;
-      delete p2;
-      delete p3;
-      delete p4;
-      delete p5;
-      delete p6;
-      delete p7;
-      delete p8;
-      //testBoard->free();
+      testBoard->free();
       delete testBoard;
    }
 
@@ -271,15 +261,13 @@ private:
       assert(moves.size() == 2);
       assert(moves.find(Move("e1f1")) != moves.end());
       assert(moves.find(Move("e1d1")) != moves.end());
+      assert(k->fWhite);
+      assert(k->lastMove == 0);
+      assert(k->numMoves == 1);
+      assert(k->position == Position(0, 4));
 
       // teardown
-      delete k;
-      delete p1;
-      delete p2;
-      delete p3;
-      delete r1;
-      delete r2;
-      //testBoard->free();
+      testBoard->free();
       delete testBoard;
    }
 
@@ -331,15 +319,13 @@ private:
       assert(moves.size() == 2);
       assert(moves.find(Move("e1f1")) != moves.end());
       assert(moves.find(Move("e1d1")) != moves.end());
+      assert(k->fWhite);
+      assert(k->lastMove == 0);
+      assert(k->numMoves == 0);
+      assert(k->position == Position(0, 4));
 
       // teardown
-      delete k;
-      delete p1;
-      delete p2;
-      delete p3;
-      delete r1;
-      delete r2;
-      //testBoard->free();
+      testBoard->free();
       delete testBoard;
    }
 
@@ -393,17 +379,13 @@ private:
       assert(moves.size() == 2);
       assert(moves.find(Move("e1f1")) != moves.end());
       assert(moves.find(Move("e1d1")) != moves.end());
+      assert(k->fWhite);
+      assert(k->lastMove == 0);
+      assert(k->numMoves == 0);
+      assert(k->position == Position(0, 4));
 
       // teardown
-      delete k;
-      delete p1;
-      delete p2;
-      delete p3;
-      delete p4;
-      delete p5;
-      delete r1;
-      delete r2;
-      //testBoard->free();
+      testBoard->free();
       delete testBoard;
    }
 
@@ -455,15 +437,13 @@ private:
       assert(moves.find(Move("e1d1")) != moves.end());
       assert(moves.find(Move("e1g1c")) != moves.end());
       assert(moves.find(Move("e1c1C")) != moves.end());
+      assert(k->fWhite);
+      assert(k->lastMove == 0);
+      assert(k->numMoves == 0);
+      assert(k->position == Position(0, 4));
 
       // teardown
-      delete k;
-      delete p1;
-      delete p2;
-      delete p3;
-      delete r1;
-      delete r2;
-      //testBoard->free();
+      testBoard->free();
       delete testBoard;
    }
 };
