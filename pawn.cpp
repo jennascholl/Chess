@@ -1,5 +1,7 @@
 #include "pawn.h"
 #include "board.h"
+#include <iostream>
+using namespace std;
 
 //Set default constructor
 
