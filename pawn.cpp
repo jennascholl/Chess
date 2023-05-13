@@ -17,11 +17,11 @@ set<Move> Pawn::getMoves(const Board& board)
 
 	//Need to make different delta for black or white.
 	//Make it white by default
-	array<Delta, 3> delta =
+	array<Delta, 4> delta =
 	{
 		//ADD 2 space range!!
 		Delta(-1,1), Delta(0, 1), Delta(1,1),
-						
+					Delta(0,2)
 						//P
 	};
 
@@ -30,8 +30,8 @@ set<Move> Pawn::getMoves(const Board& board)
 	{
 		delta =
 		{					//P
-			Delta(-1,-1), Delta(0, -1), Delta(1,-1)
-
+			Delta(-1,-1), Delta(0, -1), Delta(1,-1),
+						  Delta(0,-2)
 		};
 	}
 
@@ -50,8 +50,22 @@ set<Move> Pawn::getMoves(const Board& board)
 		move.setSrc(getPosition());
 		move.setDest(posFront);
 		move.setWhiteMove(isWhite());
+		moves.insert(move);
 
-		//See if can be promoted
+		//Add the second spot if it's the first move.
+		if (numMoves == 0)
+		{
+			Move move1;
+			Position posTwoFront(position, delta[3]);
+			move1.setSrc(getPosition());
+			move1.setDest(posTwoFront);
+			move1.setWhiteMove(isWhite());
+			moves.insert(move1);
+
+		}
+
+
+		/*//See if can be promoted
 		if (posFront.getRow() == 7 || posFront.getRow() == 0)
 		{
 			move.setPromotion(); //double check this line for right funciton
@@ -59,7 +73,7 @@ set<Move> Pawn::getMoves(const Board& board)
 		else
 		{
 			moves.insert(move);
-		}
+		}*/
 		
 	}
 
@@ -67,6 +81,9 @@ set<Move> Pawn::getMoves(const Board& board)
 	{
 		pov
 	}*/
+
+	
+
 	return moves;
 
 }

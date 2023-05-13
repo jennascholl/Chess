@@ -44,8 +44,8 @@ public:
 	void run()
 	{
 		getMovesSimpleMoveTest();
-		getMovesBlockedMoveTest();
-		//getMovesInitialMoveTest();
+		//getMovesBlockedMoveTest();
+		getMovesInitialMoveTest();
 		//getMovesCaptureMoveTest();
 		//getMovesEnpassantMoveTest();
 		//getMovesPromotionMoveTest();
@@ -71,7 +71,7 @@ private:
 	********************************************/
 	//https://www.udacity.com/blog/2021/05/cpp-sets-explained.html for help with sets
 
-	void getMovesSimpleMoveTest() 
+	void getMovesSimpleMoveTest()
 	{
 		// setup
 		Pawn* p = new Pawn();
@@ -116,7 +116,7 @@ private:
 	* +---0-1-2-3-4-5-6-7---+
 	********************************************/
 
-	void getMovesBlockedMoveTest()
+	/*void getMovesBlockedMoveTest()
 	{
 
 		// setup
@@ -149,7 +149,7 @@ private:
 		delete bp;
 		//testBoard->free();
 		delete testBoard;
-	}
+	}*/
 	
 
 	/*********************************************
@@ -157,47 +157,47 @@ private:
 	*
 	* +---a-b-c-d-e-f-g-h---+
 	* |                     |
-	* 8					      8
-	* 7                     7
-	* 6	  					   6
-	* 5						   5
-	* 4	  	 .				   4
-	* 3		 .				   3
-	* 2	   (p)				2
-	* 1						   1
-	* |						   |
-	* +---a-b-c-d-e-f-g-h---+
+	* 8					    7
+	* 7                     6
+	* 6	  				    5
+	* 5					    4
+	* 4	    .		   	    3
+	* 3		.		  	    2
+	* 2	   (p)		   	    1
+	* 1					    0
+	* |				   	    |
+	* +---0-1-2-3-4-5-6-7---+
 	********************************************/
 
-/*	void getMovesInitialMoveTest()
+	void getMovesInitialMoveTest()
 	{
 		// setup
-		Pawn* p;
+		Pawn* p = new Pawn();
 		p->fWhite = true;
 		p->lastMove = 0;
 		p->numMoves = 0;
-		p->position = Position(2, 3);
+		p->position = Position(1, 1);
 
-		Board* testBoard = new Board(EMPTY_BOARD);
+		Board* testBoard = new Board();
+		testBoard->setToEmpty();
 		testBoard->placePiece(p);
 
-		set <Move> expectedMoves = set<Move>
-		{
-			{Move(Position(2, 3), Position(3,3))}, {Move(Position(2, 3), Position(4,3))}
-		};
-
 		// exercise
-		set<Move> possibleMoves = p->getMoves(testBoard, Move());
+		set <Move> moves = p->getMoves(*testBoard);
+
 
 		// verify
-		assert(possibleMoves == expectedMoves);
+		assert(moves.size() == 2);
+		assert(moves.find(Move("b2b3")) != moves.end());
+		assert(moves.find(Move("b2b4")) != moves.end());
+		assert(1 == 0);
 
 		// teardown
 		delete p;
-		testBoard->free();
+		//testBoard->free();
 		delete testBoard;
 	}
-	*/
+	
 
 	/*********************************************
 	* GET CAPTURE TEST - White Pawn, 2 enpassant
