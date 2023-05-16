@@ -27,6 +27,41 @@ Board::Board() : currentMove(0)
    }
 }
 
+void Board::reset()
+{
+   for (int r = 2; r < 6; r++)
+      for (int c = 0; c < 8; c++)
+         pieces[r][c] = new Space(Position(r, c));
+
+   for (int c = 0; c < 8; c++)
+   {
+      pieces[1][c] = new Pawn(Position(1, c), true);
+      pieces[6][c] = new Pawn(Position(6, c), false);
+   }
+
+   currentMove = 0;
+}
+
+void Board::display(const Position& posHover, const Position& posSelect)
+{
+   gout.drawBoard();
+   gout.drawHover(posHover.getLocation());
+   gout.drawSelected(posSelect.getLocation());
+
+   // draw the possible moves
+   if (posSelect.isValid())
+   {
+      set<Move> possible = (*this)[posSelect].getMoves(*this);
+      for (auto it = possible.begin(); it != possible.end(); it++)
+         gout.drawPossible(it->getDest().getLocation());
+   }
+
+   //for (int r = 0; r < 8; r++)
+   //   for (int c = 0; c < 8; c++)
+   //      (*pieces[r][c]).display(gout);
+
+}
+
 /***********************************************
  * PLACE PIECE
  * Insert a piece to the board, deleting whatever was in its place
@@ -68,11 +103,12 @@ void Board::free()
  * SQUARE BRACKET OPERATOR
  * Find a piece at a given index
  ************************************************/
-Piece& Board::operator[](Position & pos)
+Piece& Board::operator[](const Position & pos)
 {
    return *pieces[pos.getRow()][pos.getCol()];
 }
-const Piece& Board::operator[](Position & pos) const
+
+const Piece& Board::operator[](const Position & pos) const
 {
    return *pieces[pos.getRow()][pos.getCol()];
 }

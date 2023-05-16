@@ -10,6 +10,7 @@
 #pragma once
 
 #include "piece.h"
+#include "pawn.h"
 #include "space.h"
 #include "king.h"
 #include "uiDraw.h"
@@ -30,20 +31,20 @@ class Board
 private:
    Piece* pieces[8][8];
    int currentMove;
-   //ogstream gout;
+   ogstream gout;
 
 public:
    Board();
-   Board(Piece* boardTemplate[NUM_ROWS][NUM_COLS]);
+   //Board(Piece* boardTemplate[NUM_ROWS][NUM_COLS]);
    void placePiece(Piece* piece);
-   Piece& operator[](Position & pos);
-   const Piece& operator[](Position & pos) const;
+   Piece& operator[](const Position & pos);
+   const Piece& operator[](const Position & pos) const;
    void setToEmpty();
    const int getCurrentMove() const { return currentMove; }
-   //bool whiteTurn() { return currentMove % 2; }
-   //void display(Position posHover, Position posSelect);
+   bool whiteTurn() { return currentMove % 2; }
+   void display(const Position& posHover, const Position& posSelect);
    void free();
-   //void reset();
+   void reset();
    //void move(Move move);
    //void operator=(Piece piece);
    //void swap(Position pos1, Position pos2);
