@@ -24,6 +24,6 @@ public:
    Rook() : Piece() { }
    Rook(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const char getLetter() const { return 'r'; }
-   //void display(ogstream gout);
+   void display(ogstream& gout) { gout.drawRook(position.getLocation(), !fWhite); }
    set<Move> getMoves(const Board& board) { return set<Move>(); }
 };

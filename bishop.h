@@ -12,10 +12,15 @@
 #include "piece.h"
 
  /*********************************************
-  * BISHOP
+  * BISHOPS
   * The resident clergy
   *********************************************/
-//class Bishop : public Piece
-//{
-//
-//};
+class Bishop : public Piece
+{
+public:
+   Bishop() : Piece() { }
+   Bishop(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
+   const char getLetter() const { return 'r'; }
+   void display(ogstream& gout) { gout.drawBishop(position.getLocation(), !fWhite); }
+   set<Move> getMoves(const Board& board) { return set<Move>(); }
+};

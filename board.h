@@ -13,14 +13,16 @@
 #include "pawn.h"
 #include "space.h"
 #include "king.h"
+#include "rook.h"
+#include "knight.h"
+#include "bishop.h"
+#include "queen.h"
 #include "uiDraw.h"
 
 const int NUM_ROWS = 8;
 const int NUM_COLS = 8;
 
 class Piece;
-
-extern Piece* STANDARD_BOARD[NUM_ROWS][NUM_COLS];
 
 /*********************************************
  * BOARD
@@ -35,7 +37,6 @@ private:
 
 public:
    Board();
-   //Board(Piece* boardTemplate[NUM_ROWS][NUM_COLS]);
    void placePiece(Piece* piece);
    Piece& operator[](const Position & pos);
    const Piece& operator[](const Position & pos) const;

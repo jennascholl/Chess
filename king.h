@@ -25,6 +25,6 @@ public:
    King() : Piece() { }
    King(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const char getLetter() const { return 'k'; }
-   //void display(ogstream gout);
+   void display(ogstream& gout) { gout.drawKing(position.getLocation(), !fWhite); }
    set<Move> getMoves(const Board & board);
 };

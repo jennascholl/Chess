@@ -25,7 +25,7 @@ public:
    Pawn() : Piece() { }
    Pawn(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const char getLetter() const { return 'p'; }
-   //void display(ogstream gout);
+   void display(ogstream& gout) { gout.drawPawn(position.getLocation(), !fWhite); }
    set<Move> getMoves(const Board & board);
 
 

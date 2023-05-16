@@ -9,17 +9,18 @@
 
 #pragma once
 
-//#include "piece.h"
-//
-///*********************************************
-// * QUEEN
-// * The most powerful piece in the game
-// *********************************************/
-//class Queen : public Piece
-//{
-//public:
-//   Queen(Position pos, bool isWhite);
-//   char getLetter();
-//   void display(ogstream gout);
-//   set<Move> getMoves(Board board);
-//};
+#include "piece.h"
+
+/*********************************************
+ * QUEEN
+ * The most powerful piece in the game
+ *********************************************/
+class Queen : public Piece
+{
+public:
+   Queen() : Piece() { }
+   Queen(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
+   const char getLetter() const { return 'q'; }
+   void display(ogstream& gout) { gout.drawQueen(position.getLocation(), !fWhite); }
+   set<Move> getMoves(const Board& board) { return set<Move>(); }
+};

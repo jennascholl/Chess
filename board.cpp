@@ -1,30 +1,12 @@
 #include "board.h"
 
-Piece* STANDARD_BOARD[NUM_ROWS][NUM_COLS] =
-{
-   { &Space(Position(0, 0)), &Space(Position(0, 1)), &Space(Position(0, 2)), &Space(Position(0, 3)), &King(Position(0, 4), false), &Space(Position(0, 5)), &Space(Position(0, 6)), &Space(Position(0, 7)) },
-   { &Space(Position(1, 0)), &Space(Position(1, 1)), &Space(Position(1, 2)), &Space(Position(1, 3)), &Space(Position(1, 4)), &Space(Position(1, 5)), &Space(Position(1, 6)), &Space(Position(1, 7)) },
-   { &Space(Position(2, 0)), &Space(Position(2, 1)), &Space(Position(2, 2)), &Space(Position(2, 3)), &Space(Position(2, 4)), &Space(Position(2, 5)), &Space(Position(2, 6)), &Space(Position(2, 7)) },
-   { &Space(Position(3, 0)), &Space(Position(3, 1)), &Space(Position(3, 2)), &Space(Position(3, 3)), &Space(Position(3, 4)), &Space(Position(3, 5)), &Space(Position(3, 6)), &Space(Position(3, 7)) },
-   { &Space(Position(4, 0)), &Space(Position(4, 1)), &Space(Position(4, 2)), &Space(Position(4, 3)), &Space(Position(4, 4)), &Space(Position(4, 5)), &Space(Position(4, 6)), &Space(Position(4, 7)) },
-   { &Space(Position(5, 0)), &Space(Position(5, 1)), &Space(Position(5, 2)), &Space(Position(5, 3)), &Space(Position(5, 4)), &Space(Position(5, 5)), &Space(Position(5, 6)), &Space(Position(5, 7)) },
-   { &Space(Position(6, 0)), &Space(Position(6, 1)), &Space(Position(6, 2)), &Space(Position(6, 3)), &Space(Position(6, 4)), &Space(Position(6, 5)), &Space(Position(6, 6)), &Space(Position(6, 7)) },
-   { &Space(Position(7, 0)), &Space(Position(7, 1)), &Space(Position(7, 2)), &Space(Position(7, 3)), &Space(Position(7, 4)), &Space(Position(7, 5)), &Space(Position(7, 6)), &Space(Position(7, 7)) }
-};
-
 /***********************************************
  * DEFAULT CONSTRUCTOR
  * Create a standard board
  ************************************************/
 Board::Board() : currentMove(0)
 {
-   for (int r = 0; r < NUM_ROWS; r++)
-   {
-      for (int c = 0; c < NUM_COLS; c++)
-      {
-         pieces[r][c] = STANDARD_BOARD[r][c];
-      }
-   }
+   reset();
 }
 
 void Board::reset()
@@ -38,6 +20,26 @@ void Board::reset()
       pieces[1][c] = new Pawn(Position(1, c), true);
       pieces[6][c] = new Pawn(Position(6, c), false);
    }
+
+   // white side
+   pieces[0][0] = new Rook(Position(0, 0), true);
+   pieces[0][1] = new Knight(Position(0, 1), true);
+   pieces[0][2] = new Bishop(Position(0, 2), true);
+   pieces[0][3] = new Queen(Position(0, 3), true);
+   pieces[0][4] = new King(Position(0, 4), true);
+   pieces[0][5] = new Bishop(Position(0, 5), true);
+   pieces[0][6] = new Knight(Position(0, 6), true);
+   pieces[0][7] = new Rook(Position(0, 7), true);
+
+   // black side
+   pieces[7][0] = new Rook(Position(7, 0), false);
+   pieces[7][1] = new Knight(Position(7, 1), false);
+   pieces[7][2] = new Bishop(Position(7, 2), false);
+   pieces[7][3] = new Queen(Position(7, 3), false);
+   pieces[7][4] = new King(Position(7, 4), false);
+   pieces[7][5] = new Bishop(Position(7, 5), false);
+   pieces[7][6] = new Knight(Position(7, 6), false);
+   pieces[7][7] = new Rook(Position(7, 7), false);
 
    currentMove = 0;
 }
@@ -56,15 +58,15 @@ void Board::display(const Position& posHover, const Position& posSelect)
          gout.drawPossible(it->getDest().getLocation());
    }
 
-   //for (int r = 0; r < 8; r++)
-   //   for (int c = 0; c < 8; c++)
-   //      (*pieces[r][c]).display(gout);
+   for (int r = 0; r < 8; r++)
+      for (int c = 0; c < 8; c++)
+         pieces[r][c]->display(gout);
 
 }
 
 /***********************************************
- * PLACE PIECE
- * Insert a piece to the board, deleting whatever was in its place
+ * SET TO EMPTY
+ * Set every spot on the board to a space
  ************************************************/
 void Board::setToEmpty()
 {

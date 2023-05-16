@@ -21,6 +21,6 @@ public:
    Space() : Piece() { }
    Space(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const char getLetter() const { return ' '; }
-   //void display(ogstream gout);
+   void display(ogstream& gout) { };
    set<Move> getMoves(const Board & board) { return set<Move>(); }
 };

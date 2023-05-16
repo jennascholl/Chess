@@ -1,6 +1,7 @@
 #pragma once
 
 #include "move.h"
+#include "uiDraw.h"
 
 #include <set>
 #include <array>
@@ -28,8 +29,7 @@ public:
    const int getNMoves() const { return numMoves; }
    Position getPosition() { return position; }
    const bool justMoved(int move) const { return move - lastMove <= 2; }
-   //virtual type getType() = 0;
-   //virtual void display(ogstream gout) = 0;
+   virtual void display(ogstream& gout) = 0;
    virtual const char getLetter() const = 0;
    virtual set<Move> getMoves(const Board& board) = 0;
    set<Move>  getMovesNoSlide(const Board& board, array<Delta, 8> deltas);

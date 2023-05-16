@@ -48,6 +48,7 @@ private:
 public:
    // constructors
    Position() : location(0) { }
+   Position(int location);
    Position(int r, int c);
    Position(const Position& position, const Delta& delta) { set(position.getRow() + delta.y, position.getCol() + delta.x); }
 
@@ -62,7 +63,7 @@ public:
    //void adjustRow(int dRow);
    //void adjustCol(int dCol);
 
-   bool isValid() { return 0 <= location && location < 64; }
+   bool const isValid() const { return 0 <= location && location < 64; }
    bool operator==(Position rhs) { return location == rhs.location; }
    void operator=(Position rhs) { location = rhs.location; }
    // void operator+(Delta rhs);
