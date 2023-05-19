@@ -342,8 +342,8 @@ void callBack(Interface *pUI, void * p)
       set<Move> possible = (*board)[previousPosition].getMoves(*board);
 
       auto it = possible.find(move);
-      //if (it != possible.end())
-      //   board.move(*it);
+      if (it != possible.end())
+        (*board).move(*it);
 
       pUI->clearSelectPosition();
       pUI->clearPreviousPosition();

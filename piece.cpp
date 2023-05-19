@@ -2,6 +2,21 @@
 #include "board.h"
 
 /******************************************************************************
+ * BOARD : = Operator
+ * Update position for Pieces.
+ ******************************************************************************/
+void Piece::operator=(Position pos)
+{
+    this->numMoves++;
+
+    //Update pointer position. 
+    (*this).position == pos;
+   
+    //How set last move?
+}
+
+
+/******************************************************************************
  * PIECE : GET MOVES NO SLIDE
  * Returns possible moves without sliding
  ******************************************************************************/

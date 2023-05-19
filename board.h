@@ -46,8 +46,8 @@ public:
    void display(const Position& posHover, const Position& posSelect);
    void free();
    void reset();
-   //void move(Move move);
+   void move(Move move);
    //void operator=(Piece piece);
-   //void swap(Position pos1, Position pos2);
+   void swap(Position pos1, Position pos2);
    //void assertBoard();
 };

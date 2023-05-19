@@ -1,4 +1,6 @@
 #include "board.h"
+using namespace std;
+
 
 /***********************************************
  * DEFAULT CONSTRUCTOR
@@ -8,6 +10,7 @@ Board::Board() : currentMove(0)
 {
    reset();
 }
+
 
 void Board::reset()
 {
@@ -100,6 +103,51 @@ void Board::free()
    for (auto & piece : pieces)
       delete *piece;
 }
+
+/***********************************************
+ * Move
+ * Move the desired pieces in board.
+ ************************************************/
+void Board::move(Move move)
+{
+    //Move has source and destination. Switch places?  
+    Position src = move.getSrc();
+    int srcR = src.getRow();
+    int srcC = src.getCol();
+
+
+    Position dest = move.getDest();
+    Position storePos = move.getDest();
+
+    int destR = dest.getRow();
+    int destC = dest.getCol();
+
+    //update piece location to destination // Can't find way to update it?
+    swap(src, dest);
+    
+}
+
+/****************************************
+*  SWAP
+*  Swap pieces at locations. 
+*****************************************/
+
+void Board::swap(Position pos1, Position pos2)
+{
+
+    //Swap Pieces
+    Piece* p = (*this).pieces[pos1.getRow()][pos1.getCol()];
+    (*this).pieces[pos1.getRow()][pos1.getCol()] = (*this).pieces[pos2.getRow()][pos2.getCol()];
+    (*this).pieces[pos2.getRow()][pos2.getCol()] = p;
+
+    //Swap pointers?
+    Position storePos = pos1;
+    (*pieces[pos1.getRow()][pos1.getCol()]) = pos2;
+    (*pieces[pos2.getRow()][pos2.getCol()]) = storePos;
+
+}
+
+
 
 /***********************************************
  * SQUARE BRACKET OPERATOR

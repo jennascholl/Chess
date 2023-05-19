@@ -22,7 +22,7 @@ public:
    Piece() : position(Position(0, 0)), 
              fWhite(true), numMoves(0), lastMove(0) { }
    Piece(Position pos, bool isWhite) : position(pos), fWhite(isWhite) { numMoves = 0; lastMove = 0; }
-   //void operator=(Position pos);
+   void operator=(Position pos);
    //void operator=(Piece piece);
    const bool isWhite() const { return fWhite; }
    const bool isMoved() const { return numMoves; }
