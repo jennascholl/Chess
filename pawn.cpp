@@ -15,12 +15,12 @@ set<Move> Pawn::getMoves(const Board& board)
 	if (posMove.isValid() && board[posMove].getLetter() == ' ')
 	{
 		move.setSrc(getPosition());
-		move.setDest(posMove);
+		move.setDes(posMove);
 		move.setWhiteMove(isWhite());
 
 		if (posMove.getRow() == 7 || posMove.getRow() == 0)
 		{
-			move.setPromotion();
+			move.setPromote();
 		}		
 		moves.insert(move);
 	}
@@ -33,7 +33,7 @@ set<Move> Pawn::getMoves(const Board& board)
 		if (board[posMove].getLetter() == ' ' && board[posCheck].getLetter() == ' ')
 		{
 			move.setSrc(getPosition());
-			move.setDest(posMove);
+			move.setDes(posMove);
 			move.setWhiteMove(isWhite());
 			moves.insert(move);
 		}
@@ -48,12 +48,12 @@ set<Move> Pawn::getMoves(const Board& board)
 		if (posMove.isValid() && board[posMove].getLetter() != ' ' && board[posMove].isWhite() != isWhite())
 		{
 			move.setSrc(getPosition());
-			move.setDest(posMove);
+			move.setDes(posMove);
 			move.setWhiteMove(isWhite());
 			move.setCapture(board[posMove].getLetter());
 			if (posMove.getRow() == 7 || posMove.getRow() == 0)
 			{
-				move.setPromotion();
+				move.setPromote();
 			}
 			moves.insert(move);
 		}
@@ -70,10 +70,10 @@ set<Move> Pawn::getMoves(const Board& board)
 			board[posKill].getNMoves() == 1 && board[posKill].justMoved(board.getCurrentMove()))
 		{
 			move.setSrc(getPosition());
-			move.setDest(posMove);
+			move.setDes(posMove);
 			move.setWhiteMove(isWhite());
 			move.setCapture(board[posKill].getLetter());
-			move.setEnpassant();
+			move.setEnPassant();
 			moves.insert(move);
 		}
 	}

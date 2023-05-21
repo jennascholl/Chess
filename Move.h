@@ -30,6 +30,8 @@ public:
 	const Position& getSrc() const { return source; }
 	PieceType getPromotion() const { return piece; }
 	PieceType getCapture() const { return capture; }
+
+
 	bool getEnPassant() const { return enpassant; }
 	bool getCastleK() const { return castleK; }
 	bool getCastleQ() const { return castleQ; }

@@ -337,7 +337,7 @@ void callBack(Interface *pUI, void * p)
    if (previousPosition.isValid() && selectPosition.isValid())
    {
       move.setSrc(previousPosition);
-      move.setDest(selectPosition);
+      move.setDes(selectPosition);
 
       set<Move> possible = (*board)[previousPosition].getMoves(*board);
 

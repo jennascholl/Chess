@@ -58,7 +58,7 @@ void Board::display(const Position& posHover, const Position& posSelect)
    {
       set<Move> possible = (*this)[posSelect].getMoves(*this);
       for (auto it = possible.begin(); it != possible.end(); it++)
-         gout.drawPossible(it->getDest().getLocation());
+         gout.drawPossible(it->getDes().getLocation());
    }
 
    for (int r = 0; r < 8; r++)
@@ -116,8 +116,8 @@ void Board::move(Move move)
     int srcC = src.getCol();
 
 
-    Position dest = move.getDest();
-    Position storePos = move.getDest();
+    Position dest = move.getDes();
+    Position storePos = move.getDes();
 
     int destR = dest.getRow();
     int destC = dest.getCol();

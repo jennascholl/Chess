@@ -43,7 +43,7 @@ set<Move> King::getMoves(const Board& board)
         // add castling to the possible moves
          Move move;
          move.setSrc(getPosition());
-         move.setDest(posMove);
+         move.setDes(posMove);
          move.setWhiteMove(isWhite());
          move.setCastleK();
          moves.insert(move);
@@ -68,7 +68,7 @@ set<Move> King::getMoves(const Board& board)
          // add castling to the possible moves
          Move move;
          move.setSrc(getPosition());
-         move.setDest(posMove);
+         move.setDes(posMove);
          move.setWhiteMove(isWhite());
          move.setCastleK();
          moves.insert(move);
