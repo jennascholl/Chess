@@ -22,5 +22,5 @@ public:
    Knight(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const PieceType & getType() const { return KNIGHT; }
    void display(ogstream& gout) { gout.drawKnight(position.getLocation(), !fWhite); }
-   set<Move> getMoves(const Board& board) { return set<Move>(); }
+   set<Move> getMoves(const Board& board);
 };

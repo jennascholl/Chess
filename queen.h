@@ -22,5 +22,5 @@ public:
    Queen(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const PieceType & getType() const { return QUEEN; }
    void display(ogstream& gout) { gout.drawQueen(position.getLocation(), !fWhite); }
-   set<Move> getMoves(const Board& board) { return set<Move>(); }
+   set<Move> getMoves(const Board& board);
 };

@@ -22,5 +22,5 @@ public:
    Bishop(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const PieceType & getType() const { return BISHOP; }
    void display(ogstream& gout) { gout.drawBishop(position.getLocation(), !fWhite); }
-   set<Move> getMoves(const Board& board) { return set<Move>(); }
+   set<Move> getMoves(const Board& board);
 };

@@ -131,7 +131,6 @@ void Board::move(Move move)
 *  SWAP
 *  Swap pieces at locations. 
 *****************************************/
-
 void Board::swap(Position pos1, Position pos2)
 {
 
