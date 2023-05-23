@@ -17,15 +17,15 @@ set<Move> King::getMoves(const Board& board)
    set<Move> moves;
 
    // all the possible ways the king could move
-   array<Delta, 8> delta =
+   const Delta delta[] =
    {
-      Delta(-1, 1),  Delta(0, 1),  Delta(1, 1),
-      Delta(-1, 0),                Delta(1, 0),
-      Delta(-1, -1), Delta(0, -1), Delta(1, -1)
+      {-1, 1 }, {0, 1 }, {1, 1},
+      {-1, 0 },          {1, 0},
+      {-1, -1}, {0, -1}, {1, -1}
    };
 
    // make a set of valid moves using the deltas
-   moves = getMovesNoSlide(board, delta);
+   moves = getMovesNoSlide(board, delta, 8);
 
    // king's castle
    if (!isMoved())
@@ -35,9 +35,9 @@ set<Move> King::getMoves(const Board& board)
       Position posRook(position.getRow(), 7);
 
       // if the space between king and rook is empty and neither have moved
-      if (board[posMove].getLetter() == ' '
-         && board[posSpace].getLetter() == ' '
-         && board[posRook].getLetter() == 'r'
+      if (board[posMove].getType() == SPACE
+         && board[posSpace].getType() == SPACE
+         && board[posRook].getType() == ROOK
          && board[posRook].isMoved() == false)
       {
         // add castling to the possible moves
@@ -45,7 +45,7 @@ set<Move> King::getMoves(const Board& board)
          move.setSrc(getPosition());
          move.setDes(posMove);
          move.setWhiteMove(isWhite());
-         move.setCastleK();
+         move.setCastle(true);
          moves.insert(move);
       }
    }
@@ -59,10 +59,10 @@ set<Move> King::getMoves(const Board& board)
       Position posRook(position.getRow(), 0);
 
       // if the space between king and rook is empty and neither have moved
-      if (board[posMove].getLetter() == ' '
-         && board[posSpace1].getLetter() == ' '
-         && board[posRook].getLetter() == 'r'
-         && board[posSpace2].getLetter() == ' '
+      if (board[posMove].getType() == SPACE
+         && board[posSpace1].getType() == SPACE
+         && board[posRook].getType() == ROOK
+         && board[posSpace2].getType() == SPACE
          && board[posRook].isMoved() == false)
       {
          // add castling to the possible moves
@@ -70,7 +70,7 @@ set<Move> King::getMoves(const Board& board)
          move.setSrc(getPosition());
          move.setDes(posMove);
          move.setWhiteMove(isWhite());
-         move.setCastleK();
+         move.setCastle(false);
          moves.insert(move);
       }
    }

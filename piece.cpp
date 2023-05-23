@@ -20,26 +20,27 @@ void Piece::operator=(Position pos)
  * PIECE : GET MOVES NO SLIDE
  * Returns possible moves without sliding
  ******************************************************************************/
-set<Move> Piece::getMovesNoSlide(const Board & board, array<Delta, 8> deltas)
+set<Move> Piece::getMovesNoSlide(const Board& board, const Delta deltas[], int numDeltas) const
 {
    set<Move> moves;
-   for (auto & delta : deltas)
+
+   for (int i = 0; i < numDeltas; i++)
    {
-      Position posMove(position, delta);
+      Position posMove(position, deltas[i]);
 
       if (posMove.isValid())
       {
          // if the spot is a piece of the opposite color or a space, add to moves
          if (board[posMove].isWhite() != isWhite() 
-            || board[posMove].getLetter() == ' ')
+            || board[posMove].getType() == SPACE)
          {
             Move move;
             move.setSrc(getPosition());
-            move.setDest(posMove);
+            move.setDes(posMove);
             move.setWhiteMove(isWhite());
-            if (board[posMove].getLetter() != ' ')
+            if (board[posMove].getType() != SPACE)
             {
-               move.setCapture(board[posMove].getLetter());
+               move.setCapture(board[posMove].getType());
             }
             moves.insert(move);
          }
@@ -52,32 +53,33 @@ set<Move> Piece::getMovesNoSlide(const Board & board, array<Delta, 8> deltas)
  * PIECE : GET MOVES SLIDE
  * Returns all the possible moves with sliding
  ******************************************************************************/
-set<Move> Piece::getMovesSlide(const Board& board, array<Delta, 8> deltas)
+set<Move> Piece::getMovesSlide(const Board& board, const Delta deltas[], int numDeltas) const
 {
    set<Move> moves;
-   for (Delta delta : deltas)
+
+   for (int i = 0; i < numDeltas; i++)
    {
-      Position posMove(position, delta);
+      Position posMove(position, deltas[i]);
       // while there are no other pieces and we're still on the board, keep sliding
-      while (posMove.isValid() && board[posMove].getLetter() == ' ')
+      while (posMove.isValid() && board[posMove].getType() == SPACE)
       {
          Move move;
          move.setSrc(getPosition());
-         move.setDest(posMove);
+         move.setDes(posMove);
          move.setWhiteMove(isWhite());
          moves.insert(move);
          // adjust the position we're moving to
-         posMove = Position(posMove.getRow() + delta.y, posMove.getCol() + delta.x);
+         posMove = Position(posMove.getRow() + deltas[i].dCol, posMove.getCol() + deltas[i].dRow);
       }
 
       // if we encounter a piece of the opposite color, add the capture to moves
-      if (posMove.isValid() && board[posMove].isWhite() != fWhite && board[posMove].getLetter() != ' ')
+      if (posMove.isValid() && board[posMove].isWhite() != fWhite && board[posMove].getType() != SPACE)
       {
          Move move;
          move.setSrc(getPosition());
-         move.setDest(posMove);
+         move.setDes(posMove);
          move.setWhiteMove(isWhite());
-         move.setCapture(board[position].getLetter());
+         move.setCapture(board[position].getType());
          moves.insert(move);
       }
    }

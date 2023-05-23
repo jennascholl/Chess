@@ -5,22 +5,26 @@ using namespace std;
 
 // set default constructor
 
+/******************************************************************************
+ * PAWN : GET MOVES
+ * Returns all the possible moves of the pawn
+ ******************************************************************************/
 set<Move> Pawn::getMoves(const Board& board)
 {
 	set<Move> moves;
-	Position posMove(getPosition(), isWhite() ? Delta(0, 1) : Delta(0, -1));
-	Move move;
+	Position posMove(getPosition(), isWhite() ? Delta({ 1, 0 }) : Delta({ -1, 0 }));
 
 	// move one space
-	if (posMove.isValid() && board[posMove].getLetter() == ' ')
+	if (posMove.isValid() && board[posMove].getType() == SPACE)
 	{
+		Move move;
 		move.setSrc(getPosition());
 		move.setDes(posMove);
 		move.setWhiteMove(isWhite());
 
-		if (posMove.getRow() == 7 || posMove.getRow() == 0)
+		if (posMove.getRow() == (isWhite() ? 7 : 0))
 		{
-			move.setPromote();
+			move.setPromote(KING);
 		}		
 		moves.insert(move);
 	}
@@ -30,8 +34,10 @@ set<Move> Pawn::getMoves(const Board& board)
 	{
 		Position posMove(isWhite() ? 3 : 4, getPosition().getCol());
 		Position posCheck(isWhite() ? 2 : 5, getPosition().getCol());
-		if (board[posMove].getLetter() == ' ' && board[posCheck].getLetter() == ' ')
+
+		if (board[posMove].getType() == SPACE && board[posCheck].getType() == SPACE)
 		{
+			Move move;
 			move.setSrc(getPosition());
 			move.setDes(posMove);
 			move.setWhiteMove(isWhite());
@@ -45,15 +51,16 @@ set<Move> Pawn::getMoves(const Board& board)
 	for (auto i : values)
 	{
 		Position posMove(position.getRow() + (isWhite() ? 1 : -1), position.getCol() + i);
-		if (posMove.isValid() && board[posMove].getLetter() != ' ' && board[posMove].isWhite() != isWhite())
+		if (posMove.isValid() && board[posMove].getType() != SPACE && board[posMove].isWhite() != isWhite())
 		{
+			Move move;
 			move.setSrc(getPosition());
 			move.setDes(posMove);
 			move.setWhiteMove(isWhite());
-			move.setCapture(board[posMove].getLetter());
+			move.setCapture(board[posMove].getType());
 			if (posMove.getRow() == 7 || posMove.getRow() == 0)
 			{
-				move.setPromote();
+				move.setPromote(KING);
 			}
 			moves.insert(move);
 		}
@@ -65,14 +72,15 @@ set<Move> Pawn::getMoves(const Board& board)
 		Position posMove(position.getRow() + (isWhite() ? 1 : -1), position.getCol() + i);
 		Position posKill(position.getRow(), position.getCol() + i);
 
-		if (posMove.isValid() && (position.getRow() == (isWhite() ? 3 : 4)) && board[posMove].getLetter() == ' ' &&
-			board[posKill].getLetter() == 'p' && board[posKill].isWhite() != isWhite() &&
+		if (posMove.isValid() && (position.getRow() == (isWhite() ? 3 : 4)) && board[posMove].getType() == SPACE &&
+			board[posKill].getType() == PAWN && board[posKill].isWhite() != isWhite() &&
 			board[posKill].getNMoves() == 1 && board[posKill].justMoved(board.getCurrentMove()))
 		{
+			Move move;
 			move.setSrc(getPosition());
 			move.setDes(posMove);
 			move.setWhiteMove(isWhite());
-			move.setCapture(board[posKill].getLetter());
+			move.setCapture(board[posKill].getType());
 			move.setEnPassant();
 			moves.insert(move);
 		}

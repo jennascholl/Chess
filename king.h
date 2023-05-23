@@ -24,7 +24,7 @@ class King : public Piece
 public:
    King() : Piece() { }
    King(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
-   const char getLetter() const { return 'k'; }
+   const PieceType & getType() const { return KING; }
    void display(ogstream& gout) { gout.drawKing(position.getLocation(), !fWhite); }
    set<Move> getMoves(const Board & board);
 };

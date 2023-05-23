@@ -18,6 +18,20 @@ class MoveTest;
 ***************************************************/
 class Move
 {
+private:
+	void read(const std::string& s);
+	char letterFromPieceType(PieceType pt) const;
+	PieceType pieceTypeFromLetter(char letter) const;
+	Position source; // where the move originated from
+	Position dest; // where the move finished
+	PieceType piece; // piece to be promoted to
+	PieceType capture; // did a capture happen this move?
+	bool enpassant; // Enpassant pawn capture
+	bool castleK; // kingside castle
+	bool castleQ; // queenside castle
+	bool isWhite; // white's move?
+	string error; // if in error state, what was the bug?
+
 public:
 	friend MoveTest;
 	// constructor
@@ -74,19 +88,6 @@ public:
 		read(str);
 		return *this;
 	}
-private:
-	void read(const std::string& s);
-	char letterFromPieceType(PieceType pt) const;
-	PieceType pieceTypeFromLetter(char letter) const;
-	Position source; // where the move originated from
-	Position dest; // where the move finished
-	PieceType piece; // piece to be promoted to
-	PieceType capture; // did a capture happen this move?
-	bool enpassant; // Enpassant pawn capture
-	bool castleK; // kingside castle
-	bool castleQ; // queenside castle
-	bool isWhite; // white's move?
-	string error; // if in error state, what was the bug?
 };
 
 

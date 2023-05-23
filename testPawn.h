@@ -74,6 +74,7 @@ private:
 
 		// verify
 		assert(moves.size() == 1);
+		moves.begin()->getText();
 		assert(moves.find(Move("d4d5")) != moves.end());
 		assert(p->fWhite);
 		assert(p->lastMove == 0);
@@ -168,7 +169,7 @@ private:
 
 		// exercise
 		set <Move> moves = p->getMoves(*testBoard);
-
+		moves.rbegin()->getText();
 
 		// verify
 		assert(moves.size() == 2);

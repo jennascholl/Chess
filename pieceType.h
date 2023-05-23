@@ -1,6 +1,13 @@
+/***********************************************************************
+ * Header File:
+ *    PIECE TYPE : what type of piece are we working with?
+ * Author:
+ *    Br. Helfrich
+ * Summary:
+ *    Just an enumeration of a piece type. Nothing fancy
+ ************************************************************************/
+
+
 #pragma once
-class PieceType
-{
-	//Do I put space in here
-	enum type {PAWN, ROOK, BISHOP, KING, QUEEN, KNIGHT};
-};
+
+enum PieceType { SPACE, KING, QUEEN, ROOK, BISHOP, KNIGHT, PAWN };

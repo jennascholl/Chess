@@ -23,7 +23,7 @@ class Rook : public Piece
 public:
    Rook() : Piece() { }
    Rook(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
-   const char getLetter() const { return 'r'; }
+   const PieceType & getType() const { return ROOK; }
    void display(ogstream& gout) { gout.drawRook(position.getLocation(), !fWhite); }
    set<Move> getMoves(const Board& board) { return set<Move>(); }
 };

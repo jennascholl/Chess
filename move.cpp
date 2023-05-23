@@ -29,11 +29,11 @@ Move::Move() :
 void Move::complete(const Board& board)
 {
     // set the capture
-    capture = board[dest].getLetter();
+    capture = board[dest].getType();
     // set the color
     isWhite = board[source].isWhite();
     // handle if this is an en-passant
-    if (capture == SPACE && board[source] == PAWN)
+    if (capture == SPACE && board[source].getType() == PAWN)
         enpassant = true;
 }
 /***********************************************
