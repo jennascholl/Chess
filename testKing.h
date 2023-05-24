@@ -63,6 +63,8 @@ private:
       Board* testBoard = new Board();
       testBoard->setToEmpty();
       testBoard->placePiece(k);
+      
+      //testBoard += k;
 
       // exercise
       set<Move> moves = k->getMoves(*testBoard);

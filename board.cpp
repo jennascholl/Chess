@@ -176,3 +176,15 @@ void Board::operator -= (Piece* piece)
 
     pieces[r][c] = space;
 }
+
+/***********************************************
+ * ADD OPERATOR
+ * Replace a piece with a space, deleting whatever was in its place
+ ************************************************/
+void Board::operator+=(Piece* piece)
+{
+    int r = piece->getPosition().getRow();
+    int c = piece->getPosition().getCol();
+
+    pieces[r][c] = piece;
+}

@@ -49,6 +49,7 @@ public:
    void move(Move move);
    //void operator=(Piece piece);
    void operator -= (Piece* piece);
+   void operator += (Piece* piece);
    void swap(Position pos1, Position pos2);
    //void assertBoard();
 };
