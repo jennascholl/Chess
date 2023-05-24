@@ -83,18 +83,6 @@ void Board::setToEmpty()
 }
 
 /***********************************************
- * PLACE PIECE
- * Insert a piece to the board, deleting whatever was in its place
- ************************************************/
-void Board::placePiece(Piece* piece)
-{
-   int r = piece->getPosition().getRow();
-   int c = piece->getPosition().getCol();
-
-   pieces[r][c] = piece;
-}
-
-/***********************************************
  * FREE
  * Free up all the memory being used by board
  ************************************************/
@@ -110,21 +98,42 @@ void Board::free()
  ************************************************/
 void Board::move(Move move)
 {
-    //Move has source and destination. Switch places?  
-    Position src = move.getSrc();
-    int srcR = src.getRow();
-    int srcC = src.getCol();
+   Position src = move.getSrc();
+   Position des = move.getDes();
 
+   swap(src, des);    
 
-    Position dest = move.getDes();
-    Position storePos = move.getDes();
+   //check that both moves are valid
+   //check that it's the correct turn
 
-    int destR = dest.getRow();
-    int destC = dest.getCol();
+      // capture
+      //double check the state of the pieces
+      //kill the victim using -=
+      //move the attacker using swap
 
-    //update piece location to destination // Can't find way to update it?
-    swap(src, dest);
-    
+      // enpassant
+      //double check the state of the pawns
+      //kill the other pawn using -=
+      //move the pawn using swap
+
+      // promote
+      //check that we are a pawnand in the last row
+      //kill the pawn using -=
+      //add the promoted piece to the board using placePiece
+
+      // king's castle
+      //check that kingand rook are in the right positions
+      //set the row depending on whose move it is
+      //move the kingand the rook using swap(set srcand des manually)
+
+      // queen's castle
+      //check that king and rook are in the right positions
+      //set the row depending on whose move it is
+      //move the kingand the rook using swap(set srcand des manually
+
+      // default
+      //double check the state of the piece
+      //move the piece using swap
 }
 
 /****************************************
@@ -133,20 +142,20 @@ void Board::move(Move move)
 *****************************************/
 void Board::swap(Position pos1, Position pos2)
 {
+    // swap the positions
+    (*this)[pos1] = pos2;
+    (*this)[pos2] = pos1;
 
-    //Swap Pieces
-    Piece* p = (*this).pieces[pos1.getRow()][pos1.getCol()];
-    (*this).pieces[pos1.getRow()][pos1.getCol()] = (*this).pieces[pos2.getRow()][pos2.getCol()];
-    (*this).pieces[pos2.getRow()][pos2.getCol()] = p;
+    // swap the pointers
+    Piece* temp = pieces[pos1.getRow()][pos1.getCol()];
+    pieces[pos1.getRow()][pos1.getCol()] = pieces[pos2.getRow()][pos2.getCol()];
+    pieces[pos2.getRow()][pos2.getCol()] = temp;
 
-    //Swap pointers?
-    Position storePos = pos1;
-    (*pieces[pos1.getRow()][pos1.getCol()]) = pos2;
-    (*pieces[pos2.getRow()][pos2.getCol()]) = storePos;
+    // update each piece's last move
+    (*this)[pos1].setLastMove(currentMove);
+    (*this)[pos2].setLastMove(currentMove);
 
 }
-
-
 
 /***********************************************
  * SQUARE BRACKET OPERATOR
@@ -162,6 +171,16 @@ const Piece& Board::operator[](const Position & pos) const
    return *pieces[pos.getRow()][pos.getCol()];
 }
 
+void Board::assertBoard()
+{
+   for (int r = 0; r < NUM_ROWS; r++)
+      for (int c = 0; c < NUM_COLS; c++)
+      {
+         Position piecePos = pieces[r][c]->getPosition();
+         assert(r == piecePos.getRow());
+         assert(c == piecePos.getCol());
+      }
+}
 
 /***********************************************
  * SUBTRACT OPERATOR
@@ -172,9 +191,9 @@ void Board::operator -= (Piece* piece)
     int r = piece->getPosition().getRow();
     int c = piece->getPosition().getCol();
 
-    Space* space;
+    delete pieces[r][c];
 
-    pieces[r][c] = space;
+    pieces[r][c] = &Space();
 }
 
 /***********************************************
@@ -185,6 +204,8 @@ void Board::operator+=(Piece* piece)
 {
     int r = piece->getPosition().getRow();
     int c = piece->getPosition().getCol();
+
+    delete pieces[r][c];
 
     pieces[r][c] = piece;
 }

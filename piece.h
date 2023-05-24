@@ -23,11 +23,13 @@ public:
    Piece() : position(Position(0, 0)), 
              fWhite(true), numMoves(0), lastMove(0) { }
    Piece(Position pos, bool isWhite) : position(pos), fWhite(isWhite) { numMoves = 0; lastMove = 0; }
-   void operator=(Position pos);
-   //void operator=(Piece piece);
+   void operator=(const Position pos);
+   //void operator=(const Piece* piece);
    bool isWhite() const { return fWhite; }
    bool isMoved() const { return numMoves; }
    int getNMoves() const { return numMoves; }
+   int getLastMove() const { return lastMove; }
+   void setLastMove(int currentMove) { lastMove = currentMove; }
    const Position & getPosition() const { return position; }
    bool justMoved(int move) const { return move - lastMove <= 2; }
    virtual void display(ogstream& gout) = 0;

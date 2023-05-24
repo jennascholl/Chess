@@ -62,7 +62,7 @@ private:
 
       Board* testBoard = new Board();
       testBoard->setToEmpty();
-      testBoard->placePiece(k);
+      (*testBoard) += k;
       
       //testBoard += k;
 
@@ -124,15 +124,25 @@ private:
       Pawn* p7 = new Pawn(Position(4, 5), true);
       Pawn* p8 = new Pawn(Position(4, 6), true);
 
-      testBoard->placePiece(k);
-      testBoard->placePiece(p1);
-      testBoard->placePiece(p2);
-      testBoard->placePiece(p3);
-      testBoard->placePiece(p4);
-      testBoard->placePiece(p5);
-      testBoard->placePiece(p6);
-      testBoard->placePiece(p7);
-      testBoard->placePiece(p8);
+      //testBoard->placePiece(k);
+      //testBoard->placePiece(p1);
+      //testBoard->placePiece(p2);
+      //testBoard->placePiece(p3);
+      //testBoard->placePiece(p4);
+      //testBoard->placePiece(p5);
+      //testBoard->placePiece(p6);
+      //testBoard->placePiece(p7);
+      //testBoard->placePiece(p8);
+
+      *testBoard += k;
+      *testBoard += p1;
+      *testBoard += p2;
+      *testBoard += p3;
+      *testBoard += p4;
+      *testBoard += p5;
+      *testBoard += p6;
+      *testBoard += p7;
+      *testBoard += p8;
 
       // exercise
       set<Move> moves = k->getMoves(*testBoard);
@@ -184,15 +194,15 @@ private:
       Pawn* p7 = new Pawn(Position(3, 4), false);
       Pawn* p8 = new Pawn(Position(3, 5), false);
 
-      testBoard->placePiece(k);
-      testBoard->placePiece(p1);
-      testBoard->placePiece(p2);
-      testBoard->placePiece(p3);
-      testBoard->placePiece(p4);
-      testBoard->placePiece(p5);
-      testBoard->placePiece(p6);
-      testBoard->placePiece(p7);
-      testBoard->placePiece(p8);
+      *testBoard += k;
+      *testBoard += p1;
+      *testBoard += p2;
+      *testBoard += p3;
+      *testBoard += p4;
+      *testBoard += p5;
+      *testBoard += p6;
+      *testBoard += p7;
+      *testBoard += p8;
 
       // exercise
       set<Move> moves = k->getMoves(*testBoard);
@@ -249,12 +259,12 @@ private:
       Rook* r1 = new Rook(Position(0, 0), true);
       Rook* r2 = new Rook(Position(0, 7), true);
 
-      testBoard->placePiece(k);
-      testBoard->placePiece(p1);
-      testBoard->placePiece(p2);
-      testBoard->placePiece(p3);
-      testBoard->placePiece(r1);
-      testBoard->placePiece(r2);
+      *testBoard += k;
+      *testBoard += p1;
+      *testBoard += p2;
+      *testBoard += p3;
+      *testBoard += r1;
+      *testBoard += r2;
 
       // exercise
       set<Move> moves = k->getMoves(*testBoard);
@@ -307,12 +317,12 @@ private:
       r1->numMoves = 1;
       r2->numMoves = 1;
 
-      testBoard->placePiece(k);
-      testBoard->placePiece(p1);
-      testBoard->placePiece(p2);
-      testBoard->placePiece(p3);
-      testBoard->placePiece(r1);
-      testBoard->placePiece(r2);
+      *testBoard += k;
+      *testBoard += p1;
+      *testBoard += p2;
+      *testBoard += p3;
+      *testBoard += r1;
+      *testBoard += r2;
 
       // exercise
       set<Move> moves = k->getMoves(*testBoard);
@@ -365,14 +375,14 @@ private:
       Rook* r1 = new Rook(Position(0, 0), true);
       Rook* r2 = new Rook(Position(0, 7), true);
 
-      testBoard->placePiece(k);
-      testBoard->placePiece(p1);
-      testBoard->placePiece(p2);
-      testBoard->placePiece(p3);
-      testBoard->placePiece(p4);
-      testBoard->placePiece(p5);
-      testBoard->placePiece(r1);
-      testBoard->placePiece(r2);
+      *testBoard += k;
+      *testBoard += p1;
+      *testBoard += p2;
+      *testBoard += p3;
+      *testBoard += p4;
+      *testBoard += p5;
+      *testBoard += r1;
+      *testBoard += r2;
 
       // exercise
       set<Move> moves = k->getMoves(*testBoard);
@@ -422,13 +432,15 @@ private:
       Pawn* p3 = new Pawn(Position(1, 5), true);
       Rook* r1 = new Rook(Position(0, 0), true);
       Rook* r2 = new Rook(Position(0, 7), true);
+      r1->numMoves = 0;
+      r2->numMoves = 0;
 
-      testBoard->placePiece(k);
-      testBoard->placePiece(p1);
-      testBoard->placePiece(p2);
-      testBoard->placePiece(p3);
-      testBoard->placePiece(r1);
-      testBoard->placePiece(r2);
+      *testBoard += k;
+      *testBoard += p1;
+      *testBoard += p2;
+      *testBoard += p3;
+      *testBoard += r1;
+      *testBoard += r2;
 
       // exercise
       set<Move> moves = k->getMoves(*testBoard);

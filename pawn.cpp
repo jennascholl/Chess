@@ -24,7 +24,7 @@ set<Move> Pawn::getMoves(const Board& board)
 
 		if (posMove.getRow() == (isWhite() ? 7 : 0))
 		{
-			move.setPromote(KING);
+			move.setPromote(QUEEN);
 		}		
 		moves.insert(move);
 	}
@@ -60,7 +60,7 @@ set<Move> Pawn::getMoves(const Board& board)
 			move.setCapture(board[posMove].getType());
 			if (posMove.getRow() == 7 || posMove.getRow() == 0)
 			{
-				move.setPromote(KING);
+				move.setPromote(QUEEN);
 			}
 			moves.insert(move);
 		}

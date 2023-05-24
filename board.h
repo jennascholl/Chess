@@ -18,6 +18,7 @@
 #include "bishop.h"
 #include "queen.h"
 #include "uiDraw.h"
+#include <cassert>
 
 const int NUM_ROWS = 8;
 const int NUM_COLS = 8;
@@ -37,7 +38,6 @@ private:
 
 public:
    Board();
-   void placePiece(Piece* piece);
    Piece& operator[](const Position & pos);
    const Piece& operator[](const Position & pos) const;
    void setToEmpty();
@@ -51,5 +51,5 @@ public:
    void operator -= (Piece* piece);
    void operator += (Piece* piece);
    void swap(Position pos1, Position pos2);
-   //void assertBoard();
+   void assertBoard();
 };

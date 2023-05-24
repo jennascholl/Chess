@@ -67,7 +67,7 @@ private:
 
 		Board* testBoard = new Board();
 		testBoard->setToEmpty();
-		testBoard->placePiece(p);
+		*testBoard += p;
 
 		// exercise
 		set <Move> moves = p->getMoves(*testBoard);
@@ -118,8 +118,8 @@ private:
 		testBoard->setToEmpty();
 		Pawn* bp = new Pawn(Position(4, 3), false);
 
-		testBoard->placePiece(wp);
-		testBoard->placePiece(bp);
+		*testBoard += wp;
+		*testBoard += bp;
 
 		// exercise
 		set <Move> moves = wp->getMoves(*testBoard);
@@ -165,7 +165,7 @@ private:
 
 		Board* testBoard = new Board();
 		testBoard->setToEmpty();
-		testBoard->placePiece(p);
+		*testBoard += p;
 
 		// exercise
 		set <Move> moves = p->getMoves(*testBoard);
@@ -218,11 +218,10 @@ private:
 		Pawn* bp2 = new Pawn(Position(4, 3), false);
 		Pawn* bp3 = new Pawn(Position(4, 4), false);
 
-
-		testBoard->placePiece(p);
-		testBoard->placePiece(bp1);
-		testBoard->placePiece(bp2);
-		testBoard->placePiece(bp3);
+		*testBoard += p;
+		*testBoard += bp1;
+		*testBoard += bp2;
+		*testBoard += bp3;
 
 		// exercise
 		set <Move> moves = p->getMoves(*testBoard);
@@ -276,11 +275,10 @@ private:
 		bp1->numMoves = 1;
 		bp2->numMoves = 1;
 
-
-		testBoard->placePiece(p);
-		testBoard->placePiece(bp1);
-		testBoard->placePiece(bp2);
-		testBoard->placePiece(bp3);
+		*testBoard += p;
+		*testBoard += bp1;
+		*testBoard += bp2;
+		*testBoard += bp3;
 
 		// exercise
 		set <Move> moves = p->getMoves(*testBoard);
@@ -328,7 +326,7 @@ private:
 
 		Board* testBoard = new Board();
 		testBoard->setToEmpty();
-		testBoard->placePiece(p);
+		*testBoard += p;
 
 		// exercise
 		set <Move> moves = p->getMoves(*testBoard);

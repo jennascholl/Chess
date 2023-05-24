@@ -19,13 +19,14 @@ set<Move> King::getMoves(const Board& board)
    // all the possible ways the king could move
    const Delta delta[] =
    {
-      {-1, 1 }, {0, 1 }, {1, 1},
-      {-1, 0 },          {1, 0},
+      {-1, 1 }, {0, 1 }, {1, 1 },
+      {-1, 0 },          {1, 0 },
       {-1, -1}, {0, -1}, {1, -1}
    };
 
    // make a set of valid moves using the deltas
-   moves = getMovesNoSlide(board, delta, 8);
+   moves = getMovesNoSlide(board,
+      delta, sizeof(delta) / sizeof(delta[0]));
 
    // king's castle
    if (!isMoved())

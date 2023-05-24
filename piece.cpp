@@ -2,19 +2,23 @@
 #include "board.h"
 
 /******************************************************************************
- * BOARD : = Operator
- * Update position for Pieces.
+ * BOARD : ASSIGNMENT OPERATOR - POSITION
+ * Assign a piece to a new position
  ******************************************************************************/
 void Piece::operator=(Position pos)
 {
-    this->numMoves++;
-
-    //Update pointer position. 
-    (*this).position == pos;
-   
-    //How set last move?
+    position = pos;
+    numMoves++;
 }
 
+/******************************************************************************
+ * BOARD : ASSIGNMENT OPERATOR - PIECE
+ * assign a piece to the values of a different piece
+ ******************************************************************************/
+//void Piece::operator=(const Piece* piece)
+//{
+//   *this = piece;
+//}
 
 /******************************************************************************
  * PIECE : GET MOVES NO SLIDE
