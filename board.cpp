@@ -47,6 +47,7 @@ void Board::reset()
    currentMove = 0;
 }
 
+
 void Board::display(const Position& posHover, const Position& posSelect)
 {
    gout.drawBoard();
@@ -98,42 +99,72 @@ void Board::free()
  ************************************************/
 void Board::move(Move move)
 {
-   Position src = move.getSrc();
-   Position des = move.getDes();
+    Position src = move.getSrc(); //Do they need to be pointers?
+    Position des = move.getDes();
+    
+    this->assertBoard();
+    //swap(src, des);   //Default  
 
-   swap(src, des);    
+    //check that both moves are valid
+    //check that it's the correct turn -> check isWhite from src position  / see if match white
+    if ((src.isValid() && des.isValid()) &&
+     pieces[src.getRow()][src.getCol()]->isWhite() == this->whiteTurn())
+    {
 
-   //check that both moves are valid
-   //check that it's the correct turn
+        // capture
+        //double check the state of the pieces
+        //If It's landing on a space, different color, and not a king, then take it.
+        if (pieces[des.getRow()][des.getCol()]->getType() != SPACE
+            && pieces[des.getRow()][des.getCol()]->getType() != KING
+            && pieces[src.getRow()][src.getCol()]->isWhite() !=
+            pieces[des.getRow()][des.getCol()]->isWhite())
+        {
+            //kill the victim using -=
+            //move the attacker using swap
+            *this -= pieces[des.getRow()][des.getCol()];
+            swap(src, des);   //Default
+        }
+        else
+            //if (promote)
+        {
+            swap(src, des);
+        }
+        
+        //if it's a pawn, can capture, and it's on the last row the promote.
+        if (pieces[src.getRow()][src.getCol()]->getType() == PAWN
+            && (des.getRow() == 0 || des.getRow() == 7))
+        {
+            move.getPromotion();
+        }
+        
 
-      // capture
-      //double check the state of the pieces
-      //kill the victim using -=
-      //move the attacker using swap
 
-      // enpassant
-      //double check the state of the pawns
-      //kill the other pawn using -=
-      //move the pawn using swap
+        // enpassant
+            //double check the state of the pawns
+            //kill the other pawn using -=
+            //move the pawn using swap
 
-      // promote
-      //check that we are a pawnand in the last row
-      //kill the pawn using -=
-      //add the promoted piece to the board using placePiece
+        // promote
+        //check that we are a pawnand in the last row
+        //kill the pawn using -=
+        //add the promoted piece to the board using placePiece
 
-      // king's castle
-      //check that kingand rook are in the right positions
-      //set the row depending on whose move it is
-      //move the kingand the rook using swap(set srcand des manually)
+        // king's castle
+        //check that kingand rook are in the right positions
+        //set the row depending on whose move it is
+        //move the kingand the rook using swap(set srcand des manually)
 
-      // queen's castle
-      //check that king and rook are in the right positions
-      //set the row depending on whose move it is
-      //move the kingand the rook using swap(set srcand des manually
+        // queen's castle
+        //check that king and rook are in the right positions
+        //set the row depending on whose move it is
+        //move the kingand the rook using swap(set srcand des manually
 
-      // default
-      //double check the state of the piece
-      //move the piece using swap
+        // default
+        //double check the state of the piece
+        //move the piece using swap
+
+        this->assertBoard();
+   }
 }
 
 /****************************************
@@ -179,7 +210,16 @@ void Board::assertBoard()
          Position piecePos = pieces[r][c]->getPosition();
          assert(r == piecePos.getRow());
          assert(c == piecePos.getCol());
+
+         assert(pieces[r][c]->getType() == SPACE ||
+             pieces[r][c]->getType() == KING ||
+             pieces[r][c]->getType() == QUEEN ||
+             pieces[r][c]->getType() == ROOK ||
+             pieces[r][c]->getType() == BISHOP ||
+             pieces[r][c]->getType() == KNIGHT ||
+             pieces[r][c]->getType() == PAWN);
       }
+
 }
 
 /***********************************************
@@ -193,7 +233,7 @@ void Board::operator -= (Piece* piece)
 
     delete pieces[r][c];
 
-    pieces[r][c] = &Space();
+    pieces[r][c] = new Space(Position(r, c));
 }
 
 /***********************************************
