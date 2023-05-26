@@ -137,17 +137,43 @@ void Board::move(Move move)
             swap(src, des);   //Default
         }
         else
-            //if (promote)
+        //King Castle, make sure each piece is a space between king and rook.
+        if (pieces[src.getRow()][src.getCol()]->getType() == KING
+            && (src.getRow() == 0 || src.getRow() == 7)
+            && src.getCol() == 4 && des.getCol() == 6
+            && pieces[src.getRow()][5]->getType() == SPACE
+            && pieces[src.getRow()][6]->getType() == SPACE
+            && pieces[src.getRow()][7]->getType() == ROOK)
+        {
+            Position RookPos = Position(src.getRow(), 7);
+            Position switchRookPos = Position(src.getRow(), 5);
+            swap(RookPos, switchRookPos);
+
+            Position switchKingPos = Position(src.getRow(), 6);
+            swap(src, switchKingPos);
+        }
+        else
+        //Queen's Castle
+        if (pieces[src.getRow()][src.getCol()]->getType() == KING
+            && (src.getRow() == 0 || src.getRow() == 7)
+            && src.getCol() == 4 && des.getCol() == 2
+            && pieces[src.getRow()][1]->getType() == SPACE
+            && pieces[src.getRow()][2]->getType() == SPACE
+            && pieces[src.getRow()][3]->getType() == SPACE
+            && pieces[src.getRow()][0]->getType() == ROOK)
+        {
+            Position RookPos = Position(src.getRow(), 0);
+            Position switchRookPos = Position(src.getRow(), 3);
+            swap(RookPos, switchRookPos);
+
+            Position switchKingPos = Position(src.getRow(), 2);
+            swap(src, switchKingPos);
+        }
+        else
         {
             swap(src, des);
         }
         
-        //if it's a pawn, can capture, and it's on the last row the promote.
-        if (pieces[src.getRow()][src.getCol()]->getType() == PAWN
-            && (des.getRow() == 0 || des.getRow() == 7))
-        {
-            move.getPromotion();
-        }
         
 
 
