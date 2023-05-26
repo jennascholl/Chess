@@ -110,6 +110,18 @@ void Board::move(Move move)
     if ((src.isValid() && des.isValid()) &&
      pieces[src.getRow()][src.getCol()]->isWhite() == this->whiteTurn())
     {
+        //if it's a pawn, can capture, and it's on the last row the promote.
+        if (pieces[src.getRow()][src.getCol()]->getType() == PAWN
+            && (des.getRow() == 0 || des.getRow() == 7))
+        {
+            move.getPromotion();
+            bool isPawnWhite = pieces[src.getRow()][src.getCol()]->isWhite();
+
+            Queen* queen = new Queen(src, isPawnWhite);
+
+            *this += queen;
+
+        }
 
         // capture
         //double check the state of the pieces
