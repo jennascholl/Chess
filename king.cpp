@@ -1,13 +1,6 @@
 #include "king.h"
 #include "board.h"
 
-//
-//void King::display(ogstream gout)
-//{
-//   //gout.drawKing(position, fWhite);
-//}
-//
-
 /******************************************************************************
  * KING : GET MOVES
  * Returns all the possible moves of the king

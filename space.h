@@ -10,6 +10,7 @@
 #pragma once
 
 #include "piece.h"
+#include <cassert>
 
 /*********************************************
  * SPACE
@@ -22,5 +23,5 @@ public:
    Space(Position pos, bool isWhite = false) : Piece(pos, isWhite) { }
    const PieceType & getType() const { return SPACE; }
    void display(ogstream& gout) { };
-   set<Move> getMoves(const Board & board) { return set<Move>(); }
+   set<Move> getMoves(const Board& board) { return set<Move>(); assert(false); } // a space can't move
 };

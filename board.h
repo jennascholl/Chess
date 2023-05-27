@@ -2,7 +2,7 @@
  * Header File:
  *    Board
  * Author:
- *    Jenna Scholl
+ *    Jenna Scholl & Ashley Offret
  * Summary:
  *    Everything we need to know about the chess board
  ************************************************************************/
@@ -42,7 +42,7 @@ public:
    const Piece& operator[](const Position & pos) const;
    void setToEmpty();
    const int getCurrentMove() const { return currentMove; }
-   bool whiteTurn() { return currentMove % 2; }
+   bool whiteTurn() { return !(currentMove % 2); }
    void display(const Position& posHover, const Position& posSelect);
    void free();
    void reset();

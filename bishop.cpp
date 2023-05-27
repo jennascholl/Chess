@@ -1,5 +1,9 @@
 #include "bishop.h"
 
+/***********************************************
+ * GET MOVES
+ * Get all the possible moves
+ ************************************************/
 set<Move> Bishop::getMoves(const Board& board)
 {
    const Delta delta[] =

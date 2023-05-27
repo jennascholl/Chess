@@ -1,3 +1,12 @@
+/***********************************************************************
+ * Header File:
+ *    Piece
+ * Author:
+ *    Jenna Scholl & Ashley Offret
+ * Summary:
+ *    The base class for every piece in the game
+ ************************************************************************/
+
 #pragma once
 
 #include "move.h"
@@ -11,6 +20,10 @@ using namespace std;
 
 class Board;
 
+/***************************************************
+* PIECE
+* A moving part in the game
+***************************************************/
 class Piece
 {
 protected:
@@ -24,7 +37,6 @@ public:
              fWhite(true), numMoves(0), lastMove(0) { }
    Piece(Position pos, bool isWhite) : position(pos), fWhite(isWhite) { numMoves = 0; lastMove = 0; }
    void operator=(const Position pos);
-   //void operator=(const Piece* piece);
    bool isWhite() const { return fWhite; }
    bool isMoved() const { return numMoves; }
    int getNMoves() const { return numMoves; }

@@ -2,7 +2,7 @@
  * Header File:
  *    Test Pawn : Test the Pawn class
  * Author:
- *    Ashley Offret
+ *    Jenna Scholl & Ashley Offret
  * Summary:
  *    This holds the unit tests for the Pawn class. 
  ************************************************************************/
@@ -35,7 +35,6 @@ public:
 		getMovesEnpassantMoveTest();
 		getMovesPromotionMoveTest();
 	}
-
 
 private:
 	/*********************************************
@@ -265,13 +264,13 @@ private:
 		p->fWhite = true;
 		p->lastMove = 0;
 		p->numMoves = 1;
-		p->position = Position(3, 3);
+		p->position = Position(4, 3);
 
 		Board* testBoard = new Board();
 		testBoard->setToEmpty();
-		Pawn* bp1 = new Pawn(Position(3, 2), false);
-		Pawn* bp2 = new Pawn(Position(3, 4), false);
-		Pawn* bp3 = new Pawn(Position(4, 3), false);
+		Pawn* bp1 = new Pawn(Position(4, 2), false);
+		Pawn* bp2 = new Pawn(Position(4, 4), false);
+		Pawn* bp3 = new Pawn(Position(5, 3), false);
 		bp1->numMoves = 1;
 		bp2->numMoves = 1;
 
@@ -286,12 +285,12 @@ private:
 
 		// verify
 		assert(moves.size() == 2); //Actual correct value.
-		assert(moves.find(Move("d4c5E")) != moves.end());
-		assert(moves.find(Move("d4e5E")) != moves.end());
+		assert(moves.find(Move("d5c6E")) != moves.end());
+		assert(moves.find(Move("d5e6E")) != moves.end());
 		assert(p->fWhite);
 		assert(p->lastMove == 0);
 		assert(p->numMoves == 1);
-		assert(p->position == Position(3, 3));
+		assert(p->position == Position(4, 3));
 
 		// teardown
 		testBoard->free();

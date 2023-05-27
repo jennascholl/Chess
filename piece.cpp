@@ -12,15 +12,6 @@ void Piece::operator=(Position pos)
 }
 
 /******************************************************************************
- * BOARD : ASSIGNMENT OPERATOR - PIECE
- * assign a piece to the values of a different piece
- ******************************************************************************/
-//void Piece::operator=(const Piece* piece)
-//{
-//   *this = piece;
-//}
-
-/******************************************************************************
  * PIECE : GET MOVES NO SLIDE
  * Returns possible moves without sliding
  ******************************************************************************/
@@ -73,7 +64,7 @@ set<Move> Piece::getMovesSlide(const Board& board, const Delta deltas[], int num
          move.setWhiteMove(isWhite());
          moves.insert(move);
          // adjust the position we're moving to
-         posMove = Position(posMove.getRow() + deltas[i].dCol, posMove.getCol() + deltas[i].dRow);
+         posMove = Position(posMove.getLocation(), deltas[i]);
       }
 
       // if we encounter a piece of the opposite color, add the capture to moves

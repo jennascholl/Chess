@@ -11,7 +11,10 @@ Board::Board() : currentMove(0)
    reset();
 }
 
-
+/***********************************************
+ * RESET
+ * Set up the board for a new game
+ ************************************************/
 void Board::reset()
 {
    for (int r = 2; r < 6; r++)
@@ -47,25 +50,32 @@ void Board::reset()
    currentMove = 0;
 }
 
-
+/***********************************************
+ * DISPLAY
+ * Draw the board and everything on it
+ ************************************************/
 void Board::display(const Position& posHover, const Position& posSelect)
 {
    gout.drawBoard();
    gout.drawHover(posHover.getLocation());
-   gout.drawSelected(posSelect.getLocation());
 
-   // draw the possible moves
-   if (posSelect.isValid())
+   // only display valid move options
+   if ((*this)[posSelect].isWhite() == whiteTurn() && (*this)[posSelect].getType() != SPACE)
    {
-      set<Move> possible = (*this)[posSelect].getMoves(*this);
-      for (auto it = possible.begin(); it != possible.end(); it++)
-         gout.drawPossible(it->getDes().getLocation());
+      gout.drawSelected(posSelect.getLocation());
+
+      // draw the possible moves
+      if (posSelect.isValid())
+      {
+         set<Move> possible = (*this)[posSelect].getMoves(*this);
+         for (auto it = possible.begin(); it != possible.end(); it++)
+            gout.drawPossible(it->getDes().getLocation());
+      }
    }
 
    for (int r = 0; r < 8; r++)
       for (int c = 0; c < 8; c++)
          pieces[r][c]->display(gout);
-
 }
 
 /***********************************************
@@ -99,115 +109,106 @@ void Board::free()
  ************************************************/
 void Board::move(Move move)
 {
-    Position src = move.getSrc(); //Do they need to be pointers?
-    Position des = move.getDes();
+   move.complete(*this); // get all the necessary context
+   Position src = move.getSrc(); 
+   Position des = move.getDes();
     
-    this->assertBoard();
-    //swap(src, des);   //Default  
+   // just double checking
+   this->assertBoard();
+   assert(src.isValid());
+   assert(des.isValid());
+   assert((*this)[src].isWhite() == this->whiteTurn());
 
-    //check that both moves are valid
-    //check that it's the correct turn -> check isWhite from src position  / see if match white
-    if ((src.isValid() && des.isValid()) &&
-     pieces[src.getRow()][src.getCol()]->isWhite() == this->whiteTurn())
-    {
-        //if it's a pawn, can capture, and it's on the last row the promote.
-        if (pieces[src.getRow()][src.getCol()]->getType() == PAWN
-            && (des.getRow() == 0 || des.getRow() == 7))
-        {
-            move.getPromotion();
-            bool isPawnWhite = pieces[src.getRow()][src.getCol()]->isWhite();
+   // capture
+   if (move.getCapture() != SPACE)
+   {
+      // verify the state of the pieces
+      assert((*this)[des].getType() != SPACE);
+      assert((*this)[src].isWhite() != (*this)[des].isWhite());
 
-            Queen* queen = new Queen(src, isPawnWhite);
-
-            *this += queen;
-
-        }
-
-        // capture
-        //double check the state of the pieces
-        //If It's landing on a space, different color, and not a king, then take it.
-        if (pieces[des.getRow()][des.getCol()]->getType() != SPACE
-            && pieces[des.getRow()][des.getCol()]->getType() != KING
-            && pieces[src.getRow()][src.getCol()]->isWhite() !=
-            pieces[des.getRow()][des.getCol()]->isWhite())
-        {
-            //kill the victim using -=
-            //move the attacker using swap
-            *this -= pieces[des.getRow()][des.getCol()];
-            swap(src, des);   //Default
-        }
-        else
-        //King Castle, make sure each piece is a space between king and rook.
-        if (pieces[src.getRow()][src.getCol()]->getType() == KING
-            && (src.getRow() == 0 || src.getRow() == 7)
-            && src.getCol() == 4 && des.getCol() == 6
-            && pieces[src.getRow()][5]->getType() == SPACE
-            && pieces[src.getRow()][6]->getType() == SPACE
-            && pieces[src.getRow()][7]->getType() == ROOK)
-        {
-            Position RookPos = Position(src.getRow(), 7);
-            Position switchRookPos = Position(src.getRow(), 5);
-            swap(RookPos, switchRookPos);
-
-            Position switchKingPos = Position(src.getRow(), 6);
-            swap(src, switchKingPos);
-        }
-        else
-        //Queen's Castle
-        if (pieces[src.getRow()][src.getCol()]->getType() == KING
-            && (src.getRow() == 0 || src.getRow() == 7)
-            && src.getCol() == 4 && des.getCol() == 2
-            && pieces[src.getRow()][1]->getType() == SPACE
-            && pieces[src.getRow()][2]->getType() == SPACE
-            && pieces[src.getRow()][3]->getType() == SPACE
-            && pieces[src.getRow()][0]->getType() == ROOK)
-        {
-            Position RookPos = Position(src.getRow(), 0);
-            Position switchRookPos = Position(src.getRow(), 3);
-            swap(RookPos, switchRookPos);
-
-            Position switchKingPos = Position(src.getRow(), 2);
-            swap(src, switchKingPos);
-        }
-        else
-        {
-            swap(src, des);
-        }
-        
-        
-
-
-        // enpassant
-            //double check the state of the pawns
-            //kill the other pawn using -=
-            //move the pawn using swap
-
-        // promote
-        //check that we are a pawnand in the last row
-        //kill the pawn using -=
-        //add the promoted piece to the board using placePiece
-
-        // king's castle
-        //check that kingand rook are in the right positions
-        //set the row depending on whose move it is
-        //move the kingand the rook using swap(set srcand des manually)
-
-        // queen's castle
-        //check that king and rook are in the right positions
-        //set the row depending on whose move it is
-        //move the kingand the rook using swap(set srcand des manually
-
-        // default
-        //double check the state of the piece
-        //move the piece using swap
-
-        this->assertBoard();
+      // kill the opponent and take its place
+      *this -= &(*this)[des];
+      swap(src, des);
    }
+   // promote
+   else if(move.getPromotion() != NULL)
+   {
+      // verify the state of the pieces
+      assert(des.getRow() == (*this)[des].isWhite() ? 0 : 7);
+      assert((*this)[des].getType() == SPACE);
+
+      // promote ourselves and make the move
+      switch (move.getPromotion())
+      {
+      case QUEEN:
+         *this += new Queen(Position(src.getRow(), src.getCol()), move.getWhiteMove());
+         break;
+      case ROOK:
+         *this += new Rook(Position(src.getRow(), src.getCol()), move.getWhiteMove());
+         break;
+      case KNIGHT:
+         *this += new Knight(Position(src.getRow(), src.getCol()), move.getWhiteMove());
+         break;
+      case BISHOP:
+         *this += new Bishop(Position(src.getRow(), src.getCol()), move.getWhiteMove());
+         break;
+      default:
+         assert(false); // promotion is mandatory
+      }
+
+      swap(src, des);
+   }
+   // en-passant
+   else if (move.getEnPassant())
+   {
+      // verify the state of the pieces
+      assert(pieces[src.getRow()][des.getCol()]->getType() == PAWN);
+      assert(pieces[des.getRow()][des.getCol()]->getType() == SPACE);
+      assert(pieces[src.getRow()][des.getCol()]->getNMoves() == 1);
+
+      // kill our opponent and make the move
+      *this -= &(*this)[Position(src.getRow(), des.getCol())];
+      swap(src, des);
+   }
+   // king's castle
+   else if (move.getCastleK())
+   {
+      // verify the state of the pieces
+      assert((*this)[src].getNMoves() == 0);
+      assert(pieces[src.getRow()][des.getCol() + 1]->getNMoves() == 0);
+
+      // move the king, then the rook
+      swap(src, des);
+      src.adjustCol(3);
+      des.adjustCol(-1);
+      swap(src, des);
+   }
+   // queen's castle
+   else if (move.getCastleQ())
+   {
+      // verify the state of the pieces
+      assert((*this)[src].getNMoves() == 0);
+      assert(pieces[src.getRow()][des.getCol() - 2]->getNMoves() == 0);
+
+      // move the king, then the rook
+      swap(src, des);
+      src.adjustCol(-4);
+      des.adjustCol(1);
+      swap(src, des);
+   }
+   // standard move
+   else
+   {
+      swap(src, des);
+   }
+
+   currentMove++;
+   this->assertBoard(); // make sure we didn't break anything
 }
 
 /****************************************
 *  SWAP
-*  Swap pieces at locations. 
+*  Swap pieces at locations
 *****************************************/
 void Board::swap(Position pos1, Position pos2)
 {
@@ -234,12 +235,43 @@ Piece& Board::operator[](const Position & pos)
 {
    return *pieces[pos.getRow()][pos.getCol()];
 }
-
 const Piece& Board::operator[](const Position & pos) const
 {
    return *pieces[pos.getRow()][pos.getCol()];
 }
 
+/***********************************************
+ * SUBTRACT OPERATOR
+ * Replace a piece with a space, deleting whatever was in its place
+ ************************************************/
+void Board::operator -= (Piece* piece)
+{
+   int r = piece->getPosition().getRow();
+   int c = piece->getPosition().getCol();
+
+   delete pieces[r][c];
+
+   pieces[r][c] = new Space(Position(r, c));
+}
+
+/***********************************************
+ * ADD OPERATOR
+ * Replace a piece with a space, deleting whatever was in its place
+ ************************************************/
+void Board::operator+=(Piece* piece)
+{
+   int r = piece->getPosition().getRow();
+   int c = piece->getPosition().getCol();
+
+   delete pieces[r][c];
+
+   pieces[r][c] = piece;
+}
+
+/***********************************************
+ * ASSERT BOARD
+ * Make sure every piece is where it thinks it is
+ ************************************************/
 void Board::assertBoard()
 {
    for (int r = 0; r < NUM_ROWS; r++)
@@ -257,33 +289,4 @@ void Board::assertBoard()
              pieces[r][c]->getType() == KNIGHT ||
              pieces[r][c]->getType() == PAWN);
       }
-
-}
-
-/***********************************************
- * SUBTRACT OPERATOR
- * Replace a piece with a space, deleting whatever was in its place
- ************************************************/
-void Board::operator -= (Piece* piece)
-{
-    int r = piece->getPosition().getRow();
-    int c = piece->getPosition().getCol();
-
-    delete pieces[r][c];
-
-    pieces[r][c] = new Space(Position(r, c));
-}
-
-/***********************************************
- * ADD OPERATOR
- * Replace a piece with a space, deleting whatever was in its place
- ************************************************/
-void Board::operator+=(Piece* piece)
-{
-    int r = piece->getPosition().getRow();
-    int c = piece->getPosition().getCol();
-
-    delete pieces[r][c];
-
-    pieces[r][c] = piece;
 }

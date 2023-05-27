@@ -32,9 +32,6 @@ void Move::complete(const Board& board)
     capture = board[dest].getType();
     // set the color
     isWhite = board[source].isWhite();
-    // handle if this is an en-passant
-    if (capture == SPACE && board[source].getType() == PAWN)
-        enpassant = true;
 }
 /***********************************************
 * MOVE : EQUALITY

@@ -10,8 +10,10 @@
 #include <string>
 #include "position.h" // Every move has two Positions as attributes
 #include "pieceType.h" // A piece type
+
 class Board;
 class MoveTest;
+
 /***************************************************
 * MOVE
 * One move across the board

@@ -72,7 +72,7 @@ set<Move> Pawn::getMoves(const Board& board)
 		Position posMove(position.getRow() + (isWhite() ? 1 : -1), position.getCol() + i);
 		Position posKill(position.getRow(), position.getCol() + i);
 
-		if (posMove.isValid() && (position.getRow() == (isWhite() ? 3 : 4)) && board[posMove].getType() == SPACE &&
+		if (posMove.isValid() && (position.getRow() == (isWhite() ? 4 : 3)) && board[posMove].getType() == SPACE &&
 			board[posKill].getType() == PAWN && board[posKill].isWhite() != isWhite() &&
 			board[posKill].getNMoves() == 1 && board[posKill].justMoved(board.getCurrentMove()))
 		{
