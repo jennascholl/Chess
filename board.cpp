@@ -281,6 +281,7 @@ void Board::assertBoard()
          assert(r == piecePos.getRow());
          assert(c == piecePos.getCol());
 
+         // nothing should be null
          assert(pieces[r][c]->getType() == SPACE ||
              pieces[r][c]->getType() == KING ||
              pieces[r][c]->getType() == QUEEN ||
